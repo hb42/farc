@@ -1,0 +1,6 @@
+{
+  "webserviceServer": "http://localhost:23000",
+  "webservicePath": "/farc",
+  "NTLMserver": "http://localhost:23042/asp/get",
+  "authType": "NTLM"
+}
