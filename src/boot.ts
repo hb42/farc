@@ -80,8 +80,7 @@ let keepalive = () => {
         ajaxcall(config.webserviceServer + keepaliveURL,
                  (res: XMLHttpRequest) => { console.info("keepalive ", res.responseText); },
                  null);
-      }, 1000 * 60 * keepaliveMinutes
-  );
+      }, 1000 * 60 * keepaliveMinutes );
 };
 
 /**

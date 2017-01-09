@@ -50,7 +50,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash    = require('webpack-md5-hash');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //const CompressionPlugin = require('compression-webpack-plugin');
-const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 /**
  * Damit aus der command line Parameter uebergeben werde koennen, muss der export als function
@@ -361,10 +361,10 @@ module.exports = function(env) {
       ],
 
       noParse: [
-        sonstDir,
+//        sonstDir,
         /\.min\.js/,
-        npmRoot + '/zone.js/dist',
-        npmRoot + "/mongoose",
+//        npmRoot + '/zone.js/dist',
+//        npmRoot + "/mongoose",
       ]
     },
 
@@ -380,7 +380,7 @@ module.exports = function(env) {
        *
        * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
-      new ForkCheckerPlugin(),
+      new CheckerPlugin(),
 
       // /*
       //  * Plugin: OccurenceOrderPlugin

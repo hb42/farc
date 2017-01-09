@@ -34,7 +34,7 @@ import {
                ":host /deep/ .ui-breadcrumb ul li.fa-home { width: 1px; margin: 5px 0px 3px 0px; }",
                  // scrolling fkt. nicht ohne header => soweit moeglich ausblenden
                  // -> warten auf Bugfix
-               ":host /deep/ .ui-datatable-header {height: 0; padding: 0; border: none}",
+               // ":host /deep/ .ui-datatable-header {height: 0; padding: 0; border: none}",
              ],
              host: {
                class: "flex-content-fix flex-col",
@@ -56,9 +56,9 @@ import {
              <div class="flex-panel flex-content-fix">  
              <p-dataTable [value]="files" [(selection)]="selectedFiles"
                scrollable="true" scrollHeight="100%">
-               <header>
+               <!--<header>-->
                  <!--Single Selection-->
-               </header>
+               <!--</header>-->
                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                <p-column field="label" header="Name"></p-column>
                <p-column [style]="{'width':'180px'}" field="timestamp" header="Zeit">

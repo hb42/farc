@@ -5,9 +5,9 @@ import {
     enableProdMode,
     NgModule,
 } from "@angular/core";
-import {
-  XHRBackend,
-} from "@angular/http";
+// import {
+//   XHRBackend,
+// } from "@angular/http";
 
 import {
   APP_DECLARATIONS,
@@ -19,9 +19,9 @@ import {
   appRoutingProviders,
 } from "./";
 
-import {
-    HttpErrorHandler,
-} from "@hb42/lib-client";
+// import {
+//     HttpErrorHandler,
+// } from "@hb42/lib-client";
 
 /**
  * app style sheets
@@ -53,7 +53,12 @@ export function createAppModule(metadata: Object, conf: Object, sessiondata: Obj
               providers: [
                   ...APP_PROVIDERS,
                   appRoutingProviders,
-                  { provide: XHRBackend, useClass: HttpErrorHandler },
+
+                  // TODO das Initialisieren von HttpErrorHandler funktioniert nicht
+                  //      Vermutlich hat sich in Angular etwas geaendert. Mal ansehen, ob das der
+                  //      richtige Weg fuer's Errorhandling ist.
+                  // { provide: XHRBackend, useClass: HttpErrorHandler },
+
                     // -> @Inject('METADATA') private metadata: any
                   { provide: "METADATA", useValue: metadata },
                   { provide: "CONFIG", useValue: conf },
