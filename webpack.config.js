@@ -50,7 +50,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash    = require('webpack-md5-hash');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //const CompressionPlugin = require('compression-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
+const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 
 /**
  * Damit aus der command line Parameter uebergeben werde koennen, muss der export als function
@@ -326,14 +326,15 @@ module.exports = function(env) {
 
         {
           test   : /\.scss$/,
-          loaders: ['style-loader',
-            ExtractTextPlugin.extract({
-                                        fallbackLoader: "style-loader",
-                                        loader        : "css-loader?sourceMap"
-                                      }),
-            'sass-loader' + '?outputStyle=expanded' + '&' + 'root=' + sourceDir
-            + '&' + 'includePaths[]' + npmRoot + '&' + 'includePaths[]' + sourceDir
-          ]
+          loaders: ['to-string-loader', 'css-loader', 'sass-loader'],
+          // loaders: ['style-loader',
+          //   ExtractTextPlugin.extract({
+          //                               fallbackLoader: "style-loader",
+          //                               loader        : "css-loader?sourceMap"
+          //                             }),
+          //   'sass-loader' + '?outputStyle=expanded' + '&' + 'root=' + sourceDir
+          //   + '&' + 'includePaths[]' + npmRoot + '&' + 'includePaths[]' + sourceDir
+          // ]
         },
 
         /* Raw loader support for *.html
@@ -363,6 +364,7 @@ module.exports = function(env) {
       noParse: [
 //        sonstDir,
         /\.min\.js/,
+        /\/@types\/mongoose/,
 //        npmRoot + '/zone.js/dist',
 //        npmRoot + "/mongoose",
       ]
@@ -533,6 +535,18 @@ module.exports = function(env) {
       //   regExp: /\.css$|\.html$|\.js$|\.map$/,
       //   threshold: 2 * 1024
       // }),
+
+      /**
+       * Behebt diese Warning:
+       *
+       * WARNING in ./~/@angular/core/src/linker/system_js_ng_module_factory_loader.js
+       * 71:15-36 Critical dependency: the request of a dependency is an expression
+       * -> https://github.com/angular/angular/issues/11580
+       */
+      new webpack.ContextReplacementPlugin(
+        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+        path.resolve(__dirname, 'doesnotexist/')
+      ),
 
       /**
        * Plugin LoaderOptionsPlugin (experimental)

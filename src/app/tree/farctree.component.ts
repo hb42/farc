@@ -33,16 +33,16 @@ import {
             selectionMode="single" 
             [(selection)]="farcService.selectedNode"
             #farctree >
-      <template let-node pTemplate type="strukt">
+      <template let-node pTemplate="strukt">
         <span [class.archivenode]="node.arc">{{node.label}}</span>
       </template>
-      <template let-node pTemplate type="ep">
+      <template let-node pTemplate="ep">
         <span [class.archivenode]="node.arc">{{node.label}} ({{node.size | filesize}})</span>
       </template>
-      <template let-node pTemplate type="dir">
+      <template let-node pTemplate="dir">
         <span [class.archivenode]="node.arc">{{node.label}} ({{node.size | filesize}})</span>
       </template>
-      <template let-node pTemplate type="wait">
+      <template let-node pTemplate="wait">
         <span [class.archivenode]="node.arc"><i class="fa fa-spinner fa-spin"></i></span>
       </template>
     </p-tree>

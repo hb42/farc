@@ -104,7 +104,7 @@ export class FarcTreeService {
       node.children = [ this.waitNode ];  // "Warten"-Icon anzeigen
       console.info("fetch subtree");
       this.childrenFor(node.entryid)
-          .subscribe(c => {
+          .subscribe( (c) => {
             node.children = c;
             this.sortNodes(node.children);
           });
@@ -119,7 +119,7 @@ export class FarcTreeService {
   public nodeSelect(node: FarcTreeNode) {
     if (node.files === null && node.entrytype !== FarcEntryTypes.strukt) {
       this.filesFor(node.entryid)
-          .subscribe(rc => {
+          .subscribe( (rc) => {
             node.files = rc;
             this.sortNodes(node.files);
           });

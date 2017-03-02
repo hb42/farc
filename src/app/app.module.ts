@@ -62,7 +62,10 @@ export function createAppModule(metadata: Object, conf: Object, sessiondata: Obj
                     // -> @Inject('METADATA') private metadata: any
                   { provide: "METADATA", useValue: metadata },
                   { provide: "CONFIG", useValue: conf },
-                  { provide: "SESSION", useValue: sessiondata },
+                  // TODO  logon handling in farc-server ueberarbeiten:
+                  // TODO  sessiondata nicht beim User speichern, damit wird das auch nicht beim Logon gebraucht
+                  // TODO  besser via ConfigService => ggf. abstrahieren in lib-client
+                  // { provide: "SESSION", useValue: sessiondata },
               ],
               declarations: [
                   ...APP_DECLARATIONS,

@@ -1,3 +1,4 @@
+/* Baum-Knoten Archiv */
 .archivenode {
   color: blue;
 }
@@ -67,6 +68,11 @@
 }
 
 /*  primeNG styles  */
+
+/* kleiner pButton */
+.minibtn {
+  font-size: .8em !important;
+}
 
 /* tree an jew. container anpassen */
 .ui-tree {

@@ -22,10 +22,10 @@ import {
       <div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"
        style="background: green"> 
         <p-tree [value]="tree">
-          <template let-node pTemplate type="default">
+          <template let-node pTemplate="default">
             <span style="color: red" >{{node.label}}</span>
           </template>
-          <template let-node pTemplate type="ep">
+          <template let-node pTemplate="ep">
             <span >{{node.label}} *EP*</span>
           </template>
         </p-tree>

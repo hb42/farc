@@ -16,14 +16,24 @@ import {
 import {
     BreadcrumbModule,
     ButtonModule,
+    ConfirmationService,
+    ConfirmDialogModule,
     DataTableModule,
+    DialogModule,
+    DropdownModule,
+    MenuModule,
+    PickListModule,
     SharedModule,
     ToolbarModule,
     TreeModule,
 } from "primeng/primeng";
 
 import {
+    AdminService,
     AdminView,
+    DriveList,
+    OeList,
+    RolesPipe,
 } from "./admin";
 import {
     ListView,
@@ -31,6 +41,9 @@ import {
 import {
     SelectView,
 } from "./select";
+import {
+  ConfigService,
+} from "./services";
 import {
     FarcTree,
     FarcTreeService,
@@ -41,6 +54,9 @@ import {
 import {
     LibngModule,
 } from "@hb42/lib-client";
+import {
+  FarcDrivetypePipe,
+} from "@hb42/lib-farc";
 
 export const APP_IMPORTS = [
   // angular
@@ -56,6 +72,11 @@ export const APP_IMPORTS = [
   BreadcrumbModule,
   ButtonModule,
   DataTableModule,
+  DialogModule,
+  DropdownModule,
+  MenuModule,
+  ConfirmDialogModule,
+  PickListModule,
 
   // eigene
   LibngModule,
@@ -63,7 +84,13 @@ export const APP_IMPORTS = [
 ];
 
 export const APP_PROVIDERS = [
+    // primeng
+  ConfirmationService,
+
+    // eigene
+  ConfigService,
   FarcTreeService,
+  AdminService,
 
 ];
 
@@ -74,9 +101,13 @@ export const APP_DECLARATIONS = [
   FileList,
   SelectView,
   AdminView,
+  DriveList,
+  OeList,
 
 ];
 
 export const APP_PIPES = [
+  FarcDrivetypePipe,
+  RolesPipe,
 
 ];

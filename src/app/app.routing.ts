@@ -12,6 +12,8 @@ import {
 // } from "./";
 import {
   AdminView,
+  DriveList,
+  OeList,
 } from "./admin";
 import {
   ListView,
@@ -28,7 +30,11 @@ const appRoutes: Routes = [
   { path: "list", component: ListView },
   { path: "tree", component: TreeView },
   { path: "select", component: SelectView },
-  { path: "admin", component: AdminView },
+  { path: "admin", component: AdminView,
+    children: [
+      { path: "drives", component: DriveList },
+      { path: "oes", component: OeList },
+    ]},
 
   // {
   //   path: 'heroes',
