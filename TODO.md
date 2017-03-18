@@ -7,8 +7,8 @@
   * (x) Logging-Lib aussuchen und einbauen (-> log4js-node)
   * (x) Protokoll-Typen und -Ablageorte festlegen  
   * (x) Infos, die Nacharbeiten erfordern könnten, protokollieren
-* Konsistenz-Checks fürs EP-Einlesen [srv]  
-* Tree überarbeiten [srv]
+* (x) Konsistenz-Checks fürs EP-Einlesen [srv]  
+* (x) Tree überarbeiten [srv]
 * Select-Handling -> copy/del + Datenmodell / Provisorische UI für select [srv, lib-farc, farc]
 * (x) Module aufraeumen (bes. farc-server/services) [srv]
 * Deps in package.json/ webpack [all]
@@ -18,4 +18,4 @@
 * UI config [farc]
 * Cron / events (server-> UI) [srv, farc]
 * UI List/ Tree/ Select
-
+* Für Produktion: in farc.read.eps.ts Erzeugen von archivepath einschalten
