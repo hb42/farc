@@ -11,11 +11,11 @@
 * (x) Tree überarbeiten [srv]
 * Select-Handling -> copy/del + Datenmodell / Provisorische UI für select [srv, lib-farc, farc]
 * (x) Module aufraeumen (bes. farc-server/services) [srv]
-* (-) Deps in package.json/ webpack [all]
-* Logon/Navigation aufräumen (config handling) [srv, farc]
-* Error-Handling f. REST-calls [srv, farc]
+* (x) Deps in package.json/ webpack [all]
+* (x) Logon/Navigation aufräumen (config handling) [srv, farc]
+* Error-Handling f. REST-calls -> StatusService [srv, farc]
 * UI OE zu EP [farc]
-* UI config [farc]
+* UI config, state+nav [farc]
 * Cron / events (server-> UI) [srv, farc]
 * UI List/ Tree/ Select
 
