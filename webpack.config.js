@@ -11,7 +11,6 @@
  *              /app.component.ts -> start component (<router-outlet>)
  *              /app.routing.ts -> routing def
  *               ...
- *         /common -> symlink auf ../shared/src
  *         /css    |app styles
  *         ...     -> components, images
  *         /resource |wird 1:1 nach dist/resource kopiert
@@ -25,8 +24,7 @@
  *            /config.dev.json
  *            /config.prod.json
  *    ./dist       |target
- *    ./node_modules -> symlink auf ../shared/node_modules
- *    ./typings
+ *    ./node_modules
  *    ./div        |alles andere
  *    ./.bootstraprc              |bootstrap-plugin config
  *    ./font-awesome.config.js    |fontawesome-plugin config
@@ -34,7 +32,6 @@
  *    ./package.json              |deps + version info
  *    ./tsconfig.json             |typescript (excludes!)
  *    ./tslint.json               |tslint config
- *    ./typings.json              |typings
  *    ./webpack.config.js         |this
  *
  */
@@ -69,9 +66,6 @@ module.exports = function(env) {
   var SPK = env.spk || false;  // build f. SPK-Umgebung
 
   var ENV = process.env.NODE_ENV = process.env.ENV = release ? 'production' : 'development';
-// Testserver
-  var HOST = process.env.HOST || 'localhost';
-  var PORT = process.env.PORT || 8080;
 
 // Pfade/Dateinamen
   var cwd = process.cwd();
@@ -86,9 +80,9 @@ module.exports = function(env) {
   var targetDir = cwd + "/dist";
   var packageFile = cwd + '/package.json';
 // -> metadata.CONFIG -> webpackConfig.metadata.CONFIG.sessionIdCall
-  var configFile = cwd + "/config/" + (release ? "config.prod.json" : "config.dev.json");
+//   var configFile = cwd + "/config/" + "config" + (release ? ".prod" : ".dev") + (SPK ? ".spk" : "") + ".json";
 // config file wird zur Laufzeit geladen, dadurch nachtraegliche Anpassung moeglich
-  var appConfigFile = "/" + filesTarget + "/app.config" + (release ? ".prod" : ".dev") + (SPK ? ".spk" : "") + ".json";
+//    var appConfigFile = "/app/" + filesTarget + "/app.config" + (release ? ".prod" : ".dev") + (SPK ? ".spk" : "") + ".json";
 
 // package.json holen und buildnumber setzen
   var PACKAGE = getPackage(packageFile, ENV);
@@ -100,19 +94,17 @@ module.exports = function(env) {
     //'BASEURL': '/wstest02/',  // '/' fuer stand alone, '/context-root/' fuer wepapp (incl. abschliessendem /)
     // verwendet im <head>, von HtmlWebpackPlugin via output.publicPath
     // und beim Bootstrap -> provide(APP_BASE_HREF, {useValue: process.env.BASEURL})
-    'BASEURL'   : '/',
-    'HOST'      : HOST,
-    'PORT'      : PORT,
+    'BASEURL'   : '/app/',
     'NAME'      : PACKAGE.name,
     'VERSION'   : PACKAGE.version,
     'RELEASE'   : PACKAGE.release,
     'BUILD'     : PACKAGE.buildnumber,
     'DESC'      : PACKAGE.description,
     'COPY'      : PACKAGE.copyright,
-    'ENV'       : ENV,
-    'NODE_ENV'  : ENV,
-    'CONFIG'    : require(configFile),
-    'CONFIGFILE': appConfigFile,
+    // 'ENV'       : ENV,
+    // 'NODE_ENV'  : ENV,
+    // 'CONFIG'    : require(configFile)
+    // 'CONFIGFILE': appConfigFile,
   };
 //TODO package.json f. NW.js generieren
 //     f. nw muss auch baseurl angepasst werden
@@ -167,7 +159,8 @@ module.exports = function(env) {
       'vendor': vendorFile,
 
       // angular app
-      'app': bootstrapFile
+      'app': bootstrapFile,
+
     },
 
     /**
@@ -319,8 +312,8 @@ module.exports = function(env) {
           test  : /^(?!.*\.min\.css$).*\.css$/,
           // loaders: ["style-loader", "css-loader"]
           loader: ExtractTextPlugin.extract({
-                                              fallbackLoader: "style-loader",
-                                              loader        : "css-loader?sourceMap"
+                                              fallback: "style-loader",
+                                              use     : "css-loader?sourceMap"
                                             })
         },
 
@@ -357,7 +350,7 @@ module.exports = function(env) {
         {
           test  : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: "file-loader"
-        }
+        },
 
       ],
 
@@ -486,9 +479,9 @@ module.exports = function(env) {
       // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
       new webpack.DefinePlugin({
         // Environment helpers
-        'WEBPACK_DATA': {
-          'metadata': JSON.stringify(metadata),
-        }
+        '__VERSION__': JSON.stringify(metadata),
+        '__PROD__': release,
+        '__SPK__': SPK,
       }),
 
       new webpack.ProvidePlugin({

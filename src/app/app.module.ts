@@ -1,27 +1,86 @@
 /**
  * Angular Anwendung starten
  */
-import {
-    enableProdMode,
-    NgModule,
-} from "@angular/core";
-// import {
-//   XHRBackend,
-// } from "@angular/http";
 
 import {
-  APP_DECLARATIONS,
-  APP_IMPORTS,
-  APP_PIPES,
-  APP_PROVIDERS,
+  HashLocationStrategy,
+  LocationStrategy,
+} from "@angular/common";
+import {
+  NgModule,
+} from "@angular/core";
+import {
+  FormsModule,
+} from "@angular/forms";
+import {
+  HttpModule,
+  XHRBackend,
+} from "@angular/http";
+import {
+  BrowserModule,
+} from "@angular/platform-browser";
+import {
+  BrowserAnimationsModule,
+} from "@angular/platform-browser/animations";
+import {
+  RouterModule,
+} from "@angular/router";
+import {
+  BreadcrumbModule,
+  ButtonModule,
+  ConfirmationService,
+  ConfirmDialogModule,
+  DataTableModule,
+  DialogModule,
+  DropdownModule,
+  MenuModule,
+  OverlayPanelModule,
+  PickListModule,
+  SharedModule,
+  ToolbarModule,
+  TreeModule,
+} from "primeng/primeng";
+
+import {
+  FileSizePipe,
+  HttpErrorHandler,
+  LibngModule,
+} from "@hb42/lib-client";
+import {
+  FarcDrivetypePipe,
+} from "@hb42/lib-farc";
+
+import {
   APP_ROUTING,
   AppComponent,
   appRoutingProviders,
 } from "./";
-
-// import {
-//     HttpErrorHandler,
-// } from "@hb42/lib-client";
+import {
+  AdminService,
+  AdminView,
+  DriveList,
+  OeList,
+  RolesPipe,
+} from "./admin";
+import {
+  ListView,
+} from "./list";
+import {
+  SelectView,
+} from "./select";
+import {
+  ConfigService,
+} from "./shared";
+import {
+  StatusComponent,
+  StatusService,
+} from "./shared/status";
+import {
+  FarcTree,
+  FarcTreeService,
+  FileList,
+  TreeView,
+} from "./tree";
 
 /**
  * app style sheets
@@ -29,12 +88,7 @@ import {
 import "../css/styles.css";
 
 /**
- * Angular-Hauptmodul initialisieren
- *
- * @param metadata - Webpack-Config
- * @param conf - extern geladene AppConfig
- * @param sessiondata - User-Config aus DB
- *
+ * Angular-Hauptmodul
  *
  * Exception beim Start: Uncaught Error: Can't resolve all parameters for ...
  *
@@ -43,43 +97,75 @@ import "../css/styles.css";
  * -> http://stackoverflow.com/questions/37997824/angular-2-di-error-exception-cant-resolve-all-parameters
  *
  */
-export function createAppModule(metadata: Object, conf: Object, sessiondata: Object) {
 
-  @NgModule({
-              imports: [
-                  ...APP_IMPORTS, // imports etc. aus app.config.ts
-                  APP_ROUTING,
-              ],
-              providers: [
-                  ...APP_PROVIDERS,
-                  appRoutingProviders,
+@NgModule({
+            imports     : [
+              // angular
+              BrowserModule,
+              BrowserAnimationsModule,
+              FormsModule,
+              HttpModule,
+              RouterModule,
 
-                  // TODO das Initialisieren von HttpErrorHandler funktioniert nicht
-                  //      Vermutlich hat sich in Angular etwas geaendert. Mal ansehen, ob das der
-                  //      richtige Weg fuer's Errorhandling ist.
-                  // { provide: XHRBackend, useClass: HttpErrorHandler },
+              // primeng
+              SharedModule,  // w/template etc.
+              ToolbarModule,
+              TreeModule,
+              BreadcrumbModule,
+              ButtonModule,
+              DataTableModule,
+              DialogModule,
+              DropdownModule,
+              MenuModule,
+              ConfirmDialogModule,
+              PickListModule,
+              OverlayPanelModule,
 
-                    // -> @Inject('METADATA') private metadata: any
-                  { provide: "METADATA", useValue: metadata },
-                  { provide: "CONFIG", useValue: conf },
-                  // TODO  logon handling in farc-server ueberarbeiten:
-                  // TODO  sessiondata nicht beim User speichern, damit wird das auch nicht beim Logon gebraucht
-                  // TODO  besser via ConfigService => ggf. abstrahieren in lib-client
-                  // { provide: "SESSION", useValue: sessiondata },
-              ],
-              declarations: [
-                  ...APP_DECLARATIONS,
-                  ...APP_PIPES,
-                AppComponent,
+              // eigene
+              LibngModule,
 
-              ],
-              bootstrap: [AppComponent],
-            })
-  class AppModule { }
+              APP_ROUTING,
+            ],
+            providers   : [
+              // angular
+              // hashLoc macht weniger Probleme
+              { provide: LocationStrategy, useClass: HashLocationStrategy },
+              // error handling f. ajax calls
+              { provide: XHRBackend, useClass: HttpErrorHandler },
 
-  if ("production" === process.env.ENV) {
-    enableProdMode();
-  }
+              // primeng
+              ConfirmationService,
 
-  return AppModule;
-}
+              // eigene
+              ConfigService,
+              FarcTreeService,
+              AdminService,
+              StatusService,
+
+              ...appRoutingProviders,
+              //   // -> @Inject('METADATA') private metadata: any
+              // { provide: "METADATA", useFactory() { return WEBPACK_DATA.metadata; } },
+            ],
+            declarations: [
+              // components
+              ListView,
+              TreeView,
+              FarcTree,
+              FileList,
+              SelectView,
+              AdminView,
+              DriveList,
+              OeList,
+              StatusComponent,
+
+              // pipes
+              FarcDrivetypePipe,
+              RolesPipe,
+
+              // start
+              AppComponent,
+            ],
+
+            bootstrap   : [AppComponent],
+          })
+export class AppModule { }

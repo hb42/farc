@@ -26,21 +26,25 @@ import {
 } from "@hb42/lib-farc";
 
 import {
-  saveSessionURL,
-} from "@hb42/lib-common";
+  environment,
+} from "../../environments";
+import {
+  StatusService,
+} from "../shared";
 
 @Injectable()
 export class AdminService {
 
   private restServer: string;
 
-  constructor(private httphandler: Http, @Inject("CONFIG") private conf: any) {
+  constructor(private httphandler: Http, private statusService: StatusService) {
     console.info("c'tor AdminService");
-    this.restServer = conf.webserviceServer + conf.webservicePath;
+    this.restServer = environment.webserviceServer + environment.webservicePath;
 
   }
 
   public getDrives(): Observable<FarcDriveDocument[]> {
+    this.statusService.success("AdminService getDrives()");
     return this.httphandler.get(this.restServer + "/drives")
         .map((response: Response) => response.json() );
   }

@@ -5,35 +5,22 @@
  */
 
 import {
+  enableProdMode,
+} from "@angular/core";
+import {
     platformBrowserDynamic,
 } from "@angular/platform-browser-dynamic";
 
 import {
-    createAppModule,
-} from "./app";
-
-import {
-    keepaliveMinutes,
-    keepaliveURL,
     loginURL,
 } from "@hb42/lib-common";
 
-/**
- * Diverse Informationen, die von Webpack hier eingesetzt werden
- */
-declare var WEBPACK_DATA;
-const metadata = WEBPACK_DATA.metadata;
-process.env.ENV = metadata.ENV;
-process.env.NODE_ENV = metadata.NODE_ENV;
-
-/**
- * Benutzer config vom Webserver (wird bei von login() geholt)
- */
-let sessiondata: Object;
-/**
- * Server-Konfig aus Datei (wird von getConfig() geholt)
- */
-let config: any;
+import {
+  AppModule,
+} from "./app";
+import {
+  environment,
+} from "./environments";
 
 /**
  * XMLHttpRequest (ajax)
@@ -42,18 +29,18 @@ let config: any;
  * @param success - callback bei Erfolg
  * @param payload - Objekt fuer POST bzw. null f. GET
  */
-let ajaxcall = (url: string, success, payload ) => {
-  let ajax = new XMLHttpRequest();
+const ajaxcall = (url: string, success, payload ) => {
+  const ajax = new XMLHttpRequest();
   ajax.withCredentials = true;  // wg. NTLM
 
-  let type = payload ? "POST" : "GET";
+  const type = payload ? "POST" : "GET";
   // Fehler beim ajax call
   ajax.onerror = (err: ErrorEvent) => {
     console.error("Fehler beim Aufruf von " + url + ": " + err);
   };
   // ajax call return
   ajax.onload = (evt: ProgressEvent) => {
-    let res: XMLHttpRequest = <XMLHttpRequest> evt.target;
+    const res: XMLHttpRequest = evt.target as XMLHttpRequest;
     // hier landet auch ein 404
     if (res.status > 199 && res.status < 300) {
       // callback
@@ -72,57 +59,49 @@ let ajaxcall = (url: string, success, payload ) => {
 };
 
 /**
- * session keep alive
+ * JSON-Configdatei einlesen  TODO evtl. package.json auf diesem Weg holen?
  */
-let keepalive = () => {
-  window.setInterval(
-      () => {
-        ajaxcall(config.webserviceServer + keepaliveURL,
-                 (res: XMLHttpRequest) => { console.info("keepalive ", res.responseText); },
-                 null);
-      }, 1000 * 60 * keepaliveMinutes );
-};
+// ajaxcall(metadata.CONFIGFILE, getConfig, null);
+// const getConfig = (res: XMLHttpRequest) => {
+//   config = JSON.parse(res.responseText);
+//   // -> ggf. weiterer call
+//   ajaxcall(metadata.CONFIG.NTLMserver + "?app=" + metadata.NAME, ntlm, null);
+// };
 
 /**
- * 1. callback: Anwendungs-Config per ajax holen
- *
- *    Die Config-Datei wird von Webpack ins /resource-Verzeichnis kopiert. Dadurch kann sie
- *    nachtraeglich geandert werden. Der Dateiname wird von Webpack im Objekt process.env.metadata
- *    uebergeben, was verschiedene Configs fuer unterschiedliche Builds ermoeglicht.
- *
- */
-let getConfig = (res: XMLHttpRequest) => {
-  config = JSON.parse(res.responseText);
-  // -> (2) NTLM-Login
-  ajaxcall(config.NTLMserver + "?app=" + metadata.NAME, ntlm, null);
-};
-
-/**
- * 2. callback: NTLM-Login am IIS liefert ein one time token vom Application-Server,
+ * 1. callback: NTLM-Login am IIS liefert ein one time token vom Application-Server,
  *    mit dem sich der Client im naechsten Schritt anmeldet.
  *
  */
-let ntlm = (res: XMLHttpRequest) => {
+const ntlm = (res: XMLHttpRequest) => {
   console.info("ntlm response: ", res.responseText);
-  // -> (3) login
-  ajaxcall(config.webserviceServer + loginURL, login, res.responseText);
+  // -> (2) login
+  ajaxcall(environment.webserviceServer + loginURL, login, res.responseText);
 };
 
 /**
- * 3. callback: Anmeldung am Server
+ * 2. callback: Anmeldung am Server
  *
- *    Der Server setzt einen Session-Cookie und liefert ein Objekt mit den
- *    Benutzerdaten.
+ *    Der Server setzt einen Session-Cookie und liefert "OK" oder eine Fehlermeldung
+ *    (bzw. der Server setzt Status 403)
  *
- *    Mit den Webpack-Metadata, dem config-Objekt und den Benutzerdaten wird die Angular-Anwendung gestartet
+ *    Bei Erfolg wird die Angular-Anwendung gestartet
  *
  */
-let login = (res: XMLHttpRequest) => {
-  sessiondata = JSON.parse(res.responseText);
-  keepalive();
-  // -> Angular App starten
-  platformBrowserDynamic().bootstrapModule(createAppModule(metadata, config, sessiondata || {} ));
+const login = (res: XMLHttpRequest) => {
+  const rc = res.responseText;
+  if (rc === "OK") {
+    // ---
+    // -> (3) Angular App starten
+    if (environment.production) {
+      enableProdMode();
+    }
+    platformBrowserDynamic().bootstrapModule(AppModule);
+    // ---
+  } else {
+    console.error("LOGIN fehlgeschlagen: " + rc);
+  }
 };
 
-// -> (1) config holen
-ajaxcall(metadata.CONFIGFILE, getConfig, null);
+// -> (1) NTLM-User holen
+ajaxcall(environment.NTLMserver + "?app=" + environment.version.NAME, ntlm, null);

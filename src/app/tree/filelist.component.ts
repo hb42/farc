@@ -41,7 +41,7 @@ import {
              },
              template: `
              <!--<div class="flex-panel flex-content">-->
-               <!--<ul>-->
+               <!--<ul>--> 
                  <!--<li *ngFor="let item of files">-->
                    <!--{{item.label}} ({{item.size | filesize}})-->
                  <!--</li>-->
@@ -62,19 +62,19 @@ import {
                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                <p-column field="label" header="Name"></p-column>
                <p-column [style]="{'width':'180px'}" field="timestamp" header="Zeit">
-                 <template pTemplate let-col let-row="rowData">
+                 <ng-template pTemplate let-col let-row="rowData">
                    {{row[col.field] | date:"dd.MM.y, HH:mm:ss"}}
-                 </template>
+                 </ng-template>
                </p-column>
                <p-column [style]="{'width':'100px'}" field="size" header="Größe">
-                 <template pTemplate let-col let-row="rowData">
+                 <ng-template pTemplate let-col let-row="rowData">
                    {{row[col.field] | filesize}}
-                 </template>
+                 </ng-template>
                </p-column>
                <p-column [style]="{'width':'200px'}" field="selected" header="Vormerkung">
-                 <template pTemplate let-col let-row="rowData">
+                 <ng-template pTemplate let-col let-row="rowData">
                    {{row[col.field]}}  <!-- TODO pipe fuer selectedType, ggf. incl. UID, Date -->
-                 </template>
+                 </ng-template>
                </p-column>
                <!--<footer>-->
                   <!--<ul>-->
@@ -113,7 +113,7 @@ export class FileList implements OnInit {
 
   private get files(): FarcTreeNode[] {
     return this.node ? this.node.files || [] : [];
-  };
+  }
 
   constructor(private farcService: FarcTreeService) {
     console.info("c'tor FileList");
@@ -140,7 +140,7 @@ export class FileList implements OnInit {
   private mkBreadcrumbs() {
     this.breadcrumbs = [];
     if (this.node && this.node.path) {
-      this.node.path.forEach(p => {
+      this.node.path.forEach( (p) => {
         this.breadcrumbs.push({ label: p, command: (event) => { this.gotoPath(event.item); } });
       });
     }
@@ -152,7 +152,7 @@ export class FileList implements OnInit {
    */
   private updateBreadcrumbs() {
     setTimeout( () => {
-      let bcs = document.getElementsByClassName("ui-breadcrumb-chevron");
+      const bcs = document.getElementsByClassName("ui-breadcrumb-chevron");
       for (let i = 0; i < bcs.length; i++) {
         bcs.item(i).classList.remove("fa-chevron-right");
         bcs.item(i).classList.add("fa-caret-right");

@@ -9,8 +9,24 @@ import {
   OnInit,
 } from "@angular/core";
 import {
+  Http,
+  Response,
+} from "@angular/http";
+import {
   Router,
 } from "@angular/router";
+
+import {
+  keepaliveMinutes,
+  keepaliveURL,
+} from "@hb42/lib-common";
+
+import {
+  environment,
+} from "../environments";
+import {
+  StatusService,
+} from "./shared";
 
 @Component({
   selector: "app",
@@ -42,9 +58,9 @@ import {
 </ul>      
         </div>
         <div class="ui-toolbar-group-right">
-              <a  title="{{metadata.VERSIONSTR}}"
+              <a  title="{{version.VERSIONSTR}}"
                  class="btn btn-sm">
-                {{metadata.DESC}} {{metadata.VERSION}}{{metadata.RELEASE}}
+                {{version.DESC}} {{version.VERSION}}{{version.RELEASE}}
               </a>
               <a href="/doku.html" target="farcdoku" title="Dokumentation"
                  class="btn btn-success ">
@@ -67,12 +83,14 @@ import {
        <!--style="background: yellow">rechts</div>-->
     <!--</div>-->
     <div class="flex-panel" [style.min-height]="footerHeight" [style.height]="footerHeight"
-      style="background: deepskyblue">footer</div>
+      style="background: deepskyblue">
+      <div style="width: 30%; background: whitesmoke">
+        <farc-status></farc-status>
+      </div>
+    </div>
     `,
 })
 export class AppComponent implements OnInit {
-
-  public sessionData: any;
 
   // fuer die main-component funktioniert "host: {class: "blah blah"}" nicht
   // also hier eintragen, auch wenn die classes fix sind
@@ -80,8 +98,9 @@ export class AppComponent implements OnInit {
   // @HostBinding("class.flex-page") protected fp = true;
   // @HostBinding("class.flex-col") protected fc = true;
 
-  private headerHeight: string;
-  private footerHeight: string;
+  protected version = environment.version;
+  protected headerHeight: string;
+  protected footerHeight: string;
   // private leftPaneWidth: string;
   // private leftPaneMinWidth: string;
   // private rightPaneWidth: string;
@@ -91,16 +110,19 @@ export class AppComponent implements OnInit {
   //
   // private centerText: string;
 
+  protected tabactive: boolean[] = [true, false, false, false];
   private tab: number = 0;
-  private tabactive: boolean[] = [true, false, false, false];
 
-  constructor(private router: Router, @Inject("METADATA") private metadata: any) {
-    console.info(metadata.DESC);
-    console.info(metadata.VERSIONSTR);
+  constructor(private router: Router, private httphandler: Http, private statusService: StatusService ) {
+    console.info(environment.version.DESC);
+    console.info(environment.version.VERSIONSTR);
+    this.statusService.info("Programm gestartet");
   }
 
   public ngOnInit(): void {
     console.info("App.ngOnInit start");
+    this.statusService.info("AppComponent initialisiert");
+    this.startKeepalive();
 
     this.headerHeight = "46px";
     this.footerHeight = "3em";
@@ -145,6 +167,16 @@ export class AppComponent implements OnInit {
       default: break;
     }
     // nav(nr)
+  }
+  
+  private startKeepalive() {
+    window.setInterval(
+        () => {
+          this.httphandler.get(environment.webserviceServer + keepaliveURL)
+              .map((response: Response) => response.text())
+              .subscribe( (res) => console.info("keepalive " + res),
+                          (err) => console.info("keepalive ERROR"));  // session error -> 401 -> httpErrorHandler
+        }, 1000 * 60 * keepaliveMinutes );
   }
 
 }

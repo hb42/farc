@@ -2,14 +2,22 @@
  * Created by hb on 10.10.16.
  */
 import {
+  HashLocationStrategy,
+  LocationStrategy,
+} from "@angular/common";
+import {
     FormsModule,
 } from "@angular/forms";
 import {
     HttpModule,
+    XHRBackend,
 } from "@angular/http";
 import {
     BrowserModule,
 } from "@angular/platform-browser";
+import {
+  BrowserAnimationsModule,
+} from "@angular/platform-browser/animations";
 import {
     RouterModule,
 } from "@angular/router";
@@ -22,6 +30,7 @@ import {
     DialogModule,
     DropdownModule,
     MenuModule,
+    OverlayPanelModule,
     PickListModule,
     SharedModule,
     ToolbarModule,
@@ -43,7 +52,11 @@ import {
 } from "./select";
 import {
   ConfigService,
-} from "./services";
+} from "./shared";
+import {
+  StatusComponent,
+  StatusService,
+} from "./shared/status";
 import {
     FarcTree,
     FarcTreeService,
@@ -52,6 +65,8 @@ import {
 } from "./tree";
 
 import {
+    FileSizePipe,
+    HttpErrorHandler,
     LibngModule,
 } from "@hb42/lib-client";
 import {
@@ -61,6 +76,7 @@ import {
 export const APP_IMPORTS = [
   // angular
   BrowserModule,
+  BrowserAnimationsModule,
   FormsModule,
   HttpModule,
   RouterModule,
@@ -77,6 +93,7 @@ export const APP_IMPORTS = [
   MenuModule,
   ConfirmDialogModule,
   PickListModule,
+  OverlayPanelModule,
 
   // eigene
   LibngModule,
@@ -84,6 +101,12 @@ export const APP_IMPORTS = [
 ];
 
 export const APP_PROVIDERS = [
+    // angular
+    // hashLoc macht weniger Probleme
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
+    // error handling f. ajax calls
+  { provide: XHRBackend, useClass: HttpErrorHandler },
+
     // primeng
   ConfirmationService,
 
@@ -91,6 +114,7 @@ export const APP_PROVIDERS = [
   ConfigService,
   FarcTreeService,
   AdminService,
+  StatusService,
 
 ];
 
@@ -103,6 +127,7 @@ export const APP_DECLARATIONS = [
   AdminView,
   DriveList,
   OeList,
+  StatusComponent,
 
 ];
 

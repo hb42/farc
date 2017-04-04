@@ -33,18 +33,18 @@ import {
             selectionMode="single" 
             [(selection)]="farcService.selectedNode"
             #farctree >
-      <template let-node pTemplate="strukt">
+      <ng-template let-node pTemplate="strukt">
         <span [class.archivenode]="node.arc">{{node.label}}</span>
-      </template>
-      <template let-node pTemplate="ep">
+      </ng-template>
+      <ng-template let-node pTemplate="ep">
         <span [class.archivenode]="node.arc">{{node.label}} ({{node.size | filesize}})</span>
-      </template>
-      <template let-node pTemplate="dir">
+      </ng-template>
+      <ng-template let-node pTemplate="dir">
         <span [class.archivenode]="node.arc">{{node.label}} ({{node.size | filesize}})</span>
-      </template>
-      <template let-node pTemplate="wait">
+      </ng-template>
+      <ng-template let-node pTemplate="wait">
         <span [class.archivenode]="node.arc"><i class="fa fa-spinner fa-spin"></i></span>
-      </template>
+      </ng-template>
     </p-tree>
   `,
            })
@@ -56,7 +56,7 @@ export class FarcTree implements OnInit {
 
   @ViewChild("farctree") protected farcTree: Tree;  // f. Zugriff auf Tree-API
 
-  constructor(private farcService: FarcTreeService, @Inject("SESSION") private session: FarcSession) {
+  constructor(private farcService: FarcTreeService) {
     console.info("c'tor FarcTree" );
   }
 
@@ -81,11 +81,11 @@ export class FarcTree implements OnInit {
 
   protected expandTo(path: string[]) {
     let nodes = this.farcService.tree;
-    let part = [];
+    const part = [];
     path.forEach(p => {
       if (nodes) {
         part.push(p);
-        let res = nodes.reduce((n1, n2) => {
+        const res = nodes.reduce((n1, n2) => {
           if (n2.label === p) {
             return n2;
           } else {

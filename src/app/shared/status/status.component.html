@@ -1,0 +1,17 @@
+<!-- damit das overlay aus der Flexbox "ausbrechen" kann muss es mit position: fixed formatiert werden-->
+<p-overlayPanel #statusline
+                [appendTo]="body"
+                [showCloseIcon]="true"
+                id="messagepanel" >
+  <div *ngFor="let line of lines"
+       [ngClass]="messageClass(line.type)">
+    {{line.date | date:"dd.MM.y HH:mm:ss"}} {{line.text}}
+  </div>
+</p-overlayPanel>
+<div (click)="statusline.toggle($event, overlayAnchor)"
+     class="statusmessage"
+     [ngClass]="messageClass(lines[0].type)">
+  {{lines[0].text}}
+</div>
+<!-- overlay soll angezeigte Zeile ueberdecken, also unterhalb verankern -->
+<p class="overlay-anchor" #overlayAnchor></p>

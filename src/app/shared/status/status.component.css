@@ -1,0 +1,7 @@
+p.overlay-anchor {
+  height: 0;
+  width: 0;
+}
+div.statusmessage {
+  cursor: pointer;
+}

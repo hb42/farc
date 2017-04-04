@@ -26,8 +26,8 @@ import {
 } from "@hb42/lib-farc";
 
 import {
-    saveSessionURL,
-} from "@hb42/lib-common";
+  environment,
+} from "../../environments";
 
 @Injectable()
 export class FarcTreeService {
@@ -41,9 +41,9 @@ export class FarcTreeService {
   private restServer: string;
   private waitNode: FarcTreeNode = {label: "wird geladen...", type: FarcEntryTypes[FarcEntryTypes.wait]};
 
-  constructor(private httphandler: Http, @Inject("CONFIG") private conf: any) {
+  constructor(private httphandler: Http) {
     console.info("c'tor FarcService");
-    this.restServer = conf.webserviceServer + conf.webservicePath;
+    this.restServer = environment.webserviceServer + environment.webservicePath;
 
     this.getTree().subscribe(
         (res) => {
@@ -56,22 +56,9 @@ export class FarcTreeService {
           // }
         },
         (err) => { console.error("error reading Tree-Data " + err); },
-        () => { console.info("done reading tree"); console.dir(this.tree); }
+        () => { console.info("done reading tree"); console.dir(this.tree); },
     );
 
-  }
-
-  /* TODO session handling als service
-     1. Interface FarcSession um fn fuers Speichern erweitern:
-      class sessionhandler implements FarcSession {
-        public save() { ...post(url, this) s.u.
-    2. Mit @Injectable als Service markieren
-    3. Wie und Wo initialisieren? -> muesste bei bootstrap passieren (session kommt von login())
-       wie in bootstrap integrierern?
-   */
-  public saveSession(session: FarcSession): Observable<string> {
-    return this.httphandler.post(this.conf.webserviceServer + saveSessionURL, session)
-        .map( (response: Response) => response.text());
   }
 
   public childrenFor(id) {
@@ -89,7 +76,7 @@ export class FarcTreeService {
   }
 
   public treeFor(pth: string[]) {
-    let p: Object = pth ? { path: pth } : { path: [] };
+    const p: any = pth ? { path: pth } : { path: [] };
     return this.loadTree(p);
   }
 
@@ -147,7 +134,7 @@ export class FarcTreeService {
     });
   }
 
-  private loadTree(path: Object) {
+  private loadTree(path: any) {
     console.info("session treeFor");
     console.dir(path);
 

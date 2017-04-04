@@ -80,3 +80,10 @@
   height: 100%;
   overflow: auto;
 }
+
+/* overlay-panel fuer Statusleiste */
+#messagepanel .ui-overlaypanel {
+  position: fixed;
+  max-height: 200px;
+  overflow: auto;
+}

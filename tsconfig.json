@@ -16,6 +16,8 @@
       "es6"
     ],
     "types": [
+      "node",
+      "mongoose"
     ]
   },
   "exclude": [

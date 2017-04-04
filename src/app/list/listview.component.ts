@@ -12,6 +12,10 @@ import {
     TreeNode,
 } from "primeng/primeng";
 
+import {
+  StatusService,
+} from "../shared";
+
 @Component({
              selector: "list-view",
              host: {
@@ -22,12 +26,12 @@ import {
       <div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"
        style="background: green"> 
         <p-tree [value]="tree">
-          <template let-node pTemplate="default">
+          <ng-template let-node pTemplate="default">
             <span style="color: red" >{{node.label}}</span>
-          </template>
-          <template let-node pTemplate="ep">
+          </ng-template>
+          <ng-template let-node pTemplate="ep">
             <span >{{node.label}} *EP*</span>
-          </template>
+          </ng-template>
         </p-tree>
       </div>
       <div fb-splitter ></div>
@@ -43,19 +47,19 @@ export class ListView implements OnInit {
 
   public data: any;
 
-  private tree: TreeNode[] = [ {label: "eins", data: "eins"},
-                               {label: "zwei", data: "zwei"},
-                               {label: "drei", data: "drei"},
-                               {label: "vier", data: "vier", type: "ep"}];
+  protected tree: TreeNode[] = [ {label: "eins", data: "eins"},
+                                 {label: "zwei", data: "zwei"},
+                                 {label: "drei", data: "drei"},
+                                 {label: "vier", data: "vier", type: "ep"}];
 
-  private leftPaneWidth: string;
-  private leftPaneMinWidth: string;
-  private centerPaneWidth: string;
-  private centerPaneMinWidth: string;
+  protected leftPaneWidth: string;
+  protected leftPaneMinWidth: string;
+  protected centerPaneWidth: string;
+  protected centerPaneMinWidth: string;
 
-  private centerText: string;
+  protected centerText: string;
 
-  constructor( @Inject("METADATA") private metadata: any) {
+  constructor(private statusService: StatusService) {
     console.info("c'tor Home");
   }
 
@@ -64,9 +68,10 @@ export class ListView implements OnInit {
     this.leftPaneMinWidth = "100px";
     this.centerPaneWidth = "100%";
     this.centerPaneMinWidth = "100px";
+    this.statusService.error("ListView onInit()");
 
     for (let i = 0; i < 100; i++) {
-      let s = " " + i;
+      const s = " " + i;
       for (let j = 0; j < 100; j++) {
         this.centerText += s;
       }

@@ -31,14 +31,14 @@ export class SelectView implements OnInit {
 
   public data: any;
 
-  private leftPaneWidth: string;
-  private leftPaneMinWidth: string;
-  private centerPaneWidth: string;
-  private centerPaneMinWidth: string;
+  protected leftPaneWidth: string;
+  protected leftPaneMinWidth: string;
+  protected centerPaneWidth: string;
+  protected centerPaneMinWidth: string;
 
-  private centerText: string;
+  protected centerText: string;
 
-  constructor( @Inject("METADATA") private metadata: any) {
+  constructor() {
     console.info("c'tor SelectView");
   }
 
@@ -49,7 +49,7 @@ export class SelectView implements OnInit {
     this.centerPaneMinWidth = "100px";
 
     for (let i = 0; i < 100; i++) {
-      let s = " " + i;
+      const s = " " + i;
       for (let j = 0; j < 100; j++) {
         this.centerText += s;
       }

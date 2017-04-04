@@ -20,8 +20,8 @@ import {
 } from "@hb42/lib-farc";
 
 import {
-  saveSessionURL,
-} from "@hb42/lib-common";
+  environment,
+} from "../../environments";
 
 // TODO confUSER raus - es wird EIN objekt gespeichert, geholt/ User aus http-session -> state
 // TODO + /config fehlt noch auf Serverseite
@@ -31,9 +31,9 @@ export class ConfigService {
   private restServer: string;
   private userSession: FarcSession;
 
-  constructor(private httphandler: Http, @Inject("CONFIG") private conf: any) {
+  constructor(private httphandler: Http) {
     console.info("c'tor ConfigService");
-    this.restServer = conf.webserviceServer + conf.webservicePath;
+    this.restServer = environment.webserviceServer + environment.webservicePath;
 
     this.getConfig(confUSER).subscribe(
         (res) => {

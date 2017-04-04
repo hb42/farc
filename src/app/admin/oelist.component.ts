@@ -23,7 +23,7 @@ import {
 } from ".";
 import {
   ConfigService,
-} from "../services";
+} from "../shared";
 
 @Component({
              selector: "oe-list",
@@ -40,21 +40,21 @@ import {
                <p-column [style]="{'width':'200px'}" field="name" header="OE">
                </p-column>
                <p-column field="roles" header="Profile">
-                 <template pTemplate let-col let-row="rowData">
+                 <ng-template pTemplate let-col let-row="rowData">
                    {{ row[col.field] | rolenames }}
-                 </template>
+                 </ng-template>
                </p-column>
                <p-column [style]="{'width':'80px'}">
-                 <template pTemplate="header">
+                 <ng-template pTemplate="header">
                    <button type="button" pButton (click)="newOe()" icon="fa-file-o" class="minibtn" 
                            title="Neues Laufwerk"></button>
-                 </template>
-                 <template let-oe="rowData" pTemplate="body">
+                 </ng-template>
+                 <ng-template let-oe="rowData" pTemplate="body">
                    <button type="button" pButton (click)="editOe(oe)" icon="fa-edit" class="minibtn" 
                            title="Bearbeiten"></button>
                    <button type="button" pButton (click)="deleteOe(oe)" icon="fa-trash" class="minibtn" 
                            title="Löschen"></button>
-                 </template>
+                 </ng-template>
                </p-column>
              </p-dataTable>
              
@@ -77,9 +77,9 @@ import {
                                     (onMoveToTarget)="onMoveToTarget($event)"
                                     (onMoveToSource)="onMoveToSource($event)"
                                     >
-                          <template let-role pTemplate="item">
+                          <ng-template let-role pTemplate="item">
                             {{role.name}}
-                          </template>
+                          </ng-template>
                         </p-pickList>
                       </div>  
                   </div>

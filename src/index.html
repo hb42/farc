@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="<%= htmlWebpackPlugin.options.BASEURL %>">
+  <base href="<%= htmlWebpackPlugin.options.metadata.BASEURL %>">
+  <title><%= htmlWebpackPlugin.options.title %></title>
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="application" content="<%= htmlWebpackPlugin.options.DESC %>">
-  <meta name="appversion" content="<%= htmlWebpackPlugin.options.VERSIONSTR %>">
-  <meta name="copyright" content="<%= htmlWebpackPlugin.options.COPY %>">
+  <meta name="application" content="<%= htmlWebpackPlugin.options.metadata.DESC %>">
+  <meta name="appversion" content="<%= htmlWebpackPlugin.options.metadata.VERSIONSTR %>">
+  <meta name="copyright" content="<%= htmlWebpackPlugin.options.metadata.COPY %>">
   <meta charset="UTF-8">
 </head>
 <body>

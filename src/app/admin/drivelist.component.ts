@@ -35,9 +35,9 @@ import {
                <!--</header>-->
                <!--<p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>-->
                <p-column [style]="{'width':'100px'}" field="type" header="Typ">
-                <template pTemplate let-col let-row="rowData">
+                <ng-template pTemplate let-col let-row="rowData">
                    {{row[col.field] | drivetype}}
-                 </template>
+                 </ng-template>
                </p-column>
                <p-column [style]="{'width':'100px'}" field="displayname" header="Name">
                </p-column>
@@ -46,16 +46,16 @@ import {
                <p-column field="archivepath" header="Pfad Archiv">
                </p-column>
                <p-column [style]="{'width':'80px'}">
-                 <template pTemplate="header">
+                 <ng-template pTemplate="header">
                    <button type="button" pButton (click)="newDrive()" icon="fa-file-o" class="minibtn"
                            title="Neues Laufwerk"></button>
-                 </template>
-                 <template let-drv="rowData" pTemplate="body">
+                 </ng-template>
+                 <ng-template let-drv="rowData" pTemplate="body">
                    <button type="button" pButton (click)="editDrive(drv)" icon="fa-edit" class="minibtn"
                            title="Bearbeiten"></button>
                    <button type="button" pButton (click)="deleteDrive(drv)" icon="fa-trash" class="minibtn"
                            title="Löschen"></button>
-                 </template>
+                 </ng-template>
                </p-column>
              </p-dataTable>
              

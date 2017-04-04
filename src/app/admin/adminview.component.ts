@@ -38,17 +38,17 @@ export class AdminView implements OnInit {
 
   public data: any;
 
-  private btnNr: number;
-  private btnActive: boolean[] = [false, false];
+  protected btnNr: number;
+  protected btnActive: boolean[] = [false, false];
 
-  private leftPaneWidth: string;
-  private leftPaneMinWidth: string;
-  private centerPaneWidth: string;
-  private centerPaneMinWidth: string;
+  protected leftPaneWidth: string;
+  protected leftPaneMinWidth: string;
+  protected centerPaneWidth: string;
+  protected centerPaneMinWidth: string;
 
-  private centerText: string;
+  protected centerText: string;
 
-  constructor(@Inject("METADATA") private metadata: any) {
+  constructor() {
     console.info("c'tor Admin");
   }
 
