@@ -1,11 +1,9 @@
 /**
- * Created by hb on 10.07.16.
+ * Created by hb on 09.04.17.
  */
 
-// service an Anfang stellen! -> Fehler: Uncaught Error: Can't resolve all parameters for ...
-// -> http://stackoverflow.com/questions/37997824/angular-2-di-error-exception-cant-resolve-all-parameters
-
+export * from "./farc.drivetype.pipe";
 export * from "./farctree.service";
-export * from "./treeview.component";
-export * from "./farctree.component";
-export * from "./filelist.component";
+export * from "./farctree.component/farctree.component";
+export * from "./filelist.component/filelist.component";
+export * from "./treeview.component/treeview.component";

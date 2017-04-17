@@ -5,10 +5,19 @@
 .ui-state-highlight .archivenode {
   color: white;
 }
+
+/* panel mit Rahmen */
+.farc-panel {
+  /* von bootstrap panel, panel-default uebernommen */
+  border: 1px solid #cdcdcd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  /*  */
+}
 /* flex layout */
 
 /* Komplette Seite belegen */
-.flex-page, app {
+.flex-page, farc-root {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -17,7 +26,7 @@
 }
 
 /* children vertikal anordnen */
-.flex-col, app {
+.flex-col, farc-root {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -69,21 +78,34 @@
 
 /*  primeNG styles  */
 
+/* vert. scroll immer anzeigen, sonst passt header nicht */
+.ui-datatable-scrollable-body {
+  overflow: scroll;
+  overflow-x: auto;
+}
+
+p-dataTable {
+  height: 100%;
+}
+/* wg. Prob. mit scrolling in datatable
+   -> https://github.com/primefaces/primeng/issues/1905
+*/
+.ui-datatable-scrollable {
+  height: 100%;
+}
+.ui-datatable-scrollable-wrapper {
+  height: 100%;
+}
+.ui-datatable-scrollable-view {
+  height: 100%;
+}
+/* ??? wird f. filelist gebraucht, beim Rest fkt. so nicht
+.ui-datatable-scrollable-body {
+  flex: 1 1 0;
+}
+*/
+
 /* kleiner pButton */
 .minibtn {
   font-size: .8em !important;
-}
-
-/* tree an jew. container anpassen */
-.ui-tree {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-
-/* overlay-panel fuer Statusleiste */
-#messagepanel .ui-overlaypanel {
-  position: fixed;
-  max-height: 200px;
-  overflow: auto;
 }

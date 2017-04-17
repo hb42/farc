@@ -1,0 +1,65 @@
+<p-breadcrumb class="flex-panel flex-content-fix"
+              [style.min-height]="bcHeight" [style.height]="bcHeight" [style.max-height]="bcHeight"
+              [model]="farcService.breadcrumbs"
+>
+</p-breadcrumb>
+<!-- damit Scrolling fkt. muss dataTable mit div umgeben werden -->
+<div class="flex-panel flex-content-fix" style="height: 100%; max-height: 100%;">
+  <p-dataTable [value]="farcService.files" [(selection)]="farcService.selectedFiles"
+               scrollable="true" scrollHeight="100%">
+    <!--<header>-->
+    <!--Single Selection-->
+    <!--</header>-->
+    <p-column *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt'" [style]="{'width':'38px'}" selectionMode="multiple">
+    </p-column>
+    <p-column field="label" header="Name">
+      <ng-template pTemplate let-col let-row="rowData">
+        <div *ngIf="row.type === 'file'">
+          {{row.label}}
+        </div>
+        <div *ngIf="row.type !== 'file'">
+          <a class="btn" (click)="farcService.expandTo(row.path)">
+            <i class="fa fa-folder-open-o" style="color: goldenrod"></i> {{row.label}}
+          </a>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'180px'}" field="timestamp" header="Zeit">
+      <ng-template pTemplate let-col let-row="rowData">
+        {{row[col.field] | iedate}}
+      </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'100px'}" field="size" header="Größe">
+      <ng-template pTemplate let-col let-row="rowData">
+        {{row[col.field] | filesize}}
+      </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'200px'}" field="selected" header="Vormerkung">
+      <ng-template pTemplate let-col let-row="rowData">
+        {{row[col.field]}}  <!-- TODO pipe fuer selectedType, ggf. incl. UID, Date -->
+      </ng-template>
+    </p-column>
+    <!--<footer>-->
+    <!--<ul>-->
+    <!--<li *ngFor="let f of selectedFiles" style="text-align: left">-->
+    <!--{{f.label}} - {{f.size | filesize }}</li>-->
+    <!--</ul>-->
+    <!--</footer>-->
+  </p-dataTable>
+</div>
+<p-toolbar class="flex-panel flex-content-fix"
+           [style.min-height]="tbHeight" [style.height]="tbHeight"
+>
+  <div class="ui-toolbar-group-left">
+    <span>Ausgewählte Zeilen: </span>
+    <button class="btn btn-xs btn-warning" (click)="testExp()"><i class="fa fa-plus"></i> Archivieren</button>
+    <button class="btn btn-xs btn-warning" ><i class="fa fa-trash"></i> Löschen</button>
+    <button class="btn btn-xs btn-warning" [class.disabled]="true" >
+      <i class="fa fa-history"></i> Vormerkung entfernen
+    </button>
+
+    <!--<i class="fa fa-bars"></i>-->
+
+    <!--<button pButton type="button" label="Save" ></button>-->
+  </div>
+</p-toolbar>

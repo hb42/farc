@@ -16,18 +16,17 @@ import {
 } from "rxjs";
 
 import {
+  environment,
+} from "../../environments/environment";
+import {
   FarcDrive,
   FarcDriveDocument,
+  FarcEndpunktDocument,
   FarcEntryTypes,
   FarcOe,
   FarcOeDocument,
-  FarcSession,
   FarcTreeNode,
-} from "@hb42/lib-farc";
-
-import {
-  environment,
-} from "../../environments";
+} from "../../shared/ext";
 import {
   StatusService,
 } from "../shared";
@@ -72,6 +71,15 @@ export class AdminService {
   public deleteOE(oe: FarcOeDocument) {
     return this.httphandler.delete(this.restServer + "/oes", {body: oe})
         .map( (response: Response) => response.json() );
+  }
+
+  public getEps(): Observable<FarcEndpunktDocument[]> {
+    return this.httphandler.get(this.restServer + "/eps")
+      .map((response: Response) => response.json() );
+  }
+  public setEp(ep: FarcEndpunktDocument, newoe): Observable<any> {
+    return this.httphandler.post(this.restServer + "/eps", {endpunkt: ep, oe: newoe} )
+      .map((response: Response) => response.json() );
   }
 
 }

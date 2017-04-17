@@ -1,5 +1,5 @@
 /**
- * Created by hb on 16.10.16.
+ * Created by hb on 09.04.17.
  */
 
-export * from "./selectview.component";
+export * from "./selectview.component/selectview.component";

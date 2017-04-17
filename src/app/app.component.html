@@ -1,0 +1,16 @@
+<div class="flex-panel header" >
+  <farc-main-header></farc-main-header>
+</div>
+<router-outlet></router-outlet>
+<div class="flex-panel flex-row footer farc-panel" >
+  <div>
+    <farc-status></farc-status>
+  </div>
+  <div class="foot-center"></div>
+  <div class="foot-ver">
+    <a  title="{{version.ver.copyright}}"
+        class="foot-link btn btn-sm">
+      {{version.ver.description}} {{version.ver.version}}
+    </a>
+  </div>
+</div>

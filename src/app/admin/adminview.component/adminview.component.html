@@ -1,0 +1,27 @@
+<div class="flex-row" >
+  <div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"
+       >
+    <ul class="nav nav-pills nav-stacked">  <!-- bootstrap -->
+      <li [class.active]="activetab === 'drives'" >
+        <a (click)="tabclick('drives')"><span class="fa fa-hdd-o"></span> Laufwerke</a>
+      </li>
+      <li [class.active]="activetab === 'oes'" >
+        <a (click)="tabclick('oes')"><span class="fa fa-list"></span> Organisationseinheiten</a>
+      </li>
+      <li [class.active]="activetab === 'eps'" >
+        <a (click)="tabclick('eps')"><span class="fa fa-folder-open-o"></span> Endpunkte</a>
+      </li>
+      <li [class.active]="activetab === 'config'" >
+        <a (click)="tabclick('config')"><span class="fa fa-gears"></span> Konfiguration</a>
+      </li>
+    </ul>
+
+  </div>
+  <div fb-splitter ></div>
+  <div class="flex-panel flex-max" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth"
+       >
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>

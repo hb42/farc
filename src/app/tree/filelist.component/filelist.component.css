@@ -1,0 +1,35 @@
+/* verhindert schon mal Umbrueche in Breadcrumbs
+   allerdings laufen sie nach rechts ueber, das sollte rechtsbuendig sein */
+:host >>> .ui-breadcrumb {
+width: 1000%;
+}
+/* etwas mehr Platz fuer die Icons li+re 6px, top +1 (5px),
+   bottom 3 statt 0 dadurch bekommt Icon gleiche Hoehe wie Text */
+* >>> .ui-breadcrumb ul li.fa {
+  margin: 5px 6px 3px 6px;
+}
+/* "Home"-Icon entfernen (nicht display:none, damit auch das leere Panel
+   schon die volle Hoehe bekommt) */
+:host >>> .ui-breadcrumb ul li.fa-home {
+  display: none;
+}
+/* scrolling fkt. nicht ohne header => soweit moeglich ausblenden
+   -> warten auf Bugfix */
+/*
+:host /deep/ .ui-datatable-header {
+  height: 0; padding: 0; border: none
+}
+ */
+
+:host >>> .ui-datatable-scrollable-view {
+  display: flex;
+  flex-direction: column;
+}
+:host >>> .ui-datatable-scrollable-body {
+  flex: 1 1 0;
+}
+
+/* links ohne extra Abstand */
+:host >>> a.btn {
+  padding: 0;
+}

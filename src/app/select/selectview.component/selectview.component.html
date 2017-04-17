@@ -1,0 +1,11 @@
+<div class="flex-row" style="background: purple">
+  <div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"
+       style="background: green">
+    SELECT
+  </div>
+  <div fb-splitter ></div>
+  <div class="flex-panel flex-max" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth"
+       style="background: red">
+    <div class="flex-content">{{centerText}}</div>
+  </div>
+</div>

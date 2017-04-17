@@ -1,0 +1,22 @@
+.header {
+  height: 52.5px;
+  min-height: 52.5px;
+}
+
+.footer {
+  height: 22px;
+  min-height: 22px;
+}
+.foot-center {
+  width: 100%;
+  background: #f4f4f4;
+}
+.foot-ver {
+  padding-right: 10px;
+  white-space: nowrap;
+  background: #f4f4f4;
+}
+.foot-link {
+  font-size: .8em;
+  padding: 0;
+}

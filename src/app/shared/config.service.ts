@@ -3,6 +3,7 @@
  */
 
 import {
+  EventEmitter,
   Inject,
   Injectable,
 } from "@angular/core";
@@ -15,39 +16,34 @@ import {
 } from "rxjs";
 
 import {
-  confUSER,
-  FarcSession,
-} from "@hb42/lib-farc";
-
+  UserData,
+  UserSession,
+} from ".";
 import {
   environment,
-} from "../../environments";
+} from "../../environments/environment";
+import {
+  confUSER,
+} from "../../shared/ext";
 
-// TODO confUSER raus - es wird EIN objekt gespeichert, geholt/ User aus http-session -> state
-// TODO + /config fehlt noch auf Serverseite
 @Injectable()
 export class ConfigService {
 
   private restServer: string;
-  private userSession: FarcSession;
+  private userSession: Promise<UserSession>;
+  private userData: UserData;
+  private userDataChange: EventEmitter<UserData> = new EventEmitter();
 
   constructor(private httphandler: Http) {
     console.info("c'tor ConfigService");
     this.restServer = environment.webserviceServer + environment.webservicePath;
 
-    this.getConfig(confUSER).subscribe(
-        (res) => {
-          if (res) {
-            this.userSession = res;
-          } else {
-            this.userSession = {};
-          }
-        },
-        (err) => {
-           this.userSession = {};
-        },
-    );
-
+    // in den Event fuer Benutzer-Config-Aernderungen einklinken
+    this.userDataChange.subscribe( () => {
+      this.saveUserConfig();
+    });
+    // Benutzer-Config aus der DB holen
+    this.fetchUserConfig();
   }
 
   public getConfig(confName: string): Observable<any> {
@@ -65,11 +61,68 @@ export class ConfigService {
         .map( (response: Response) => response.json() );
   }
 
-  public getUserConfig(): FarcSession {
+  /**
+   * liefert { isadmin: boolean }
+   *
+   * @returns {Observable<any>}
+   */
+  public isAdmin(): Observable<any> {
+    return this.httphandler.get(this.restServer + "/isadmin")
+      .map( (response: Response) => response.json() );
+  }
+
+  /**
+   * Benutzer-Config
+   *
+   * @returns {Promise<UserSession>}
+   */
+  public getUserConfig(): Promise<UserSession> {
     return this.userSession;
   }
-  public saveUserConfig() {
-    this.saveConfig(confUSER, this.userSession);
+
+  /**
+   * Benutzer_Config sichern
+   *
+   * Wird per Event bei Aenderung in UserSession ausgeloest.
+   */
+  private saveUserConfig() {
+    this.saveConfig(confUSER, this.userData)
+      .subscribe((rc) => {
+        console.info("user conf saved");
+        console.dir(rc);
+      });
   }
+
+  /**
+   * Benutzer-Config aus der DB holen
+   *
+   * Wird als Promise abgelegt, um race conditions beim App-Start
+   * zu vermeiden.
+   */
+  private fetchUserConfig() {
+    console.info("fetchUserConfig");
+    if (!this.userSession) {
+      console.info("get from db");
+      this.userSession = this.getConfig(confUSER).toPromise().then( (con) => {
+        this.userData = con;
+        if (this.userData === null) {
+          this.userData = { treepath: [] };
+        }
+        return new UserSession(this.userDataChange, this.userData);
+      });
+    }
+  }
+
+  // private getPackageJson() {
+  //   return this.httphandler.get("/package.json")
+  //     .map( (response: Response) => response.json() );
+  // }
+  // private setPackageData() {
+  //   return this.getPackageJson().toPromise().then( (pack) => {
+  //     // package.json aufbereiten
+  //     return pack;
+  //
+  //   });
+  // }
 
 }

@@ -1,0 +1,4 @@
+/* bootstrap funktioniert nicht vollstaendig */
+:host >>> .nav-pills>li:not(.active) {
+  cursor: pointer;
+}

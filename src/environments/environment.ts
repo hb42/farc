@@ -1,20 +1,18 @@
-/**
- * Created by hb on 02.04.17.
- */
+// The file contents for the current environment will overwrite these during build.
+// The build system defaults to the dev environment which uses `environment.ts`, but if you do
+// `ng build --env=prod` then `environment.prod.ts` will be used instead.
+// The list of which env maps to which file can be found in `.angular-cli.json`.
 
-// die beiden Werte kommen von Webpack
-declare const __PROD__: boolean;
-declare const __SPK__: boolean;
-declare const __VERSION__;
+// --env=dev
 
 export const environment = {
-  version: __VERSION__,
-  production: __PROD__,
-  sparkasse: __SPK__,
+  production: false,
   // REST-API
-  webserviceServer: __SPK__ ? "http://5.77.32.210:23000" : "http://localhost:23000",
+  webserviceServer: "http://calvados:23100",
   webservicePath: "/farc",
   // NTLM-Logon
-  NTLMserver: __SPK__ ? "http://e077app.v998dpve.v998.intern/791/farc/auth.asp" : "http://localhost:23042/asp/get",
+  NTLMserver: "http://calvados:23142/asp/get",
   authType: "NTLM",
+  // WebApp
+  webappServer: "http://calvados:23000",
 };

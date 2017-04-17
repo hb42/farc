@@ -7,12 +7,11 @@ import {
     Routes,
 } from "@angular/router";
 
-// import {
-//   AppComponent,
-// } from "./";
 import {
   AdminView,
+  ConfigComponent,
   DriveList,
+  EpListComponent,
   OeList,
 } from "./admin";
 import {
@@ -34,6 +33,8 @@ const appRoutes: Routes = [
     children: [
       { path: "drives", component: DriveList },
       { path: "oes", component: OeList },
+      { path: "eps", component: EpListComponent },
+      { path: "config", component: ConfigComponent },
     ]},
 
   // {

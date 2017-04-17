@@ -1,10 +1,11 @@
 /**
- * Created by hb on 03.10.16.
+ * Created by hb on 09.04.17.
  */
 
-// services an den Anfang
-export * from "./roles.pipe";
 export * from "./admin.service";
-export * from "./adminview.component";
-export * from "./drivelist.component";
-export * from "./oelist.component";
+export * from "./roles.pipe";
+export * from "./adminview.component/adminview.component";
+export * from "./drivelist.component/drivelist.component";
+export * from "./oelist.component/oelist.component";
+export * from "./ep-list/ep-list.component";
+export * from "./config/config.component";

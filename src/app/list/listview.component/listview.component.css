@@ -1,0 +1,7 @@
+
+/* tree an container anpassen */
+:host /deep/ .ui-tree {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}

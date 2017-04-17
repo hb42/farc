@@ -1,0 +1,28 @@
+<p-toolbar>  <!-- primeng -->
+  <div class="ui-toolbar-group-left">
+    <ul class="nav nav-pills">  <!-- bootstrap -->
+      <li [class.active]="activetab === 'list'" >
+        <a (click)="tabclick('list')"><span class="fa fa-list"></span> OE-Übersicht</a>
+      </li>
+      <li [class.active]="activetab === 'tree'" >
+        <a (click)="tabclick('tree')"><span class="fa fa-folder-open"></span> Details</a>
+      </li>
+      <li [class.active]="activetab === 'select'" >
+        <a (click)="tabclick('select')"><span class="fa fa-check-square"></span> Vormerkungen</a>
+      </li>
+      <li [class.active]="activetab === 'admin'" *ngIf="isAdmin">  <!-- nur fuer Admin sichtbar -->
+        <a (click)="tabclick('admin')"><span class="fa fa-gears"></span> Admin</a>
+      </li>
+    </ul>
+  </div>
+  <div class="ui-toolbar-group-right">
+    <!--<a  title="{{ver.copyright}}"-->
+        <!--class="btn btn-sm">-->
+      <!--{{ver.description}} {{ver.version}}-->
+    <!--</a>-->
+    <a href="/doku.html" target="farcdoku" title="Dokumentation"
+       class="btn btn-success ">
+      Hilfe
+    </a>
+  </div>
+</p-toolbar>

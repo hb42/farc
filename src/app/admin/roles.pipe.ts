@@ -9,7 +9,7 @@ import {
 
 import {
   FarcRole,
-} from "@hb42/lib-farc";
+} from "../../shared/ext";
 
 @Pipe({name: "rolenames"})
 export class RolesPipe implements PipeTransform {

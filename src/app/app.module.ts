@@ -7,12 +7,14 @@ import {
   LocationStrategy,
 } from "@angular/common";
 import {
+  APP_INITIALIZER,
   NgModule,
 } from "@angular/core";
 import {
   FormsModule,
 } from "@angular/forms";
 import {
+  Http,
   HttpModule,
   XHRBackend,
 } from "@angular/http";
@@ -43,13 +45,10 @@ import {
 
 import {
   FileSizePipe,
-  HttpErrorHandler,
-  LibngModule,
-} from "@hb42/lib-client";
-import {
-  FarcDrivetypePipe,
-} from "@hb42/lib-farc";
-
+  LibClientModule,
+  VersionService,
+  XHRBackendHandler,
+} from "../shared/ext";
 import {
   APP_ROUTING,
   AppComponent,
@@ -58,7 +57,9 @@ import {
 import {
   AdminService,
   AdminView,
+  ConfigComponent,
   DriveList,
+  EpListComponent,
   OeList,
   RolesPipe,
 } from "./admin";
@@ -70,22 +71,29 @@ import {
 } from "./select";
 import {
   ConfigService,
+  MainHeaderComponent,
 } from "./shared";
 import {
   StatusComponent,
   StatusService,
 } from "./shared/status";
 import {
+  FarcDrivetypePipe,
   FarcTree,
   FarcTreeService,
   FileList,
   TreeView,
 } from "./tree";
 
-/**
- * app style sheets
- */
-import "../css/styles.css";
+// Damit ConfigService so frueh, wie moeglich geladen wird
+// (fn , die fn liefert, die ein Promise liefert)
+export function initConf(configService: ConfigService) {
+  return () => () => {
+    return new Promise<ConfigService>( (resolve) => {
+      resolve(configService);
+    });
+  };
+}
 
 /**
  * Angular-Hauptmodul
@@ -122,7 +130,7 @@ import "../css/styles.css";
               OverlayPanelModule,
 
               // eigene
-              LibngModule,
+              LibClientModule,
 
               APP_ROUTING,
             ],
@@ -131,7 +139,7 @@ import "../css/styles.css";
               // hashLoc macht weniger Probleme
               { provide: LocationStrategy, useClass: HashLocationStrategy },
               // error handling f. ajax calls
-              { provide: XHRBackend, useClass: HttpErrorHandler },
+              { provide: XHRBackend, useClass: XHRBackendHandler },
 
               // primeng
               ConfirmationService,
@@ -142,12 +150,17 @@ import "../css/styles.css";
               AdminService,
               StatusService,
 
-              ...appRoutingProviders,
               //   // -> @Inject('METADATA') private metadata: any
               // { provide: "METADATA", useFactory() { return WEBPACK_DATA.metadata; } },
+              { provide: APP_INITIALIZER,
+                useFactory: initConf,
+                deps: [ConfigService], multi: true },
+
+              ...appRoutingProviders,
             ],
             declarations: [
               // components
+              MainHeaderComponent,
               ListView,
               TreeView,
               FarcTree,
@@ -156,6 +169,8 @@ import "../css/styles.css";
               AdminView,
               DriveList,
               OeList,
+              EpListComponent,
+              ConfigComponent,
               StatusComponent,
 
               // pipes
@@ -164,6 +179,7 @@ import "../css/styles.css";
 
               // start
               AppComponent,
+
             ],
 
             bootstrap   : [AppComponent],

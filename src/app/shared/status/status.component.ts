@@ -14,11 +14,7 @@ import {
 @Component({
              selector: "farc-status",
              templateUrl: "./status.component.html",
-             // styleUrls: ["./status.component.css"],
-             styles: [
-               "p.overlay-anchor { height: 0; width: 0; }",
-               "div.statusmessage { cursor: pointer; }",
-             ],
+             styleUrls: ["./status.component.css"],
            })
 export class StatusComponent implements OnInit {
 
@@ -52,6 +48,21 @@ export class StatusComponent implements OnInit {
         return ["text-danger"];
       default:
         return ["text-info"];
+    }
+  }
+
+  protected latestText() {
+    if (this.lines[0]) {
+      return this.lines[0].text || "";
+    } else {
+      return "";
+    }
+  }
+  protected latestClass() {
+    if (this.lines[0]) {
+      return this.messageClass(this.lines[0].type);
+    } else {
+      return this.messageClass("");
     }
   }
 }
