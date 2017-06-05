@@ -23,7 +23,7 @@ export class StatusService {
   public success(msg: string) {
     this.addMessage(msg, "success");
   }
-  public info(msg: string){
+  public info(msg: string) {
     this.addMessage(msg, "info");
   }
   public warn(msg: string) {

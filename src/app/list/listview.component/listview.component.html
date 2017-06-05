@@ -1,18 +1,32 @@
 <div class="flex-row" style="background: purple">
-  <div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"
-       style="background: green">
-    <p-tree [value]="tree">
-      <ng-template let-node pTemplate="default">
-        <span style="color: red" >{{node.label}}</span>
-      </ng-template>
-      <ng-template let-node pTemplate="ep">
-        <span >{{node.label}} *EP*</span>
-      </ng-template>
-    </p-tree>
-  </div>
-  <div fb-splitter ></div>
-  <div class="flex-panel flex-max" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth"
+  <!--<div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"-->
+       <!--style="background: green">-->
+    <!--<p-tree [value]="tree">-->
+      <!--<ng-template let-node pTemplate="default">-->
+        <!--<span style="color: red" >{{node.label}}</span>-->
+      <!--</ng-template>-->
+      <!--<ng-template let-node pTemplate="ep">-->
+        <!--<span >{{node.label}} *EP*</span>-->
+      <!--</ng-template>-->
+    <!--</p-tree>-->
+  <!--</div>-->
+  <!--<div fb-splitter ></div>-->
+
+  <!-- TODO testen mit p-tree, damit sollte scrolling + selection besser fkt. -->
+
+  <div class="flex-panel flex-max flex-content" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth"
        style="background: red">
-    <div class="flex-content">{{centerText}}</div>
+    <p-treeTable [value]="farcService.oelist">
+      <p-column [style]="{'width':'200px'}" header="Name">
+        <ng-template pTemplate let-col let-row="rowData">
+          <span [class.oerow]="row.type === 'strukt'">{{row.label}}</span>
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'180px'}" header="Größe">
+        <ng-template pTemplate let-col let-row="rowData">
+          <span [class.oerow]="row.type === 'strukt'">{{row.size | filesize}}</span>
+        </ng-template>
+      </p-column>
+    </p-treeTable>
   </div>
 </div>

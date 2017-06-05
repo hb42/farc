@@ -5,3 +5,7 @@
   height: 100%;
   overflow: auto;
 }
+
+.oerow {
+  font-weight: bold;
+}

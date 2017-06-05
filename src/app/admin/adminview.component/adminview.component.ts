@@ -4,6 +4,7 @@
 
 import {
     Component,
+    HostBinding,
     OnInit,
 } from "@angular/core";
 import {
@@ -13,20 +14,21 @@ import {
 
 @Component({
              selector: "farc-admin-view",
-             host: {
-               class: "flex-panel flex-content-fix",
-             },
+             // host: {
+             //   class: "flex-panel flex-content-fix",
+             // },
              templateUrl: "./adminview.component.html",
              styleUrls: ["./adminview.component.css"],
            })
-export class AdminView implements OnInit {
+export class AdminViewComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
 
-  protected activetab: string;
+  public activetab: string;
 
-  protected leftPaneWidth: string;
-  protected leftPaneMinWidth: string;
-  protected centerPaneWidth: string;
-  protected centerPaneMinWidth: string;
+  public leftPaneWidth: string;
+  public leftPaneMinWidth: string;
+  public centerPaneWidth: string;
+  public centerPaneMinWidth: string;
 
   constructor(private router: Router) {
     console.info("c'tor Admin");
@@ -51,7 +53,7 @@ export class AdminView implements OnInit {
 
   }
 
-  protected tabclick(tab: string) {
+  public tabclick(tab: string) {
     this.activetab = tab;
     this.router.navigate(["/admin/" + tab]);
   }

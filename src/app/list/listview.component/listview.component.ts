@@ -4,6 +4,7 @@
 
 import {
     Component,
+    HostBinding,
     Inject,
     OnInit,
 } from "@angular/core";
@@ -15,32 +16,36 @@ import {
 import {
   StatusService,
 } from "../../shared";
+import {
+  FarcTreeService,
+} from "../../tree";
 
 @Component({
              selector: "farc-list-view",
-             host: {
-               class: "flex-panel flex-content-fix",
-             },
+             // host: {
+             //   class: "flex-panel flex-content-fix",
+             // },
              templateUrl: "./listview.component.html",
              styleUrls: ["./listview.component.css"],
            })
-export class ListView implements OnInit {
+export class ListViewComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
 
   public data: any;
 
-  protected tree: TreeNode[] = [ {label: "eins", data: "eins"},
+  public tree: TreeNode[] = [ {label: "eins", data: "eins"},
                                  {label: "zwei", data: "zwei"},
                                  {label: "drei", data: "drei"},
                                  {label: "vier", data: "vier", type: "ep"}];
 
-  protected leftPaneWidth: string;
-  protected leftPaneMinWidth: string;
-  protected centerPaneWidth: string;
-  protected centerPaneMinWidth: string;
+  public leftPaneWidth: string;
+  public leftPaneMinWidth: string;
+  public centerPaneWidth: string;
+  public centerPaneMinWidth: string;
 
-  protected centerText: string;
+  public centerText: string;
 
-  constructor(private statusService: StatusService) {
+  constructor(public farcService: FarcTreeService, private statusService: StatusService) {
     console.info("c'tor Home");
   }
 

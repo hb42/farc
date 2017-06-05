@@ -23,9 +23,9 @@ import {
 })
 export class MainHeaderComponent implements OnInit {
 
-  protected activetab: string;
-  protected ver: Version;
-  protected isAdmin: boolean = false;
+  public activetab: string;
+  public isAdmin = false;
+  public ver: Version;
 
   constructor(private router: Router, private statusService: StatusService,
               private configService: ConfigService, private version: VersionService) {
@@ -51,7 +51,7 @@ export class MainHeaderComponent implements OnInit {
 
   }
 
-  protected tabclick(tab: string) {
+  public tabclick(tab: string) {
     this.activetab = tab;
     this.router.navigate(["/" + tab]);
   }

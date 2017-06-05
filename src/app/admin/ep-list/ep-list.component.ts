@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   OnInit,
 } from "@angular/core";
 import {
@@ -26,26 +27,27 @@ interface EpList {
 
 @Component({
   selector: "farc-ep-list",
-  host: {
-          class: "flex-content-fix flex-col",
-        },
+  // host: {
+  //         class: "flex-content-fix flex-col",
+  //       },
   templateUrl: "./ep-list.component.html",
   styleUrls: ["./ep-list.component.css"],
 })
 export class EpListComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
   private eps: FarcEndpunktDocument[] = [];
   private oes: FarcOeDocument[] = [];
   private drives: FarcDriveDocument[] = [];
 
   private eplistAll: EpList[] = [];
-  private eplist: EpList[] = [];
-  private oelist: SelectItem[];
-  private isFiltered: boolean = false;
+  public eplist: EpList[] = [];
+  public oelist: SelectItem[];
+  public isFiltered = false;
 
-  private displayDialog: boolean = false;
-  private editData: EpList;
-  private editOe;
+  public displayDialog = false;
+  public editData: EpList;
+  public editOe;
 
   constructor(private adminService: AdminService, private statusService: StatusService) {
 
@@ -92,13 +94,13 @@ export class EpListComponent implements OnInit {
     );
   }
 
-  protected editEp(ep: EpList) {
+  public editEp(ep: EpList) {
     this.editData = ep;
     this.editOe = ep.ep.oe;
     this.displayDialog = true;
   }
 
-  protected dlgSave() {
+  public dlgSave() {
     this.displayDialog = false;
     this.adminService.setEp(this.editData.ep, this.editOe).subscribe(
       (rc: FarcEndpunktDocument) => {
@@ -126,7 +128,7 @@ export class EpListComponent implements OnInit {
     }
   }
 
-  protected filterList() {
+  public filterList() {
     if (!this.isFiltered) {
       this.eplist = this.eplistAll.filter((ep) => !ep.ep.oe);
       this.isFiltered = true;

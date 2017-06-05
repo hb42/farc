@@ -8,6 +8,12 @@ import {
 
 export class UserSession {
 
+  // User-ID + Username
+  public UID = "";
+  public name = "";
+  public vorname = "";
+  public mail = "";
+
   // dieses Objekt wird gespeichert
   private userdata: UserData;
 

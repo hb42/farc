@@ -14,6 +14,39 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
   /*  */
 }
+
+/* primeng overlaypanel fuer Statuszeile
+   wg. appendTo="body" style global setzen
+*/
+.status-overlay {
+  position: fixed;
+  max-height: 200px;
+  width: 450px;
+  /* overflow-y: auto; */
+  overflow-x: auto;
+}
+
+/* Bootstrap:                                */
+/* haessliche Rahmen bei :focus abschalten   */
+/* das Folgende stammt aus einem Blog und aendert input-Elemente.
+   Da stoert der Rahmen nicht so sehr, mal sehen, was davon etwas noetig wird
+ textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,  */
+/* fuer links und buttons sehen die focus-Rahmen bescheiden aus */
+a:focus,
+button:focus {
+  outline:0px !important;
+  -webkit-appearance:none;
+}
+/* cancel button f. search field */
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+}
+
 /* flex layout */
 
 /* Komplette Seite belegen */
@@ -99,6 +132,17 @@ p-dataTable {
 .ui-datatable-scrollable-view {
   height: 100%;
 }
+
+/* cell size (default: .75em) */
+.ui-datatable .ui.datatable-data > tr > td {
+  padding: .5em .75em;
+}
+
+/* Zellen nie umbrechen -> tooltip f. lange Texte */
+.ui-cell-data{
+  white-space: nowrap;
+}
+
 /* ??? wird f. filelist gebraucht, beim Rest fkt. so nicht
 .ui-datatable-scrollable-body {
   flex: 1 1 0;

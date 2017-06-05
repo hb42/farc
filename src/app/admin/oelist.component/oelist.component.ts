@@ -4,6 +4,7 @@
 
 import {
   Component,
+  HostBinding,
   Inject,
   OnInit,
 } from "@angular/core";
@@ -26,22 +27,23 @@ import {
 
 @Component({
              selector: "farc-oe-list",
-             host: {
-               class: "flex-content-fix flex-col",
-             },
+             // host: {
+             //   class: "flex-content-fix flex-col",
+             // },
              templateUrl: "./oelist.component.html",
            })
-export class OeList implements OnInit {
+export class OeListComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
-  private oes: FarcOeDocument[] = [];
+  public oes: FarcOeDocument[] = [];
   // private oes: FarcOeDocument[];
   private roles: FarcRole[];
 
-  private displayDialog: boolean = false;
-  private editData: FarcOe;
+  public displayDialog = false;
+  public editData: FarcOe;
   private selected: FarcOe;
-  private allroles: FarcRole[];
-  private oeroles: FarcRole[];
+  public allroles: FarcRole[];
+  public oeroles: FarcRole[];
 
   constructor(private adminService: AdminService,
               private configService: ConfigService,
@@ -71,7 +73,7 @@ export class OeList implements OnInit {
     );
   }
 
-  private newOe() {
+  public newOe() {
     this.selected = null;
     this.editData = {
       name: "",
@@ -82,7 +84,7 @@ export class OeList implements OnInit {
     this.displayDialog = true;
   }
 
-  private editOe(oe: FarcOeDocument) {
+  public editOe(oe: FarcOeDocument) {
     this.selected = oe;
     this.editData = {
       name: oe.name,
@@ -98,7 +100,7 @@ export class OeList implements OnInit {
     this.displayDialog = true;
   }
 
-  private deleteOe(oe: FarcOeDocument) {
+  public deleteOe(oe: FarcOeDocument) {
     this.confirmationService.confirm(
         { message: "Soll die OE " + oe.name + " gelöscht werden?",
           accept: () => {
@@ -116,7 +118,7 @@ export class OeList implements OnInit {
         });
   }
 
-  private dlgSave() {
+  public dlgSave() {
     this.displayDialog = false;
     if (this.selected) {
       this.selected.name = this.editData.name;
@@ -155,10 +157,10 @@ export class OeList implements OnInit {
   private sortAllRoles() {
     this.allroles.sort( (a: FarcRole, b: FarcRole) => a.name.localeCompare(b.name) );
   }
-  private onMoveToTarget(evt) {
+  public onMoveToTarget(evt) {
     this.sortOeRoles();
   }
-  private onMoveToSource(evt) {
+  public onMoveToSource(evt) {
     this.sortAllRoles();
   }
   private buildpicklist() {

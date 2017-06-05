@@ -2,6 +2,8 @@
 
 export const environment = {
   production: true,
+  // interner Name
+  name: "farc",
   // REST-API
   webserviceServer: "http://5.77.32.210:23100",
   webservicePath: "/farc",

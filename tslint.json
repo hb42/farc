@@ -34,11 +34,13 @@
     "no-bitwise": true,
     "no-console": [
       true,
+      "log"
+      /* nur log ausschliessen
       "debug",
       "info",
       "time",
       "timeEnd",
-      "trace"
+      "trace"  */
     ],
     "no-construct": true,
     "no-debugger": true,
@@ -51,7 +53,8 @@
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
+    /* die Webstorm-IDE rueckt auch Leerzeilen ein, das wuerde dauernd angemeckert */
+    "no-trailing-whitespace": false,
     "no-unused-expression": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
@@ -66,7 +69,8 @@
     "prefer-const": true,
     "quotemark": [
       true,
-      "single"
+      /* single -> double  */
+      "double"
     ],
     "radix": true,
     "semicolon": [

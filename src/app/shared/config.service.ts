@@ -13,7 +13,7 @@ import {
 } from "@angular/http";
 import {
   Observable,
-} from "rxjs";
+} from "rxjs/Observable";
 
 import {
   UserData,
@@ -24,26 +24,72 @@ import {
 } from "../../environments/environment";
 import {
   confUSER,
+  loginURL,
+  Version,
+  VersionService,
 } from "../../shared/ext";
 
 @Injectable()
 export class ConfigService {
 
   private restServer: string;
-  private userSession: Promise<UserSession>;
+  private userSession: UserSession;
   private userData: UserData;
   private userDataChange: EventEmitter<UserData> = new EventEmitter();
 
-  constructor(private httphandler: Http) {
-    console.info("c'tor ConfigService");
+  constructor(private httphandler: Http, private version: VersionService) {
+    console.debug("c'tor ConfigService");
     this.restServer = environment.webserviceServer + environment.webservicePath;
 
     // in den Event fuer Benutzer-Config-Aernderungen einklinken
     this.userDataChange.subscribe( () => {
       this.saveUserConfig();
     });
-    // Benutzer-Config aus der DB holen
-    this.fetchUserConfig();
+  }
+
+  /**
+   * User login + fetch user config + fetch package.json
+   *
+   * @returns {Promise<Version>}
+   */
+  public init(): Promise<Version> {
+    console.debug(">>> application init");
+    console.debug(">>> getting ntlm user");
+    return this.httphandler.get(environment.NTLMserver + "?app=" + environment.name)
+      .map( (r1) => r1.json() )
+      .toPromise()
+      .then( (r2) => {
+        console.debug(">>> success " + r2.token);
+        console.debug(">>> logging into REST API");
+        return this.httphandler.get(environment.webserviceServer + loginURL + "/" + r2.token)
+          .map((r3) => r3.text())
+          .toPromise();
+      })
+      .then( (r4) => {
+        console.debug(">>> result " + r4);
+        if (r4 !== "OK") {
+          console.error("*** Login not successful");
+          throw new Error("could not login");
+        }
+        return r4;
+      })
+      .then( (r5) => {
+        console.debug(">>> fetching user config");
+        return this.fetchUserConfig().then((user) => {
+          this.userSession = user;
+          console.debug(">>> done");
+          return "OK";
+        });
+      })
+      .then( (r6) => {
+        console.debug(">>> getting app meta data");
+        return this.version.init().then( (ver) => {
+          console.debug(">>> done");
+          console.info(ver.displayname + " v" + ver.version + " " + ver.copyright);
+          return ver;
+        });
+      });
+
   }
 
   public getConfig(confName: string): Observable<any> {
@@ -61,6 +107,11 @@ export class ConfigService {
         .map( (response: Response) => response.json() );
   }
 
+  public getUser(): Observable<any> {
+    return this.httphandler.get(this.restServer + "/whoami/")
+        .map((response: Response) => response.json());
+  }
+
   /**
    * liefert { isadmin: boolean }
    *
@@ -76,7 +127,7 @@ export class ConfigService {
    *
    * @returns {Promise<UserSession>}
    */
-  public getUserConfig(): Promise<UserSession> {
+  public getUserConfig(): UserSession {
     return this.userSession;
   }
 
@@ -88,41 +139,30 @@ export class ConfigService {
   private saveUserConfig() {
     this.saveConfig(confUSER, this.userData)
       .subscribe((rc) => {
-        console.info("user conf saved");
-        console.dir(rc);
+        console.debug("user conf saved");
       });
   }
 
   /**
    * Benutzer-Config aus der DB holen
    *
-   * Wird als Promise abgelegt, um race conditions beim App-Start
-   * zu vermeiden.
    */
-  private fetchUserConfig() {
-    console.info("fetchUserConfig");
-    if (!this.userSession) {
-      console.info("get from db");
-      this.userSession = this.getConfig(confUSER).toPromise().then( (con) => {
-        this.userData = con;
+  private fetchUserConfig(): Promise<UserSession> {
+    console.debug("fetchUserConfig");
+    return this.getConfig(confUSER).toPromise().then( (conf) => {
+        this.userData = conf;
         if (this.userData === null) {
           this.userData = { treepath: [] };
         }
-        return new UserSession(this.userDataChange, this.userData);
+        const us: UserSession = new UserSession(this.userDataChange, this.userData);
+        return this.getUser().toPromise().then( (u) => {
+          us.UID = u.uid;
+          us.name = u.name;
+          us.vorname = u.vorname;
+          us.mail = u.mail;
+          return us;
+        });
       });
-    }
   }
-
-  // private getPackageJson() {
-  //   return this.httphandler.get("/package.json")
-  //     .map( (response: Response) => response.json() );
-  // }
-  // private setPackageData() {
-  //   return this.getPackageJson().toPromise().then( (pack) => {
-  //     // package.json aufbereiten
-  //     return pack;
-  //
-  //   });
-  // }
 
 }

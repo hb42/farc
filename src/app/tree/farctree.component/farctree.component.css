@@ -5,3 +5,10 @@
   height: 100%;
   overflow: auto;
 }
+
+.sort-button {
+  position: absolute;
+  right: 5px;
+  top: 3px;
+  font-size: 1.3em;
+}

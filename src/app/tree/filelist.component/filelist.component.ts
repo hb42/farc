@@ -4,48 +4,50 @@
 
 import {
     Component,
+    HostBinding,
     // Inject,
     OnInit,
+    ViewChild,
     // ViewContainerRef,
+    ViewEncapsulation,
 } from "@angular/core";
-import {
-    MenuItem,
-} from "primeng/primeng";
 
 import {
     FarcTreeService,
 } from "../";
-import {
-  FarcEntryTypes,
-  FarcTreeNode,
-} from "../../../shared/ext";
 
 @Component({
              selector: "farc-file-list",
-             host: {
-               class: "flex-content-fix flex-col",
-             },
+             // host: {
+             //   class: "flex-content-fix flex-col",
+             // },
              styleUrls: [ "./filelist.component.css" ],
              templateUrl: "./filelist.component.html",
+             // bringt minimale Verbesserung beim IE
+             // encapsulation: ViewEncapsulation.None,
            })
-export class FileList implements OnInit {
+export class FileListComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
-  private bcHeight: string;
-  private tbHeight: string;
+  public bcHeight: string;
+  public tbHeight: string;
 
-  constructor(private farcService: FarcTreeService) {
+  // @ViewChild("filetable") protected filetable: DatatableComponent;
+
+  constructor(public farcService: FarcTreeService) {
     console.info("c'tor FileList");
   }
 
   public ngOnInit(): void {
     this.bcHeight = "34.5px";
-    this.tbHeight = "33px";
+    this.tbHeight = "40px";
 
     console.info("FileList onInit");
-    this.farcService.gotoSelected();
+    // TODO ist das hier sinnvoll?
+    // this.farcService.gotoSelected();
   }
 
-  private testExp() {
+  public testExp() {
     const path = ["J:", "ub_produktion", "organisation", "IT", "Bauer"];
     this.farcService.expandTo(path);
   }

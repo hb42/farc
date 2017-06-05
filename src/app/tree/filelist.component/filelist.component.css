@@ -1,26 +1,31 @@
-/* verhindert schon mal Umbrueche in Breadcrumbs
-   allerdings laufen sie nach rechts ueber, das sollte rechtsbuendig sein */
-:host >>> .ui-breadcrumb {
-width: 1000%;
+/** breadcrumb **/
+/* zu langen Pfad nicht umbrechen */
+:host {
+  white-space: nowrap;
 }
 /* etwas mehr Platz fuer die Icons li+re 6px, top +1 (5px),
    bottom 3 statt 0 dadurch bekommt Icon gleiche Hoehe wie Text */
 * >>> .ui-breadcrumb ul li.fa {
   margin: 5px 6px 3px 6px;
 }
-/* "Home"-Icon entfernen (nicht display:none, damit auch das leere Panel
-   schon die volle Hoehe bekommt) */
+/* "Home"-Icon entfernen */
 :host >>> .ui-breadcrumb ul li.fa-home {
   display: none;
 }
-/* scrolling fkt. nicht ohne header => soweit moeglich ausblenden
-   -> warten auf Bugfix */
-/*
-:host /deep/ .ui-datatable-header {
-  height: 0; padding: 0; border: none
+/* Link im letzten Eintrag abschalten */
+:host >>> .ui-breadcrumb ul li:last-child a {
+  color: black;
+  cursor: default;
+  pointer-events: none;
 }
- */
+/* chevron-icon ueberschreiben */
+:host >>> .ui-breadcrumb ul li.ui-breadcrumb-chevron.fa-chevron-right:before {
+  content: "\F0DA";  /* fa-caret-right */
+  font-size: 1.2em;
+  font-weight: 100;
+}
 
+/** scrolling **/
 :host >>> .ui-datatable-scrollable-view {
   display: flex;
   flex-direction: column;
@@ -29,7 +34,71 @@ width: 1000%;
   flex: 1 1 0;
 }
 
+/** list footer **/
+/* panel height fuer ausgeblendete Buttons */
+.button-height {
+  height: 25px;
+}
+/* in Kombination mit float:right bewirken overflow:hidden + white-space:nowrap,
+   das *links* abgeschnitten wird */
+.sum-panel {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.sum-line {
+  float: right;
+  height: 15px;
+}
+.full-sum {
+  padding: 0 5px;
+}
+.select-sum {
+  padding: 0 5px;
+}
+.todo-sum {
+  margin-left: 10px;
+  padding: 0 5px;
+}
+
+  /** div **/
+/* sort header runterdimmen */
+:host >>> .ui-datatable thead th.ui-state-active {
+  background-color: #c7c7c7;
+  border-color: #c8c8c8;
+  color: white;
+}
+
 /* links ohne extra Abstand */
 :host >>> a.btn {
   padding: 0;
+}
+/* datatable Farbe f. selected links */
+:host >>> .ui-state-highlight a.btn {
+  color: white;
+}
+:host >>> .ui-state-highlight a.btn:hover {
+  color: black;
+}
+
+.right-align {
+  text-align: right;
+}
+
+/* Entfernen-Button */
+button.btn-link.text-danger {
+  color: #a94442;  /* text-danger */
+  vertical-align: baseline;
+  font-size: .9em;
+  border: none;
+}
+
+/* padding in datatable reduzieren (default 0.75em -> 10.8px) */
+:host >>> .ui-datatable .ui-datatable-data > tr > td {
+  padding: 0.5em 0.5em;
+}
+
+/* padding f. Vormerkungs-Text abschalten (damit es zum Rest passt)*/
+mark,
+button.text-danger {
+  padding: 0 5px;
 }

@@ -1,13 +1,15 @@
 /**
- * Angular Anwendung starten
+ * Angular Anwendung konfigurieren
  */
 
 import {
   HashLocationStrategy,
+  LOCATION_INITIALIZED,
   LocationStrategy,
 } from "@angular/common";
 import {
   APP_INITIALIZER,
+  Injector,
   NgModule,
 } from "@angular/core";
 import {
@@ -41,12 +43,12 @@ import {
   SharedModule,
   ToolbarModule,
   TreeModule,
+  TreeTableModule,
 } from "primeng/primeng";
 
 import {
   FileSizePipe,
   LibClientModule,
-  VersionService,
   XHRBackendHandler,
 } from "../shared/ext";
 import {
@@ -56,18 +58,18 @@ import {
 } from "./";
 import {
   AdminService,
-  AdminView,
+  AdminViewComponent,
   ConfigComponent,
-  DriveList,
+  DriveListComponent,
   EpListComponent,
-  OeList,
+  OeListComponent,
   RolesPipe,
 } from "./admin";
 import {
-  ListView,
+  ListViewComponent,
 } from "./list";
 import {
-  SelectView,
+  SelectViewComponent,
 } from "./select";
 import {
   ConfigService,
@@ -79,20 +81,34 @@ import {
 } from "./shared/status";
 import {
   FarcDrivetypePipe,
-  FarcTree,
+  FarcTreeComponent,
   FarcTreeService,
-  FileList,
-  TreeView,
+  FileListComponent,
+  FilesSumPipe,
+  TreeViewComponent,
+  VormerkPipe,
 } from "./tree";
 
-// Damit ConfigService so frueh, wie moeglich geladen wird
+// Damit ConfigService so frueh, wie moeglich geladen wird und der Login vor
+// allem anderen kommt.
 // (fn , die fn liefert, die ein Promise liefert)
-export function initConf(configService: ConfigService) {
-  return () => () => {
-    return new Promise<ConfigService>( (resolve) => {
-      resolve(configService);
+// mit AOT fkt. nur das folgende Konstrukt
+// (so nicht: export const initConf = (cf: ConfigService) => () => cf.init();)
+// export function initConf(configService: ConfigService) {
+//   return () => configService.init();
+// }
+
+// Die injector-Konstruktion ist fuer den IE11 notwendig (Fehler nur im prod mode).
+// Alle anderen kommen mit auskommentierten kuerzeren Variante zurecht.
+// TODO -> https://github.com/angular/angular-cli/issues/5762
+//
+export function initConf(configService: ConfigService, injector: Injector) {
+  return () => new Promise<any>((resolve: any) => {
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    locationInitialized.then(() => {
+      configService.init().then((ver) => resolve(ver));
     });
-  };
+  });
 }
 
 /**
@@ -108,14 +124,14 @@ export function initConf(configService: ConfigService) {
 
 @NgModule({
             imports     : [
-              // angular
+              // -- angular
               BrowserModule,
               BrowserAnimationsModule,
               FormsModule,
               HttpModule,
               RouterModule,
 
-              // primeng
+              // -- primeng
               SharedModule,  // w/template etc.
               ToolbarModule,
               TreeModule,
@@ -128,47 +144,52 @@ export function initConf(configService: ConfigService) {
               ConfirmDialogModule,
               PickListModule,
               OverlayPanelModule,
+              TreeTableModule,
 
-              // eigene
+              // -- eigene
               LibClientModule,
 
               APP_ROUTING,
             ],
             providers   : [
-              // angular
+              // -- angular
               // hashLoc macht weniger Probleme
               { provide: LocationStrategy, useClass: HashLocationStrategy },
-              // error handling f. ajax calls
-              { provide: XHRBackend, useClass: XHRBackendHandler },
 
-              // primeng
+              // -- primeng
               ConfirmationService,
 
-              // eigene
+              // -- eigene
+              // error handling f. ajax calls
+              { provide: XHRBackend, useClass: XHRBackendHandler },
+              // app startet erst, wenn das Promise aus initConf aufgeloest ist
+              // -> login, config holen, usw.
+              { provide: APP_INITIALIZER,
+                useFactory: initConf,
+                deps: [ConfigService, Injector],
+                multi: true },
               ConfigService,
               FarcTreeService,
               AdminService,
               StatusService,
+              FileSizePipe,
 
               //   // -> @Inject('METADATA') private metadata: any
               // { provide: "METADATA", useFactory() { return WEBPACK_DATA.metadata; } },
-              { provide: APP_INITIALIZER,
-                useFactory: initConf,
-                deps: [ConfigService], multi: true },
 
               ...appRoutingProviders,
             ],
             declarations: [
               // components
               MainHeaderComponent,
-              ListView,
-              TreeView,
-              FarcTree,
-              FileList,
-              SelectView,
-              AdminView,
-              DriveList,
-              OeList,
+              ListViewComponent,
+              TreeViewComponent,
+              FarcTreeComponent,
+              FileListComponent,
+              SelectViewComponent,
+              AdminViewComponent,
+              DriveListComponent,
+              OeListComponent,
               EpListComponent,
               ConfigComponent,
               StatusComponent,
@@ -176,6 +197,8 @@ export function initConf(configService: ConfigService) {
               // pipes
               FarcDrivetypePipe,
               RolesPipe,
+              FilesSumPipe,
+              VormerkPipe,
 
               // start
               AppComponent,

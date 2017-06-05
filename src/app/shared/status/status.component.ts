@@ -18,7 +18,7 @@ import {
            })
 export class StatusComponent implements OnInit {
 
-  protected lines;
+  public lines;
 
   constructor(protected statusService: StatusService) {
     //
@@ -36,7 +36,7 @@ export class StatusComponent implements OnInit {
    * @param type
    * @returns {any}
    */
-  protected messageClass(type: string): string[] {
+  public messageClass(type: string): string[] {
     switch (type) {
       case "success" :
         return ["text-success"];
@@ -51,14 +51,14 @@ export class StatusComponent implements OnInit {
     }
   }
 
-  protected latestText() {
+  public latestText() {
     if (this.lines[0]) {
       return this.lines[0].text || "";
     } else {
       return "";
     }
   }
-  protected latestClass() {
+  public latestClass() {
     if (this.lines[0]) {
       return this.messageClass(this.lines[0].type);
     } else {

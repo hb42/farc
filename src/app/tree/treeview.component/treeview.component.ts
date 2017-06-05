@@ -4,8 +4,10 @@
 
 import {
     Component,
+    HostBinding,
     Inject,
     OnInit,
+    ViewChild,
 } from "@angular/core";
 
 @Component({
@@ -13,17 +15,18 @@ import {
   // styles: [
   //   ":host { height: 100%; width: 100%;}",
   // ],
-  host: {
-    class: "flex-panel flex-content-fix",
-  },
-  templateUrl: "./treeview.componenrt.html",
+  // host: {
+  //   class: "flex-panel flex-content-fix",
+  // },
+  templateUrl: "./treeview.component.html",
            })
-export class TreeView implements OnInit {
+export class TreeViewComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
 
-  protected leftPaneWidth: string;
-  protected leftPaneMinWidth: string;
-  protected centerPaneWidth: string;
-  protected centerPaneMinWidth: string;
+  public leftPaneWidth: string;
+  public leftPaneMinWidth: string;
+  public centerPaneWidth: string;
+  public centerPaneMinWidth: string;
 
   constructor() {
     console.info("c'tor Home");

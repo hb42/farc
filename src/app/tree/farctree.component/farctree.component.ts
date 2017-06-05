@@ -23,11 +23,11 @@ import {
   templateUrl: "./farctree.component.html",
   styleUrls: ["./farctree.component.css"],
            })
-export class FarcTree implements OnInit {
+export class FarcTreeComponent implements OnInit {
 
   @ViewChild("farctree") protected farcTree: Tree;  // f. Zugriff auf Tree-API
 
-  constructor(protected farcService: FarcTreeService) {
+  constructor(public farcService: FarcTreeService) {
     console.info("c'tor FarcTree" );
   }
 

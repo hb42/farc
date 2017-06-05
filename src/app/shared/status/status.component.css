@@ -9,16 +9,3 @@ div.statusmessage {
   width: 450px;
   background: #e4e4e4;
 }
-
-/* primeng overlaypanel
-   (mit :host /deep/ wird der Style ohne weitere Einschraenkung addresiert,
-    d.h. nur in dieser Component, aber ohne [ng-blah])
-*/
-:host >>> .ui-overlaypanel {
-  position: fixed;
-  max-height: 200px;
-  width: 450px;
-  overflow-y: auto;
-  overflow-x: auto;
-}
-

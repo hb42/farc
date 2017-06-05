@@ -4,6 +4,7 @@
 
 import {
   Component,
+  HostBinding,
   Inject,
   OnInit,
 } from "@angular/core";
@@ -23,19 +24,20 @@ import {
 
 @Component({
              selector: "farc-drive-list",
-             host: {
-               class: "flex-content-fix flex-col",
-             },
+             // host: {
+             //   class: "flex-content-fix flex-col",
+             // },
              templateUrl: "./drivelist.component.html",
            })
-export class DriveList implements OnInit {
+export class DriveListComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
-  private drives: FarcDriveDocument[];
+  public drives: FarcDriveDocument[];
 
-  private displayDialog: boolean = false;
+  public displayDialog = false;
   private selectedDrive: FarcDriveDocument;
-  private editdata: FarcDrive;
-  private types: SelectItem[] = [];
+  public editdata: FarcDrive;
+  public types: SelectItem[] = [];
 
   constructor(private adminService: AdminService, private confirmationService: ConfirmationService) {
     console.info("c'tor DriveList" );
@@ -61,7 +63,7 @@ export class DriveList implements OnInit {
     );
   }
 
-  private editDrive(drv: FarcDriveDocument) {
+  public editDrive(drv: FarcDriveDocument) {
     this.selectedDrive = drv;
     this.editdata = {
       displayname: drv.displayname,
@@ -71,7 +73,7 @@ export class DriveList implements OnInit {
     };
     this.displayDialog = true;
   }
-  private newDrive() {
+  public newDrive() {
     this.selectedDrive = null;
     this.editdata = {
       displayname: "A:",
@@ -81,7 +83,7 @@ export class DriveList implements OnInit {
     };
     this.displayDialog = true;
   }
-  private deleteDrive(drv: FarcDriveDocument) {
+  public deleteDrive(drv: FarcDriveDocument) {
     this.confirmationService.confirm(
         { message: "Soll das Laufwerk " + drv.displayname + " gelöscht werden?",
           accept: () => {
@@ -118,7 +120,7 @@ export class DriveList implements OnInit {
     );
   }
 
-  private dlgSave() {
+  public dlgSave() {
     this.displayDialog = false;
     if (this.selectedDrive) {  // edit
       this.selectedDrive.displayname = this.editdata.displayname;

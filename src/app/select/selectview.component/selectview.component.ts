@@ -3,27 +3,28 @@
  */
 import {
     Component,
-    Inject,
+    HostBinding,
     OnInit,
 } from "@angular/core";
 
 @Component({
              selector: "farc-select-view",
-             host: {
-               class: "flex-panel flex-content-fix",
-             },
+             // host: {
+             //   class: "flex-panel flex-content-fix",
+             // },
              templateUrl: "./selectview.component.html",
            })
-export class SelectView implements OnInit {
+export class SelectViewComponent implements OnInit {
+  @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
 
   public data: any;
 
-  protected leftPaneWidth: string;
-  protected leftPaneMinWidth: string;
-  protected centerPaneWidth: string;
-  protected centerPaneMinWidth: string;
+  public leftPaneWidth: string;
+  public leftPaneMinWidth: string;
+  public centerPaneWidth: string;
+  public centerPaneMinWidth: string;
 
-  protected centerText: string;
+  public centerText: string;
 
   constructor() {
     console.info("c'tor SelectView");

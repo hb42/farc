@@ -13,7 +13,7 @@ import {
 } from "@angular/http";
 import {
   Observable,
-} from "rxjs";
+} from "rxjs/Observable";
 
 import {
   environment,

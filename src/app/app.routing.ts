@@ -8,31 +8,31 @@ import {
 } from "@angular/router";
 
 import {
-  AdminView,
+  AdminViewComponent,
   ConfigComponent,
-  DriveList,
+  DriveListComponent,
   EpListComponent,
-  OeList,
+  OeListComponent,
 } from "./admin";
 import {
-  ListView,
+  ListViewComponent,
 } from "./list";
 import {
-  SelectView,
+  SelectViewComponent,
 } from "./select";
 import {
-    TreeView,
+    TreeViewComponent,
 } from "./tree";
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "/list", pathMatch: "full" },  // "" muss vorhanden sein!
-  { path: "list", component: ListView },
-  { path: "tree", component: TreeView },
-  { path: "select", component: SelectView },
-  { path: "admin", component: AdminView,
+  { path: "list", component: ListViewComponent },
+  { path: "tree", component: TreeViewComponent },
+  { path: "select", component: SelectViewComponent },
+  { path: "admin", component: AdminViewComponent,
     children: [
-      { path: "drives", component: DriveList },
-      { path: "oes", component: OeList },
+      { path: "drives", component: DriveListComponent },
+      { path: "oes", component: OeListComponent },
       { path: "eps", component: EpListComponent },
       { path: "config", component: ConfigComponent },
     ]},

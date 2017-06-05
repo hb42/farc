@@ -44,13 +44,14 @@ export class AppComponent implements OnInit {
   // @HostBinding("class.flex-page") protected fp = true;
   // @HostBinding("class.flex-col") protected fc = true;
 
-  constructor(private httphandler: Http, private status: StatusService, private version: VersionService) {
+  constructor(private httphandler: Http, private status: StatusService, public version: VersionService) {
     console.info("Programm gestartet");
     status.info("App Start");
   }
 
   public ngOnInit(): void {
     console.info("App.ngOnInit start");
+    console.dir(process ? process.versions : null);
     this.startKeepalive();
 
   }
