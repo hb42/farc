@@ -1,4 +1,8 @@
-/* bootstrap funktioniert nicht vollstaendig */
-:host >>> .nav-pills>li:not(.active) {
-  cursor: pointer;
+/* vertical menu */
+:host p-tabmenu {
+  display: grid;
+}
+:host >>> li.ui-tabmenuitem,
+:host >>> a.ui-menuitem-link {
+  width: 100%;
 }

@@ -2,14 +2,9 @@
  * Created by hb on 07.02.17.
  */
 
-import {
-  Pipe,
-  PipeTransform,
-} from "@angular/core";
+import { Pipe, PipeTransform, } from "@angular/core";
 
-import {
-  FarcRole,
-} from "../../shared/ext";
+import { FarcRole, } from "@hb42/lib-farc";
 
 @Pipe({name: "rolenames"})
 export class RolesPipe implements PipeTransform {
@@ -18,7 +13,7 @@ export class RolesPipe implements PipeTransform {
     const items: FarcRole[] = value;
     let ret: string;
     if (items) {
-      items.forEach( (role) => {
+      items.forEach((role) => {
         if (ret) {
           ret += ", ";
         } else {

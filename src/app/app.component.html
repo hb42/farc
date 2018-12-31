@@ -1,4 +1,4 @@
-<div class="flex-panel header" >
+<div class="flex-panel header" #farcmainheader>
   <farc-main-header></farc-main-header>
 </div>
 <router-outlet></router-outlet>
@@ -7,10 +7,8 @@
     <farc-status></farc-status>
   </div>
   <div class="foot-center"></div>
-  <div class="foot-ver">
-    <a  title="{{version.ver.copyright}}"
-        class="foot-link btn btn-sm">
-      {{version.ver.displayname}} {{version.ver.version}}
-    </a>
+  <div class="foot-right small">
+    Angemeldet: {{configService.getUserConfig().vorname}} {{configService.getUserConfig().name}}
+    <span *ngIf="configService.getUserConfig().isAdmin()"> (Admin)</span>
   </div>
 </div>

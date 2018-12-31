@@ -2,27 +2,5 @@
 
 Datei-Archiv
 
-Neuer Versuch mit Angular2 (und hoffentlich besserer Struktur).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Dateien/Verzeichnisse vom Filer auf günstigeren Speicher auslagern, bzw. zurücksichern.
 

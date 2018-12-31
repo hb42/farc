@@ -1,0 +1,21 @@
+:host >>> .ui-card {
+  width: 90%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+:host >>> .ui-button.ui-button-icon-only {
+  height: 25px;
+  vertical-align: top;
+}
+
+.input {
+  vertical-align: top;
+}
+.inputLong {
+  width: 20em;
+}
+
+label {
+  width: 15em;
+}

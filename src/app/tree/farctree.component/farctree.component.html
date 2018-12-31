@@ -1,19 +1,38 @@
-<button class="sort-button btn btn-link" (click)="farcService.sortalpha = !farcService.sortalpha"
-        title="{{farcService.sortalpha ? 'Nach Größe sortieren' : 'Nach Name sortieren'}}">
-  <i [ngClass]="farcService.sortalpha ? ['fa', 'fa-sort-numeric-desc'] : ['fa', 'fa-sort-alpha-asc'] "></i>
-</button>
-
+<div class="flex-row treebuttons">
+  <div>
+    <button pButton type="button" label="Original" (click)="farcService.onSwitchTree(false)"
+            [class.ui-button-secondary]="farcService.isArcTree"
+            [class.text-success]="farcService.isArcTree"
+            [class.ui-button-success]="!farcService.isArcTree"
+            title="Original-Laufwerke per {{farcService.lastReadDate}}"></button>
+    <button pButton type="button" label="Archiv" (click)="farcService.onSwitchTree(true)"
+            [class.ui-button-secondary]="!farcService.isArcTree"
+            [class.text-danger]="!farcService.isArcTree"
+            [class.ui-button-danger]="farcService.isArcTree"
+            title="Archiv-Laufwerke per {{farcService.lastReadDate}}"></button>
+  </div>
+  <div class="sort">Sortieren nach <br/>
+    <p-selectButton [options]="sortButtons" [(ngModel)]="farcService.sortalpha"
+                    title="Sortieren" ></p-selectButton>
+  </div>
+  <!--<button class=" btn btn-link" (click)="farcService.sortalpha = !farcService.sortalpha"-->
+          <!--title="{{farcService.sortalpha ? 'Nach Größe sortieren' : 'Nach Name sortieren'}}">-->
+    <!--<i [ngClass]="farcService.sortalpha ? ['fa', 'fa-sort-numeric-desc'] : ['fa', 'fa-sort-alpha-asc'] "></i>-->
+  <!--</button>-->
+</div>
 <p-tree [value]="farcService.tree"
-        (onNodeExpand)="farcService.fetchNode($event.node)"
-        (onNodeSelect)="farcService.nodeClick($event)"
+        (onNodeExpand)="farcService.nodeClick($event, false)"
+        (onNodeSelect)="farcService.nodeClick($event, true)"
         selectionMode="single"
         [(selection)]="farcService.selectedNode"
+        class="flex-panel flex-content-fix"
+        id="farctree"
         #farctree >
   <ng-template let-node pTemplate="strukt">
-    <span [class.archivenode]="node.arc" >{{node.label}} ({{node.size | filesize}})</span>
+    <span [class.archivenode]="node.arc" class="node-strukt">{{node.label}} ({{node.size | filesize}})</span>
   </ng-template>
   <ng-template let-node pTemplate="ep">
-    <span [class.archivenode]="node.arc" >{{node.label}} ({{node.size | filesize}})</span>
+    <span [class.archivenode]="node.arc" class="node-ep" >{{node.label}} ({{node.size | filesize}})</span>
   </ng-template>
   <ng-template let-node pTemplate="dir">
     <span [class.archivenode]="node.arc" >{{node.label}} ({{node.size | filesize}})</span>
@@ -22,4 +41,3 @@
     <span [class.archivenode]="node.arc" ><i class="fa fa-spinner fa-spin"></i></span>
   </ng-template>
 </p-tree>
-

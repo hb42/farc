@@ -1,7 +1,7 @@
 /*
  * Anwendugnsstart
  *
- * Konfig holen, Benutzer anmelden und Angular-App starten
+ * Konfig holen und Angular-App starten
  */
 
 
@@ -13,18 +13,22 @@ import {
 } from "@angular/platform-browser-dynamic";
 
 import {
+  AppConfig
+} from "@hb42/lib-client"
+
+import {
   AppModule,
 } from "./app";
 import {
   environment,
 } from "./environments/environment";
 
-// primeng 4.0.0-rc.3: virtaul scrolling in datatable fkt. nur im prodMode
-// if (environment.production) {
-  enableProdMode();
-// }
+enableProdMode();
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch( (err) => {
-    console.info("Runtime-ERROR " + err);
+// config holen und Angular-App starten
+AppConfig.load(environment.configFile).then(() => {
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch((err) => {
+      console.info("Runtime-ERROR " + err);
+    })
 });

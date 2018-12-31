@@ -1,0 +1,25 @@
+/* sort header color - default ist zu aufdringlich */
+:host >>> th.ui-sortable-column.ui-state-highlight {
+  background-color: var(--gray-background);
+}
+
+/* overlay-panel fur feste Groesse und overflow anpassen. */
+
+:host >>> .ui-overlaypanel,
+:host >>> .ui-overlaypanel-content {
+  max-height: 500px;
+  width: 750px;
+}
+/* overflow auf content, sonst wird der Schliessen-Button abgeschnitten */
+:host >>> .ui-overlaypanel-content {
+  overflow: auto;
+}
+pre {
+  overflow: initial;
+  margin-bottom: 0;
+}
+/* Icon am Ende das overlay panel klappt nicht bei fester Groesse -> ausblenden */
+:host >>> .ui-overlaypanel.ui-overlaypanel-flipped:before,
+:host >>> .ui-overlaypanel.ui-overlaypanel-flipped:after {
+  display: none;
+}

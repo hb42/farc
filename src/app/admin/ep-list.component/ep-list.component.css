@@ -1,0 +1,16 @@
+/*
+
+:host >>> .ui-datatable-scrollable-body {
+  flex: 1 1 0;
+}
+*/
+
+.oe-link {
+  cursor: pointer;
+}
+
+.oe-link:hover {
+  background-color: var(--primary);
+  color: var(--light);
+  border-radius: 5px;
+}

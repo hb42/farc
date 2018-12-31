@@ -1,47 +1,61 @@
-/* Baum-Knoten Archiv */
-.archivenode {
-  color: blue;
+/* var's */
+:root {
+  --link-color:  #007ad9;
+  --link-hover-color: #013358;
+  --highlight-color: #007ad9;  /* -> primeNG highlight (nova theme)*/
+  --panel-border-color: #cdcdcd;
+  --gray-background: #cbcbcb;
+  --light-gray-background: #e4e4e4;
+  --lighter-gray-background: #f4f4f4;
+
+  --file-icon-color: goldenrod;
+  --folder-icon-color: gold;
 }
-.ui-state-highlight .archivenode {
-  color: white;
+
+/* chrome std-focus stoert */
+:focus {
+  outline: none;
 }
 
 /* panel mit Rahmen */
 .farc-panel {
   /* von bootstrap panel, panel-default uebernommen */
-  border: 1px solid #cdcdcd;
+  border: 1px solid var(--panel-border-color);
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
-  /*  */
-}
-
-/* primeng overlaypanel fuer Statuszeile
-   wg. appendTo="body" style global setzen
-*/
-.status-overlay {
-  position: fixed;
-  max-height: 200px;
-  width: 450px;
-  /* overflow-y: auto; */
-  overflow-x: auto;
 }
 
 /* Bootstrap:                                */
-/* haessliche Rahmen bei :focus abschalten   */
-/* das Folgende stammt aus einem Blog und aendert input-Elemente.
-   Da stoert der Rahmen nicht so sehr, mal sehen, was davon etwas noetig wird
- textarea:hover,
-input:hover,
-textarea:active,
-input:active,
-textarea:focus,
-input:focus,  */
 /* fuer links und buttons sehen die focus-Rahmen bescheiden aus */
 a:focus,
 button:focus {
-  outline:0px !important;
-  -webkit-appearance:none;
+  outline: 0 !important;
+  box-shadow: none !important;;
+  -webkit-appearance: none !important;
 }
+/* table */
+/* simuliert bootstrap .table .table-striped */
+/*tbody>tr:nth-of-type(even) {*/
+  /*background-color: var(--light) ;*/
+/*}*/
+/*.ui-table .ui-table-tbody>tr>td,*/
+/*.ui-table .ui-table-thead>tr>th,*/
+/*.ui-table .ui-table-tfoot>tr>td {*/
+  /*border-top: 1px solid #ddd; !* $gray-400 *!*/
+  /*border-bottom: 0;*/
+  /*border-left: 0;*/
+  /*border-right: 0;*/
+/*}*/
+
+/* file/dir-Icons farblich hervorheben */
+.ui-table-scrollable-body .fa-file,
+.ui-table-scrollable-body .fa-folder-open {
+  color: var(--folder-icon-color);
+}
+.ui-table-scrollable-body .fa-file-o {
+  color: var(--file-icon-color);
+}
+
 /* cancel button f. search field */
 input[type=search]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
@@ -100,6 +114,7 @@ input[type=search]::-webkit-search-cancel-button {
   height: 100%;
   width: 100%;
   overflow: auto;
+  display: block;
 }
 
 /* Inhalt eines flex-panel ohne Scrollbalken */
@@ -109,47 +124,60 @@ input[type=search]::-webkit-search-cancel-button {
   overflow: hidden;
 }
 
+.fullsize {
+  height: 100%;
+  width: 100%;
+}
+
 /*  primeNG styles  */
 
-/* vert. scroll immer anzeigen, sonst passt header nicht */
-.ui-datatable-scrollable-body {
-  overflow: scroll;
-  overflow-x: auto;
+body {
+  line-height: 1.4 !important;
 }
 
-p-dataTable {
-  height: 100%;
-}
-/* wg. Prob. mit scrolling in datatable
-   -> https://github.com/primefaces/primeng/issues/1905
-*/
-.ui-datatable-scrollable {
-  height: 100%;
-}
-.ui-datatable-scrollable-wrapper {
-  height: 100%;
-}
-.ui-datatable-scrollable-view {
-  height: 100%;
+/* Tree verdichten */
+body .ui-tree .ui-treenode,
+body .ui-tree .ui-tree-container .ui-treenode,
+body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-label {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-/* cell size (default: .75em) */
-.ui-datatable .ui.datatable-data > tr > td {
-  padding: .5em .75em;
+/* Prime-Icons etwas kleiner (default 1,25) */
+body .pi {
+  font-size: 1.125em !important;
 }
 
-/* Zellen nie umbrechen -> tooltip f. lange Texte */
-.ui-cell-data{
+/* Tabellen-Zellen nie umbrechen -> tooltip f. lange Texte */
+body .ui-table .ui-table-tbody > tr > td,
+body .ui-table .ui-table-tbody > tr > td > div {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-/* ??? wird f. filelist gebraucht, beim Rest fkt. so nicht
-.ui-datatable-scrollable-body {
-  flex: 1 1 0;
-}
-*/
 
 /* kleiner pButton */
 .minibtn {
   font-size: .8em !important;
+}
+
+/* fa-icon als Button */
+.iconbtn {
+  padding: 0 1px 0 5px;
+  vertical-align: baseline;
+  border: none;
+}
+
+.right-align {
+  text-align: right;
+}
+.center-align {
+  text-align: center;
+}
+
+.link {
+  color: var(--link-color);  /* link color -> theme */
+}
+.link:hover {
+  color: var(--link-hover-color);
 }

@@ -12,7 +12,7 @@
     "curly": true,
     "eofline": true,
     "forin": true,
-    "import-blacklist": [true, "rxjs"],
+    "import-blacklist": [true],
     "import-spacing": true,
     "indent": [
       true,
@@ -22,11 +22,11 @@
     "label-position": true,
     "max-line-length": [
       true,
-      140
+      120
     ],
     "member-access": false,
     "member-ordering": [
-      true,
+      false,
       "static-before-instance",
       "variables-before-functions"
     ],
@@ -52,6 +52,8 @@
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
+    /* submodule imports erlauben */
+    "no-submodule-imports": [true, "rxjs", true, "@angular", true, "primeng"],
     "no-switch-case-fall-through": true,
     /* die Webstorm-IDE rueckt auch Leerzeilen ein, das wuerde dauernd angemeckert */
     "no-trailing-whitespace": false,
@@ -114,7 +116,6 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "no-access-missing-member": true,
-    "templates-use-public": true,
-    "invoke-injectable": true
+    "templates-use-public": true
   }
 }

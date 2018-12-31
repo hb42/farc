@@ -1,67 +1,124 @@
-<p-dataTable [value]="drives"
-             scrollable="true" scrollHeight="100%">
-  <!--<header>-->
-  <!--Single Selection-->
-  <!--</header>-->
-  <!--<p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>-->
-  <p-column [style]="{'width':'100px'}" field="type" header="Typ">
-    <ng-template pTemplate let-col let-row="rowData">
-      {{row[col.field] | drivetype}}
-    </ng-template>
-  </p-column>
-  <p-column [style]="{'width':'100px'}" field="displayname" header="Name">
-  </p-column>
-  <p-column field="sourcepath" header="Pfad">
-  </p-column>
-  <p-column field="archivepath" header="Pfad Archiv">
-  </p-column>
-  <p-column [style]="{'width':'80px'}">
-    <ng-template pTemplate="header">
-      <button type="button" pButton (click)="newDrive()" icon="fa-file-o" class="minibtn"
-              title="Neues Laufwerk"></button>
-    </ng-template>
-    <ng-template let-drv="rowData" pTemplate="body">
-      <button type="button" pButton (click)="editDrive(drv)" icon="fa-edit" class="minibtn"
-              title="Bearbeiten"></button>
-      <button type="button" pButton (click)="deleteDrive(drv)" icon="fa-trash" class="minibtn"
-              title="Löschen"></button>
-    </ng-template>
-  </p-column>
-</p-dataTable>
+<p-table [value]="drives"
+         [scrollable]="true"
+         scrollHeight="100%"
+         [rowTrackBy]="rowTrackBy"
+         dataKey="_id"
+         >
+  <!--<ng-template pTemplate="caption">-->
+
+  <!--</ng-template>-->
+  <ng-template pTemplate="emptymessage">
+    Keine Dateien gefunden.
+  </ng-template>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col style="width: 80px">
+      <col style="width: 60px">
+      <col>
+      <col style="width: 100px">
+      <col style="width: 100px">
+      <col>
+      <col style="width: 100px">
+      <col style="width: 100px">
+      <col style="width: 84px">
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>Typ</th>
+      <th>Name</th>
+      <th>Pfad</th>
+      <th>UNC-User</th>
+      <th>Password</th>
+      <th>Pfad Archiv</th>
+      <th>UNC-User</th>
+      <th>Password</th>
+      <th class="center-align">
+        <button type="button" pButton (click)="newDrive()" icon="fa fa-file-o" class="minibtn"
+                title="Neues Laufwerk"></button>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr >
+      <td>
+        {{rowData.type | drivetype}}
+      </td>
+      <td>
+        {{rowData.displayname}}
+      </td>
+      <td>
+        {{rowData.source_path}}
+      </td>
+      <td>
+        {{rowData.user_s}}
+      </td>
+      <td>
+        {{rowData.pwd_s ? '*****' : ''}}
+      </td>
+      <td>
+        {{rowData.archive_path}}
+      </td>
+      <td>
+        {{rowData.user_a}}
+      </td>
+      <td>
+        {{rowData.pwd_a ? '*****' : ''}}
+      </td>
+      <td>
+        <button type="button" pButton (click)="editDrive(rowData)" icon="fa fa-edit" class="minibtn mr-1"
+                title="Bearbeiten"></button>
+        <button type="button" pButton (click)="deleteDrive(rowData)" icon="fa fa-trash" class="minibtn ui-button-warning"
+                title="Löschen"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <!--<ng-template pTemplate="summary">-->
+  <!--</ng-template>-->
+</p-table>
 
 <p-dialog header="Laufwerk" [(visible)]="displayDialog"
-          [responsive]="true" showEffect="fade" [modal]="true">
+          [responsive]="true" showEffect="fade" [modal]="true"
+          [contentStyle]="{'width':'500px', 'max-width':'500px'}"
+          >
   <div *ngIf="editdata">
-    <div class="row">
-      <div class="col-md-4"><label for="dname">Name</label></div>
-      <div class="col-md-8">
-        <input pInputText id="dname" [(ngModel)]="editdata.displayname" />
-      </div>
+    <div class="mb-2">
+      <label for="dname" style="width: 9em">Name</label>
+      <input pInputText id="dname" [(ngModel)]="editdata.displayname" />
     </div>
-    <div class="row">
-      <div class="col-md-4"><label for="source">Pfad</label></div>
-      <div class="col-md-8">
-        <input pInputText id="source" [(ngModel)]="editdata.sourcepath" style="width: 20em"/>
-      </div>
+    <div class="mb-2">
+      <label for="source" style="width: 9em">Pfad</label>
+      <input pInputText id="source" [(ngModel)]="editdata.source_path" style="width: 20em"/>
     </div>
-    <div class="row">
-      <div class="col-md-4"><label for="arc">Pfad Archiv</label></div>
-      <div class="col-md-8">
-        <input pInputText id="arc" [(ngModel)]="editdata.archivepath" style="width: 20em"/>
-      </div>
+    <div class="mb-2">
+      <label for="usrs" style="width: 9em">UNC-User</label>
+      <input pInputText id="usrs" [(ngModel)]="editdata.user_s"/>
     </div>
-    <div class="row">
-      <div class="col-md-4"><label for="type">Typ</label></div>
-      <div class="col-md-8">
+    <div class="mb-2">
+      <label for="pwds" style="width: 9em">UNC-Passwort</label>
+      <input pInputText id="pwds" [(ngModel)]="editdata.pwd_s"/>
+    </div>
+    <div class="mb-2">
+      <label for="arc" style="width: 9em">Pfad Archiv</label>
+      <input pInputText id="arc" [(ngModel)]="editdata.archive_path" style="width: 20em"/>
+    </div>
+    <div class="mb-2">
+      <label for="usra" style="width: 9em">UNC-User</label>
+      <input pInputText id="usra" [(ngModel)]="editdata.user_a"/>
+    </div>
+    <div class="mb-2">
+      <label for="pwda" style="width: 9em">UNC-Passwort</label>
+      <input pInputText id="pwda" [(ngModel)]="editdata.pwd_a"/>
+    </div>
+    <div class="mb-2">
+      <label for="type" style="width: 9em">Typ</label>
         <p-dropdown [options]="types" [(ngModel)]="editdata.type" id="type"
                     [autoWidth]="false" [appendTo]="'body'"></p-dropdown>
-      </div>
     </div>
   </div>
-
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-check" (click)="dlgSave()" label="Speichern"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="dlgSave()" label="Speichern"></button>
     </div>
   </p-footer>
 </p-dialog>

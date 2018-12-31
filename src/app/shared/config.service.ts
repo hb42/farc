@@ -2,167 +2,206 @@
  * Created by hb on 06.02.17.
  */
 
-import {
-  EventEmitter,
-  Inject,
-  Injectable,
-} from "@angular/core";
-import {
-  Http,
-  Response,
-} from "@angular/http";
-import {
-  Observable,
-} from "rxjs/Observable";
+import { HttpClient } from "@angular/common/http";
+import { EventEmitter, Injectable, } from "@angular/core";
 
-import {
-  UserData,
-  UserSession,
-} from ".";
-import {
-  environment,
-} from "../../environments/environment";
-import {
-  confUSER,
-  loginURL,
-  Version,
-  VersionService,
-} from "../../shared/ext";
+import { AppConfig, ErrorService, LogonService, SseHandler, Version, VersionService, } from "@hb42/lib-client";
+import { confPACK, confUSER, getConfigValue, setConfigValue, sseNEWTREE, sseNEWVORM } from "@hb42/lib-farc";
+import * as semver from "semver";
 
+import { UserData, } from "./user-data";
+import { UserSession, } from "./user-session";
+import { WhatsNew, } from "./whats.new";
+import Timeout = NodeJS.Timeout;
+
+/**
+ * Konfiguration-Daten vom Server laden/speichern
+ *
+ * Wird vor allen anderen Modulen geladen
+ *
+ * Die benutzerspezifischen Daten werden in einem {@UserSession}-Objekt
+ * gespeichert. Jede Aenderung an den Daten loesst einen Event aus,
+ * (-> this.userDataChange) der sich ums Speichern kuemmert
+ * (s.a. {@link UserData}).
+ *
+ */
 @Injectable()
 export class ConfigService {
 
+  // Empfang von SSE
+  public sse: SseHandler;
+  public whatsnew: WhatsNew;
+
   private restServer: string;
   private userSession: UserSession;
-  private userData: UserData;
   private userDataChange: EventEmitter<UserData> = new EventEmitter();
 
-  constructor(private httphandler: Http, private version: VersionService) {
-    console.debug("c'tor ConfigService");
-    this.restServer = environment.webserviceServer + environment.webservicePath;
+  private timer: Timeout;
 
-    // in den Event fuer Benutzer-Config-Aernderungen einklinken
-    this.userDataChange.subscribe( () => {
+  constructor(private http: HttpClient,
+              private logonService: LogonService,  // autologon handling
+              private version: VersionService,
+              private errorService: ErrorService) {
+    console.debug("c'tor ConfigService");
+    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+
+    // in den Event fuer Benutzer-Config-Aenderungen einklinken
+    this.userDataChange.subscribe(() => {
       this.saveUserConfig();
     });
   }
 
   /**
-   * User login + fetch user config + fetch package.json
+   * fetch user config + fetch package.json
+   * (Stoesst implizit den Autologon an -> {@link LogonService}
    *
    * @returns {Promise<Version>}
    */
   public init(): Promise<Version> {
-    console.debug(">>> application init");
-    console.debug(">>> getting ntlm user");
-    return this.httphandler.get(environment.NTLMserver + "?app=" + environment.name)
-      .map( (r1) => r1.json() )
-      .toPromise()
-      .then( (r2) => {
-        console.debug(">>> success " + r2.token);
-        console.debug(">>> logging into REST API");
-        return this.httphandler.get(environment.webserviceServer + loginURL + "/" + r2.token)
-          .map((r3) => r3.text())
-          .toPromise();
+    console.debug(">>> fetching user config");
+    return this.fetchUserConfig().then((user) => {
+      this.userSession = user;
+      console.debug(">>> user config done");
+      return "OK";
+    }).then((result) => {
+      console.debug(">>> getting app meta data");
+      return this.version.init(this.restServer + "/config/" + confPACK).then((ver) => {
+        console.debug(">>> meta data done");
+        // this.startKeepalive();
+        console.info(ver.displayname + " v" + ver.version + " " + ver.copyright);
+        console.dir(ver.versions);
+        const server = this.version.serverVer;
+        console.info(server.displayname + " v" + server.version + " " + server.copyright);
+        console.dir(server.versions);
+
+        // SSE init
+        this.sse = new SseHandler(AppConfig.settings.webserviceServer, "farc");
+
+        // Verzeichnisse wurden vom Server neu eingelesen
+        // => App neu laden, dadurch wird der aktualisierte Baum geholt
+        const newtreeListener =  (evt: MessageEvent) => {
+          console.debug("SSE eventListener: new tree");
+          this.errorService.resetApp();
+        };
+        this.sse.addEventListener(sseNEWTREE, newtreeListener);
+
+        // Alle Vormerkungen wurden erledigt
+        // => App neu laden
+        // Alle Vormerkungen ausfuehren erledigt normalerweise der Cron-Job in der Nacht, davon merkt
+        // der Client nichts. Fuer den seltenen Fall, dass das unter Tag laeuft. lohnt sich der Aufwand
+        // nicht, die Vormerkungen im lokalen Baum zu suchen und zu entfernen. Das ist ein App-Reset
+        // einfacher.
+        const newVormerkListener =  (evt: MessageEvent) => {
+          console.debug("SSE eventListener: reset vormerk");
+          this.errorService.resetApp();
+        };
+        this.sse.addEventListener(sseNEWVORM, newVormerkListener);
+
+        // What's new holen
+        return this.http.get("./resource/whatsnew.json").toPromise()
+          .then((wn: WhatsNew) => {
+            this.whatsnew = wn;
+            return ver;
+          });
+
       })
-      .then( (r4) => {
-        console.debug(">>> result " + r4);
-        if (r4 !== "OK") {
-          console.error("*** Login not successful");
-          throw new Error("could not login");
-        }
-        return r4;
-      })
-      .then( (r5) => {
-        console.debug(">>> fetching user config");
-        return this.fetchUserConfig().then((user) => {
-          this.userSession = user;
-          console.debug(">>> done");
-          return "OK";
-        });
-      })
-      .then( (r6) => {
-        console.debug(">>> getting app meta data");
-        return this.version.init().then( (ver) => {
-          console.debug(">>> done");
-          console.info(ver.displayname + " v" + ver.version + " " + ver.copyright);
-          return ver;
-        });
-      });
+    });
 
-  }
-
-  public getConfig(confName: string): Observable<any> {
-    return this.httphandler.get(this.restServer + "/config/" + confName)
-        .map((response: Response) => response.json());
-  }
-
-  public saveConfig(confName: string, value: any) {
-    return this.httphandler.post(this.restServer + "/config/" + confName, value)
-        .map((response: Response) => response.json() );
-  }
-
-  public deleteConfig(confName: string) {
-    return this.httphandler.delete(this.restServer + "/config/" + confName)
-        .map( (response: Response) => response.json() );
-  }
-
-  public getUser(): Observable<any> {
-    return this.httphandler.get(this.restServer + "/whoami/")
-        .map((response: Response) => response.json());
   }
 
   /**
-   * liefert { isadmin: boolean }
+   * What's new wird angezeigt, wenn der User das erste mal das Programm startet
+   * und wenn sich die Programm-Version seit dem letzten Aufruf geaendert hat.
    *
-   * @returns {Observable<any>}
    */
-  public isAdmin(): Observable<any> {
-    return this.httphandler.get(this.restServer + "/isadmin")
-      .map( (response: Response) => response.json() );
+  public checkWhatsNew(): boolean {
+    const run = this.version.ver.version;
+    if (!semver.valid(run)) {
+      console.error("Konnte Programm-Version nicht ermitteln");
+      return;
+    }
+    const last = this.getUserConfig().lastSeenVersion;
+    let show = false;
+    if (!semver.valid(last)) {
+      show = true;
+    } else {
+      const pre = semver.prerelease(run);
+      if (!pre || (pre && pre[0] === "rc")) {
+        show = semver.compare(run, last) > 0;
+      }
+    }
+    if (show) {
+      this.getUserConfig().lastSeenVersion = run;
+      console.debug("show info v.old=" + last + " v.new=" + run);
+    }
+    return show;
   }
+
 
   /**
    * Benutzer-Config
    *
-   * @returns {Promise<UserSession>}
    */
   public getUserConfig(): UserSession {
     return this.userSession;
   }
 
   /**
-   * Benutzer_Config sichern
+   * Sonstige Config
    *
-   * Wird per Event bei Aenderung in UserSession ausgeloest.
    */
-  private saveUserConfig() {
-    this.saveConfig(confUSER, this.userData)
-      .subscribe((rc) => {
-        console.debug("user conf saved");
-      });
+  public getConfig(confName: string): Promise<any> {
+    return this.http.get(this.restServer + "/config/" + confName).toPromise().then((val) => {
+      return getConfigValue(val);
+    });
+  }
+
+  public saveConfig(confName: string, value: any): Promise<any> {
+    const val = setConfigValue(value);
+    if (val === undefined) {
+      return;
+    }
+    if (val === null) {
+      return this.deleteConfig(confName);
+    }
+    return this.http.post(this.restServer + "/config/" + confName, val).toPromise().then( (rc) => {
+      return rc;
+    });
+  }
+
+  public deleteConfig(confName: string): Promise <any> {
+    return this.http.delete(this.restServer + "/config/" + confName).toPromise().then((rc) => {
+      return rc;
+    });
   }
 
   /**
-   * Benutzer-Config aus der DB holen
+   * Benutzer_Config sichern
+   *
+   * Wird per Event bei Aenderung in UserSession ausgeloest. Das Speichern wird
+   * verzoegert, um die Server- und Netzlast zu verringern.
+   */
+  private saveUserConfig() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.timer = setTimeout(() => {
+      this.saveConfig(confUSER, this.userSession.data).then((rc) => {
+        console.debug("user conf saved");
+      });
+    }, 3000);
+  }
+
+  /**
+   * Benutzer-Config aus der DB holen und neues {@link UserSession}-
+   * Objekt erzeugen.
    *
    */
   private fetchUserConfig(): Promise<UserSession> {
     console.debug("fetchUserConfig");
-    return this.getConfig(confUSER).toPromise().then( (conf) => {
-        this.userData = conf;
-        if (this.userData === null) {
-          this.userData = { treepath: [] };
-        }
-        const us: UserSession = new UserSession(this.userDataChange, this.userData);
-        return this.getUser().toPromise().then( (u) => {
-          us.UID = u.uid;
-          us.name = u.name;
-          us.vorname = u.vorname;
-          us.mail = u.mail;
-          return us;
-        });
-      });
+    return this.getConfig(confUSER).then((userdata) => {
+      return new UserSession(this.userDataChange, userdata, this.logonService);
+    });
   }
 
 }

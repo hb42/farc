@@ -13,58 +13,82 @@
  *
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
+// tslint:disable:no-submodule-imports
 
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
 
-/** IE9, IE10 and IE11 requires all of the following polyfills. */
-import "core-js/es6/array";
-import "core-js/es6/date";
-import "core-js/es6/function";
-import "core-js/es6/map";
-import "core-js/es6/math";
-import "core-js/es6/number";
-import "core-js/es6/object";
-import "core-js/es6/parse-float";
-import "core-js/es6/parse-int";
-import "core-js/es6/regexp";
-import "core-js/es6/set";
-import "core-js/es6/string";
-import "core-js/es6/symbol";
+// TODO fuer Test mit IE11 hier anpassen!
+// TODO alle beteiligten Module muessen mit target=ES5 compiliert werden!
+/** IE9, IE10 and IE11 requires all of the following polyfills. **/
+// import "core-js/es6/symbol";
+// import "core-js/es6/object";
+// import "core-js/es6/function";
+// import "core-js/es6/parse-int";
+// import "core-js/es6/parse-float";
+// import "core-js/es6/number";
+// import "core-js/es6/math";
+// import "core-js/es6/string";
+// import "core-js/es6/date";
+// import "core-js/es6/array";
+// import "core-js/es6/regexp";
+// import "core-js/es6/map";
+// import "core-js/es6/weak-map";
+// import "core-js/es6/set";
 
+// TODO fuer Test mit IE11 hier anpassen!
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import "classlist.js";  // Run `npm install --save classlist.js`.
+// import 'classlist.js';  // Run `npm install --save classlist.js`.
 
-/** IE10 and IE11 requires the following to support `@angular/animation`. */
-import "web-animations-js";  // Run `npm install --save web-animations-js`.
+// TODO fuer Test mit IE11 hier anpassen!
+/** IE10 and IE11 requires the following for the Reflect API. */
+// import "core-js/es6/reflect";
 
-/** Evergreen browsers require these. */
-import "core-js/es6/reflect";
+
+/** Evergreen browsers require these. **/
+// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import "core-js/es7/reflect";
 
-/** ALL Firefox browsers require the following to support `@angular/animation`. */
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+
+// TODO fuer Test mit IE11 hier anpassen!
+/**
+ * Required to support Web Animations `@angular/platform-browser/animations`.
+ * Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
+ **/
+// import "web-animations-js";  // Run `npm install --save web-animations-js`.
+
+
 
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
 import "zone.js/dist/zone";  // Included with Angular CLI.
 
+
+
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
 
+// TODO fuer Test mit IE11 hier anpassen!
 /**
  * Date, currency, decimal and percent pipes.
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
-import "intl";  // Run `npm install --save intl`.
+// import "intl";  // Run `npm install --save intl`.
+/**
+ * Need to import at least one locale-data with intl.
+ */
+// import "intl/locale-data/jsonp/de";
 
-import "rxjs/Observable";
-import "rxjs/add/observable/throw";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/toPromise";
+// import "rxjs/Observable";
+// import "rxjs/add/observable/fromPromise";
+// import "rxjs/add/observable/throw";
+// import "rxjs/add/operator/catch";
+// import "rxjs/add/operator/do";
+// import "rxjs/add/operator/filter";
+// import "rxjs/add/operator/map";
+// import "rxjs/add/operator/mergeMap";
+// import "rxjs/add/operator/switchMap";
+// import "rxjs/add/operator/toPromise";

@@ -9,7 +9,7 @@ import {
 
 import {
   FarcDriveTypes,
-} from "../../shared/ext";
+} from "@hb42/lib-farc";
 
 @Pipe({name: "drivetype"})
 export class FarcDrivetypePipe implements PipeTransform {

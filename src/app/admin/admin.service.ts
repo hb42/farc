@@ -2,84 +2,110 @@
  * Created by hb on 17.01.17.
  */
 
-import {
-  EventEmitter,
-  Inject,
-  Injectable,
-} from "@angular/core";
-import {
-  Http,
-  Response,
-} from "@angular/http";
-import {
-  Observable,
-} from "rxjs/Observable";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, } from "@angular/core";
+import { MenuItem } from "primeng/api";
+import { Observable, } from "rxjs";
 
-import {
-  environment,
-} from "../../environments/environment";
-import {
-  FarcDrive,
-  FarcDriveDocument,
-  FarcEndpunktDocument,
-  FarcEntryTypes,
-  FarcOe,
-  FarcOeDocument,
-  FarcTreeNode,
-} from "../../shared/ext";
-import {
-  StatusService,
-} from "../shared";
+import { AppConfig } from "@hb42/lib-client";
+import { FarcDrive, FarcDriveDocument, FarcEndpunktDocument, FarcOe, FarcOeDocument, } from "@hb42/lib-farc";
+
+import { ConfigService, MainNavService, StatusService, } from "../shared";
 
 @Injectable()
 export class AdminService {
 
-  private restServer: string;
+  public adminMenu: MenuItem[];
+  private readonly restServer: string;
 
-  constructor(private httphandler: Http, private statusService: StatusService) {
-    console.info("c'tor AdminService");
-    this.restServer = environment.webserviceServer + environment.webservicePath;
+  constructor(private httphandler: HttpClient, private statusService: StatusService,
+              private configService: ConfigService) {
+    console.debug("c'tor AdminService");
+    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
 
+    const adm = "/" + MainNavService.NAV_ADMI + "/";
+    this.adminMenu = [
+      {label: "Laufwerke",              icon: "fa fa-hdd-o",         routerLink: [adm + MainNavService.NAV_ADM_DRV]},
+      {label: "Organisationseinheiten", icon: "fa fa-list",          routerLink: [adm + MainNavService.NAV_ADM_OES]},
+      {label: "Endpunkte",              icon: "fa fa-folder-open-o", routerLink: [adm + MainNavService.NAV_ADM_EPS]},
+      {label: "Konfiguration",          icon: "fa fa-gears",         routerLink: [adm + MainNavService.NAV_ADM_CFG]},
+    ];
+
+  }
+
+  public test() {
+    this.httphandler.get(this.restServer + "/test")
+      .subscribe(
+      (res) => {
+        console.dir(res);
+      },
+      (err) => {
+        console.error("error calling /test " + err);
+      },
+    );
   }
 
   public getDrives(): Observable<FarcDriveDocument[]> {
-    this.statusService.success("AdminService getDrives()");
-    return this.httphandler.get(this.restServer + "/drives")
-        .map((response: Response) => response.json() );
+    // this.statusService.success("AdminService getDrives()");
+    return this.httphandler.get<FarcDriveDocument[]>(this.restServer + "/drives");
   }
 
   public setDrive(drv: FarcDrive) {
-    return this.httphandler.post(this.restServer + "/drives", drv)
-        .map((response: Response) => response.json() );
+    return this.httphandler.post(this.restServer + "/drives", drv);
   }
 
   public deleteDrive(drv: FarcDriveDocument) {
-    return this.httphandler.delete(this.restServer + "/drives", {body: drv})
-        .map( (response: Response) => response.json() );
+    return this.httphandler.request("delete", this.restServer + "/drives", {body: drv});
+    // .map( (response: Response) => response.json() );
   }
 
   public getOEs(): Observable<FarcOeDocument[]> {
-    return this.httphandler.get(this.restServer + "/oes")
-        .map((response: Response) => response.json() );
+    return this.httphandler.get<FarcOeDocument[]>(this.restServer + "/oes");
   }
 
   public setOE(oe: FarcOe) {
-    return this.httphandler.post(this.restServer + "/oes", oe)
-        .map((response: Response) => response.json() );
+    return this.httphandler.post(this.restServer + "/oes", oe);
+    // .map((response: Response) => response.json() );
   }
 
   public deleteOE(oe: FarcOeDocument) {
-    return this.httphandler.delete(this.restServer + "/oes", {body: oe})
-        .map( (response: Response) => response.json() );
+    return this.httphandler.request("delete", this.restServer + "/oes", {body: oe});
+      // .pipe(map((response: Response) => response.json()));
   }
 
   public getEps(): Observable<FarcEndpunktDocument[]> {
-    return this.httphandler.get(this.restServer + "/eps")
-      .map((response: Response) => response.json() );
+    return this.httphandler.get<FarcEndpunktDocument[]>(this.restServer + "/eps");
   }
+
   public setEp(ep: FarcEndpunktDocument, newoe): Observable<any> {
-    return this.httphandler.post(this.restServer + "/eps", {endpunkt: ep, oe: newoe} )
-      .map((response: Response) => response.json() );
+    return this.httphandler.post(this.restServer + "/eps", {endpunkt: ep, oe: newoe});
+    // .map((response: Response) => response.json() );
+  }
+
+  public execReadAll() {
+    this.httphandler.get(this.restServer + "/readall")
+      .subscribe(
+        (res) => {
+          this.statusService.info(res.toString());
+        }, (err) => {
+          this.statusService.error("Fehler: Einlesen konnte nicht gestartet werden.");
+          console.error("error calling /readall ");
+          console.dir(err);
+        }
+      );
+  }
+
+  public execVormerkAll() {
+    this.httphandler.get(this.restServer + "/readvorm")
+      .subscribe(
+        (res) => {
+          this.statusService.info(res.toString());
+        }, (err) => {
+          this.statusService.error("Fehler: Vormerkungen konnten nicht gestartet werden.");
+          console.error("error calling /readvorm ");
+          console.dir(err);
+        }
+      );
   }
 
 }

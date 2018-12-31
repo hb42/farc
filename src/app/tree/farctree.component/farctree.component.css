@@ -6,9 +6,54 @@
   overflow: auto;
 }
 
+.treebuttons {
+  justify-content: space-between;
+  height: auto;
+}
+
+/* feste Position fuer Sort-Button (z.Zt. nicht benoetigt) */
 .sort-button {
   position: absolute;
   right: 5px;
   top: 3px;
   font-size: 1.3em;
+}
+
+/* Sort-Buttons */
+/* Ueberschrift und Rahmen */
+.sort {
+  font-size: 0.6em;
+  text-align: center;
+  background-color: var(--light);
+  border-radius: 3px;
+  border: 1px solid var(--light);
+}
+/* p-selectButtonS verkleinern */
+:host >>> .ui-selectbutton .ui-button {
+  font-size: 0.7em;
+}
+:host >>> .ui-selectbutton .ui-button.ui-button-text-icon-left .ui-button-text {
+  padding-top: 0.129em;
+  padding-bottom: 0.129em;
+}
+
+/* Baum-Knoten Archiv */
+.archivenode {
+  /*color: var(--danger);*/
+}
+:host >>> .ui-state-highlight .archivenode {
+  /*color: white;*/
+  /*background-color: var(--primary);*/
+}
+
+/* table bei loading herunterdimmen */
+:host >>> .ui-table-loading {
+  opacity: .3;
+}
+
+.node-strukt {
+  opacity: .7;
+}
+.node-ep {
+  opacity: .7;
 }

@@ -1,4 +1,25 @@
-/* bootstrap funktioniert nicht vollstaendig */
-:host >>> .nav-pills>li:not(.active) {
-  cursor: pointer;
+.menupanel {
+  justify-content: space-between;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.wn-list {
+  margin-bottom: 5px;
+}
+
+/* wg. iframe */
+:host >>> .ui-dialog .ui-dialog-content {
+  height: 100%;
+}
+
+.footer-link {
+  float: left;
+  font-size: small;
+  margin-top: 10px;
+}
+.footer-link-small {
+  float: left;
+  font-size: x-small;
+  margin-top: 16px;
 }

@@ -1,0 +1,261 @@
+Changelog
+
+3.0.0-beta.x   30.12.2018
+
+3.x        Nochmal ein Neustart. Mit dem Sprung von Angular 1.x auf 2.0 aendert sich in
+           dem Framework so viel, dass es mit kleinen Anpassungen im Code nicht mehr
+           getan ist.
+           Der Client wird auf Basis Typescript und Angular entwickelt. Da die
+           Performance im IE11 unterirdisch ist, wird die Anwendung bis auf Weiteres als
+           Electron-Desktop-Application verteilt. Funktionalitaet entspricht v2.0.x, mit
+           kleinen Erweiterungen und etwas besserer Performance.
+           Der Server bekommt ein eigenes Projekt auf Basis NodeJS mit MongDB als
+           Datenbank. Der Server erledigt die Datenbankzugriffe, die Aufbereitung der
+           Baumstruktur fuer den Client und das Einlesen sowie Kopieren/Verschieben der
+           Verzeichnisse/Dateien.
+
+==========
+
+2.0.5.805  12.01.2016
+           - EPs, die nicht im Filesystem gefunden werden, werden nicht mehr aus der DB
+             geloescht. Sonst werden bei Ausfall der share alle EPs (incl. Rollen) aus
+             der DB geworfen. Erledigte EPs muessen kuenftig manuell entfernt werden
+             (muss noch in das UI eingebaut werden).
+
+2.0.4.804  04.12.2015
+           - Zusaetzliche Informationen protokollieren, wenn ein Fehler beim Kopieren
+             auftritt.
+
+2.0.3.803  17.11.2015
+           - Anmeldung macht immer noch Probleme: Zugriff ins AD fuer neue User dauert zu
+             lange. Deshalb erstmal alle User mit ihren Gruppen vorab einlesen (incl.
+             refresh in der Nacht). TODO: evtl. in DB ablegen.
+
+2.0.2.801  16.11.2015
+           - SessionSingleton weiter entschlackt. InitUser wird jetzt ueber den
+             SessionHelper gestartet, nur bei Bedarf Zugriff auf Singleton. LDAP-Zugriff
+             ist ebenfalls in den SessionHelper ausgelagert, das sollte auch die User-
+             Anmeldung verbessern.
+
+2.0.1.799  16.11.2015
+           - wg. ConcurrentAccessException Handling des SessionSingleton geaendert.
+             Weniger und kuerzere Zugriffe (mal abwarten ob das langt).
+
+2.0.0.797  16.11.2015
+           - Erstes Release
+
+2.0.0.796-RC5   17.10.2015
+           - Bugfix bei Treesort
+           - Groesse in Bytes als Tooltip im Grid
+           - Vormerkung sofort ausfuehren: Buttons ausblenden waehrend der Job laeuft
+           - angular-ui-grid 3.0.7
+           commit ecab0cd
+
+2.0.0.787-RC4   08.10.2015
+           - Kleine Verbesserung an Doku.
+           - IIS-Server-Adresse auf neuen Server umgestellt.
+           - node_modules aus git entfernt (gibt sonst Aerger beim Checkout in Windows).
+           commit 608fd99
+
+2.0.0.783-RC3   03.10.2015
+           - Javascript-Buildsystem mit npm und grunt eingebaut, ein paar kleine
+             Verbesserungen am CSS (Backport aus sbsdb-js). JavaScript-libs aktualisiert:
+             angular* 1.4.7, ng-csv 0.3.5
+             commit de88acf
+           - Bei MakeUserTree gab's zuviele DB-Zugriffe. Da die Daten beim Erstellen des
+             MasterTree sowieso alle gelesen werden, kann da auch die noch fehlende Info
+             eingetragen werden. Das bringt eine deutliche Beschleunigung beim Erzeugen
+             des UserTree (14,5 sek auf 2,3).
+             commit 70349ef
+           - Doku aufgrund User-Feedback verbessert.
+             commit 3999aa1
+
+2.0.0.762-RC2   21.09.2015
+           Auswahl im Baum ausgebaut: auch Klick auf den Text expandiert jetzt.
+
+2.0.0.730-RC1   12.09.2015
+           JavaScript-libs sind auf dem letzten Stand:
+           * angular + locale de + resource + route + sanitize
+             - 1.4.5
+           * angular-bootstrap
+             - 0.13.4
+           * ng-csv
+             - 0.3.4
+           * angular-tree-control
+             - 0.2.13
+           * angular-ui-grid
+             - 3.0.6
+           * bootstrap
+             - 3.3.5
+           * fontawesome
+             - 4.4.0
+           Feature complete, bis zum Release nur noch Bugfixes und User-Feedback.
+
+2.0.0.724-BETA  11.09.2015
+           - bug#143 Doku
+             commit 225a4d1,b097528,a6fa44b,68f1227,49aa128
+           - bug#142 Bugfix bei dir delete, ansonsten scheinen die Actions zu
+             funktionieren.
+             commit beed9c2
+           - bug#145 List und Tree beim Start im Hintergrund einlesen
+             commit ba0df18
+
+2.0.0.692-BETA  09.08.2015
+           - bug#143 Doku bekommt Struktur mit flexbox-Layout. Etwas Inhalt ist auch
+             schon da.
+           - Div. Kleinigkeiten gefixt.
+           - Rückmeldung in der Statuszeile fuer alles was zum Server geht.
+           commit 6436e20
+
+2.0.0.640-BETA  29.07.2015
+           - Automatische OE-Zuordnung nur noch fuer Home-Verzeichnisse, da scheint's
+             zu klappen. Fuer Data und Light ist die Zuordnung zu unzuverlaessig, also
+             alle manuell eintragen.
+           - bug#143 Struktur und Anbindung der Doku ist fertig (SPA mit AngularJS).
+           commit e1a4a17
+
+2.0.0.628-BETA  27.07.2015
+           - OE-Zuordnung beim Einlesen: wenn mehrere OEs gefunden wurden, wird keine
+             eingetragen, das ist besser, als eine zufaellige einzutragen.
+             commit 2475812
+
+2.0.0.627-BETA  26.07.2015
+           - bug#144 Listen aus dem AD als Download.
+           - Update div. JavaScript-Libs
+           - Bugfixes
+           commit 3be9493, a38fad4, c9d909d
+
+2.0.0.606-BETA  25.07.2015
+           - bug#140 Umlaute im Benutzernamen werden vom .asp-Script, das den NTLM-User
+             holt, nicht als UTF-8 geliefert. Im .asp explizit CharSet = "UTF-8" und
+             CodePage = 65001 setzen.
+             commit c128360
+           - Darstellung des Vormerkungstyps im Grid der Treeview gefixt.
+             commit 660e089
+
+2.0.0.589-BETA  24.07.2015
+            - feature complete, bis RC primaer Bugfixes und Feedback von den Testern.
+            - Code Aufraeumen, die JavaScript-Libs besser organisieren, etc. folgt, wenn
+              alles funktioniert.
+            commit 09a5bed
+
+Version 2   Vollstaendiger Neustart als single page app mit JEE7-Server fuer Datenhaltung
+            und AngularJS und Bootstrap fuer den Client-Teil. Außerdem Umstieg von
+            Subversion zu git sowie Maven als Build-Tool.
+            Die Anwendung enthaelt kuenftig auch die, bisher separat gepflegte,
+            Uebersicht ueber die Belegung je Abteilung. Ansonsten gleiche Funktionalitaet
+            mit verbesserter, schnellerer UI.
+
+===============
+
+1.1.1  27.08.12 (Build 381)
+           - bug#110 Start der Anwendung fuer Admins war wegen fehlendem "distinct" sehr
+             langsam. Jetzt passt die Abfrage wieder. (svn r416)
+
+1.1.0  26.08.12 (Build 380)
+           - bug#107 Beim Restore aus dem Archiv werden die Dateien im Archiv nicht mehr
+             geloescht. (svn r411)
+           - bug#106 Endpunkte einlesen erwartet eine View mit zwei Feldern. Damit sind
+             zukuenftige Aenderungen (z.B. Apian) mit weniger Aufwand machbar. (svn r412)
+           - bug#98 Performance-Probleme beim File-Select: Vormerkungs-Panel wird
+             verzoegert aktualisiert, Datei kann mit klick auf die Zeile ausgewaehlt
+             werden (leider immer noch nicht optimal wg. IE8). (svn r412)
+           - bug#84 Fuer Admins auch den Klartext der rsync-Fehler anzeigen. (svn r413)
+
+1.0.2  29.08.11 (Build 361)
+           - bug#100 Bei Auswahl der ersten Ebene unter Endpunkt Rueckfrage, damit das
+             nicht versehentlich ausgewaehlt wird. (svn r397)
+           - bug#101 rc fuer Admin-Vormerkungen anzeigen. (svn r398)
+
+1.0.1  27.08.11 (Build 360)
+           - bug#99 Fuer Admins in der Vormerkung alle ausgewaehlten Dateien anzeigen.
+             (svn r395)
+
+1.0.0  23.08.11 (Build 357)
+           - Letzte Aufraeumarbeiten im Code, Name auf Datei-Archiv geaendert, sonst
+             keine Aenderung gegen 0.10.2. Das sollte erst mal funktionieren, offen
+             sind nur noch Dinge, die warten koennen. (svn r391)
+
+0.10.2 23.08.11 (Build 355)
+           - bug#94 Zugriff auf Home wird gesperrt, bis es eingelesen ist (Anzeige via
+             Seam Remoting). (svn r390)
+
+0.10.1 22.08.11 (Build 354)
+           - bug#94 Das Einlesen von J: und I: funktioniert grundsaetzlich. Fuers Home
+             waren Verbesserungen erforderlich. Das Home wird kuenftig beim Start im
+             Hintergrund eingelesen. Ausserdem wird jetzt auch die oberste Ebene
+             angezeigt. (svn r388)
+
+0.10.0 21.08.11 (Build 349)
+           - bug#94 Verzeichnis-Einlesen auf rsync umgestellt. Das scheint zuverlaessiger
+             zu funktionieren ausserdem entfaellt die Abhaengigkeit vom zweiten jBoss-
+             Server. Wenn das den Test in der Sparkassenumgebung uebersteht, wird's die
+             Version 1.0. (svn r386)
+           - Auslesen der Endpunkte auf die neuen Benutzerverwaltungs-Tabellen
+             umgestellt.
+           - bug#93 Verzeichnisse wurden beim Archivieren nicht geloescht
+             (per post-exec-script erledigt).
+
+0.9.12 18.08.11 (Build 324)
+           - bug#96 Fuer A-User Zugriff auf alle Endpunkte. (svn r385)
+           - Vorbereitungen fuer Umstellung des Verzeichnis-Einlesens.
+
+0.9.11 14.08.11 (Build 315)
+           - bug#86 Buttons fuer alle Dateien auswaehlen und alle abwaehlen.
+             (svn r379)
+
+0.9.10 04.08.11 (Build 312)
+           - bug#85 Verzeichnisse mit ' im Text machen Aerger bei Queries. (svn r376)
+           - Kleine Aenderung am Hilfe-Text. (svn r376)
+
+0.9.9  03.08.11 (Build 310)
+           - bug#82 Hilfe-Text eingepflegt. (svn r374)
+           - bug#83 Bei den Vormerkungen wurden auch erledigte angezeigt. (svn r373)
+
+0.9.8  02.08.11 (Build 308)
+           - bug#81 aus Home-Verzeichnis verschieben hat nicht funktioniert. (svn r371)
+           - Kleine Design-Bugs gefixt. (svn r371)
+
+0.9.7  17.07.11 (Build 307)
+           Die Aenderungen, die sich aus dem ersten Feedback ergeben haben sind
+           in der Oberflaeche umgesetzt (u.a. Anzeige der vorgemerkten Dateien).
+           Dank jquery.layout hat die Anwendung jetzt auch einen funktionierenden
+           Splitter.
+
+0.9.4  10.07.11 (Build 288)
+           Grundsaetzlich funktioniert jetzt alles, der Kopierjob mit rsync
+           laeuft sehr gut. Evtl. ist an der Performance noch etwas zu tun, das
+           ist allerdings schon ziemlich ausgereizt. Fuer das UI muss erst mal
+           Feedback her.
+
+0.7.0  05.06.11 (Build 225)
+           Code aufgeraeumt, das Seiten-Layout passt jetzt auch im Detail. Die
+           Seite kann sich weitgehend an die Groesse des Browser-Fensters
+           anpassen (das klappt mit css besser als mit table). Die Oberflaeche
+           sollte damit erledigt sein. Unter Laborbedingungen funktioniert alles
+           sauber, das ist jetzt in der Sparkassenumgebung zu testen. Falls das
+           auch klappt steht nur noch der Kopierjob aus.
+
+0.6.1  03.06.11 (Build 201)
+           Das Einlesen von Verzeichnisse und Dateien in die DB funktioniert
+           auch mit groesseren Baeumen. Die wichtigsten Performance-Probleme
+           sollten damit erledigt sein. Bremsen sind zur Zeit noch der Start
+           (wird wohl erst mal so bleiben) und das Home-Verzeichnis (niedrige
+           Prio).
+           Die blobs in der DB werden recht gross, zu gross fuer die default-
+           Einstellungen in der MySQL. Der Wert "max_allowed_packet" in der
+           my.cnf muss angepasst werden (default =1M -> 50M).
+
+0.6.0  02.06.11 (Build 197)
+           Fuer das Datei-Einlesen und -Anzeigen ist alles Wesentliche an Ort
+           und Stelle. Die Laufwerke J: und I: (nur SPKDaten und VRZDaten) werden
+           vorab in die DB eingelesen (incl. Dateien: das ist noch zu testen).
+           Fuer die Home-Verzeichnisse waere das zu aufwendig, die werden online
+           gelesen und angezeigt, das ist dann zwar nicht so schnell, aber aus
+           Home wird wahrscheinlich weniger gesichert werden.
+           Die grundsaetzliche Optik steht, da duerften allenfalls noch
+           Kleinigkeiten anzupassen sein.
+           TODO: - aktuellen Stand gruendlich testen
+                 - Kopierjob fehlt noch
+                 - SVN und Trac einrichten
+                 - Admin-Oberflaeche (Cron-Jobs pflegen, starten)

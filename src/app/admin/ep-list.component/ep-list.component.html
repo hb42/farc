@@ -1,0 +1,79 @@
+<p-table [value]="eplist"
+         [scrollable]="true"
+         scrollHeight="100%"
+         [rowTrackBy]="rowTrackBy"
+         dataKey="ep._id"
+         [loading]="loading"
+>
+  <!--<ng-template pTemplate="caption">-->
+  <!--</ng-template>-->
+  <ng-template pTemplate="emptymessage">
+    Keine Dateien gefunden.
+  </ng-template>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col>
+      <col style="width: 400px">
+      <!--<col style="width: 48px">-->
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>Endpunkt</th>
+      <th>
+        <button type="button" pButton (click)="filterList()" icon="fa fa-filter" class="minibtn"
+                title="{{isFiltered ? 'Alle Endpunkte anzeigen' : 'Nur Endpunkte ohne OE anzeigen'}}" ></button> OE
+      </th>
+      <!--<th class="center-align">-->
+        <!--<button type="button" pButton (click)="filterList()" icon="fa fa-filter" class="minibtn"-->
+                <!--title="{{isFiltered ? 'Alle EPs anzeigen' : 'Nur EPs ohne OE anzeigen'}}"></button>-->
+      <!--</th>-->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr >
+      <td>
+        {{rowData.path}}
+      </td>
+      <td (click)="editEp(rowData)" title="Klicken zum Ändern" class="oe-link">
+        <!--<button type="button" pButton  icon="fa fa-edit" class="minibtn"></button>--> {{rowData.oe}}
+</td>
+<!--<td (click)="editEp(rowData)" title="Klicken zum Ändern" style="cursor: pointer">-->
+        <!--{{rowData.oe}}-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<button type="button" pButton (click)="editEp(rowData)" icon="fa fa-edit" class="minibtn"-->
+                <!--title="OE Bearbeiten"></button>-->
+      <!--</td>-->
+    </tr>
+  </ng-template>
+  <!--<ng-template pTemplate="summary">-->
+  <!--</ng-template>-->
+</p-table>
+
+<p-dialog header="OE für Endpunkt festlegen" [(visible)]="displayDialog"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          [contentStyle]="{'overflow':'visible'}" >  <!-- style ist notwendig fuer Dropdown-Anzeige -->
+
+  <div *ngIf="editData">
+    <div class="row">
+      <div class="col-md-12"><label style="white-space: nowrap; margin-bottom: 24px;">
+        {{editData.path}}
+      </label></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><label for="oe">OE</label></div>
+      <div class="col-md-10">
+        <p-dropdown [options]="oelist" [(ngModel)]="editOe" id="oe"
+                    [autoWidth]="false" ></p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-check" (click)="dlgSave()" label="Speichern"></button>
+    </div>
+  </p-footer>
+
+</p-dialog>

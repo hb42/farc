@@ -2,61 +2,62 @@
  * Angular Anwendung konfigurieren
  */
 
+import { HashLocationStrategy, LOCATION_INITIALIZED, LocationStrategy, registerLocaleData, } from "@angular/common";
+import { HttpClientModule, } from "@angular/common/http";
+
+import { APP_INITIALIZER, LOCALE_ID, NgModule, } from "@angular/core";
+import localeDe from "@angular/common/locales/de";
+import { FormsModule, } from "@angular/forms";
+import { BrowserModule, } from "@angular/platform-browser";
+import { BrowserAnimationsModule, } from "@angular/platform-browser/animations";
+import { RouterModule, } from "@angular/router";
+
 import {
-  HashLocationStrategy,
-  LOCATION_INITIALIZED,
-  LocationStrategy,
-} from "@angular/common";
+  AppConfig,
+  //  AuthHttpService,
+  //  DefaultAutologinJwtHander,
+  ErrorService,
+  FileSizePipe,
+  LibClientModule,
+  LOGON_OPTIONS,
+  // LogonInterceptor,
+  LogonParameter,
+  // LogonService,
+} from "@hb42/lib-client";
+
 import {
-  APP_INITIALIZER,
-  Injector,
-  NgModule,
-} from "@angular/core";
-import {
-  FormsModule,
-} from "@angular/forms";
-import {
-  Http,
-  HttpModule,
-  XHRBackend,
-} from "@angular/http";
-import {
-  BrowserModule,
-} from "@angular/platform-browser";
-import {
-  BrowserAnimationsModule,
-} from "@angular/platform-browser/animations";
-import {
-  RouterModule,
-} from "@angular/router";
-import {
+  AccordionModule,
   BreadcrumbModule,
   ButtonModule,
+  CardModule,
+  CheckboxModule,
   ConfirmationService,
   ConfirmDialogModule,
   DataTableModule,
   DialogModule,
   DropdownModule,
+  MenubarModule,
   MenuModule,
+  MessageModule, MessageService,
+  MessagesModule,
   OverlayPanelModule,
   PickListModule,
+  RadioButtonModule,
+  SelectButtonModule,
   SharedModule,
+  TabMenuModule,
   ToolbarModule,
   TreeModule,
   TreeTableModule,
 } from "primeng/primeng";
-
 import {
-  FileSizePipe,
-  LibClientModule,
-  XHRBackendHandler,
-} from "../shared/ext";
+  ToastModule,
+} from "primeng/toast";
 import {
-  APP_ROUTING,
-  AppComponent,
-  appRoutingProviders,
-} from "./";
+  TableModule,
+} from "primeng/table";
 import {
+  AdminGuard,
   AdminService,
   AdminViewComponent,
   ConfigComponent,
@@ -65,20 +66,14 @@ import {
   OeListComponent,
   RolesPipe,
 } from "./admin";
-import {
-  ListViewComponent,
-} from "./list";
-import {
-  SelectViewComponent,
-} from "./select";
-import {
-  ConfigService,
-  MainHeaderComponent,
-} from "./shared";
-import {
-  StatusComponent,
-  StatusService,
-} from "./shared/status";
+
+import { AppComponent, } from "./app.component";
+import { APP_ROUTING, appRoutingProviders, } from "./app.routing";
+import { ErrorComponent, PageNotFoundComponent, } from "./error";
+import { ListService, ListViewComponent, } from "./list";
+import { SelectService, SelectViewComponent, } from "./select";
+import { ConfigService, MainHeaderComponent, MainNavService, } from "./shared";
+import { StatusComponent, StatusService, } from "./shared/status.component";
 import {
   FarcDrivetypePipe,
   FarcTreeComponent,
@@ -89,26 +84,42 @@ import {
   VormerkPipe,
 } from "./tree";
 
+registerLocaleData(localeDe);  // + provider, s.u.
+
 // Damit ConfigService so frueh, wie moeglich geladen wird und der Login vor
 // allem anderen kommt.
 // (fn , die fn liefert, die ein Promise liefert)
 // mit AOT fkt. nur das folgende Konstrukt
-// (so nicht: export const initConf = (cf: ConfigService) => () => cf.init();)
-// export function initConf(configService: ConfigService) {
-//   return () => configService.init();
+export function initConf(configService: ConfigService) {
+  return () => configService.init();
+}
+// TODO  Falls das nochmal mit dem IE11 funktioniert, waere zu testen, ob das
+// TODO  nachfolgende Problem immer noch besteht.
+// Die injector-Konstruktion ist fuer den IE11 notwendig (Fehler nur im prod mode).
+// Alle anderen kommen mit der kuerzeren Variante zurecht.
+//      -> https://github.com/angular/angular-cli/issues/5762
+//         https://github.com/angular/angular/issues/15501 -> ng 5.0.0-rc8 ?
+//
+// export function initConf(configService: ConfigService, injector: Injector) {
+//   return () => new Promise<any>((resolve: any) => {
+//     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+//     locationInitialized.then(() => {
+//       configService.init().then((ver) => resolve(ver));
+//     });
+//   });
 // }
 
-// Die injector-Konstruktion ist fuer den IE11 notwendig (Fehler nur im prod mode).
-// Alle anderen kommen mit auskommentierten kuerzeren Variante zurecht.
-// TODO -> https://github.com/angular/angular-cli/issues/5762
-//
-export function initConf(configService: ConfigService, injector: Injector) {
-  return () => new Promise<any>((resolve: any) => {
-    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-    locationInitialized.then(() => {
-      configService.init().then((ver) => resolve(ver));
-    });
-  });
+// Die Parameter fuer den Logon werden aus dem AppConfig-Objekt geholt, das beim
+// Anwendungsstart die Daten aus einer Konfigurationsdatei holt (-> main.ts).
+// Dadurch muessen die Daten mit 'useFactory' geholt werden, 'useValue' wuerde
+// hier nnicht funktionieren.
+export function logonOptionsFactory(): LogonParameter {
+  return {
+    logon           : AppConfig.settings.authType,
+    appName         : AppConfig.settings.name,
+    NTLMserver      : AppConfig.settings.NTLMserver,
+    webserviceServer: AppConfig.settings.webserviceServer
+  };
 }
 
 /**
@@ -128,22 +139,33 @@ export function initConf(configService: ConfigService, injector: Injector) {
               BrowserModule,
               BrowserAnimationsModule,
               FormsModule,
-              HttpModule,
+              HttpClientModule,
               RouterModule,
 
               // -- primeng
-              SharedModule,  // w/template etc.
-              ToolbarModule,
-              TreeModule,
+              AccordionModule,
               BreadcrumbModule,
               ButtonModule,
               DataTableModule,
+              CardModule,
+              CheckboxModule,
+              ConfirmDialogModule,
               DialogModule,
               DropdownModule,
+              MenubarModule,
               MenuModule,
-              ConfirmDialogModule,
-              PickListModule,
+              MessageModule,
+              MessagesModule,
               OverlayPanelModule,
+              PickListModule,
+              RadioButtonModule,
+              SelectButtonModule,
+              SharedModule,  // w/template etc.
+              TableModule,
+              TabMenuModule,
+              ToastModule,
+              ToolbarModule,
+              TreeModule,
               TreeTableModule,
 
               // -- eigene
@@ -153,26 +175,38 @@ export function initConf(configService: ConfigService, injector: Injector) {
             ],
             providers   : [
               // -- angular
-              // hashLoc macht weniger Probleme
-              { provide: LocationStrategy, useClass: HashLocationStrategy },
+              { provide: LOCALE_ID, useValue: "de" },  // registerLocaleData() s.o.
+              // hashLocation macht weniger Probleme
+              {provide: LocationStrategy, useClass: HashLocationStrategy},
 
               // -- primeng
               ConfirmationService,
+              MessageService,
 
               // -- eigene
-              // error handling f. ajax calls
-              { provide: XHRBackend, useClass: XHRBackendHandler },
+              // Konfig fuer Autologon
+              {
+                provide   : LOGON_OPTIONS,
+                useFactory: logonOptionsFactory
+              },
               // app startet erst, wenn das Promise aus initConf aufgeloest ist
               // -> login, config holen, usw.
-              { provide: APP_INITIALIZER,
+              {
+                provide   : APP_INITIALIZER,
                 useFactory: initConf,
-                deps: [ConfigService, Injector],
-                multi: true },
+                deps      : [ConfigService],  // f. IE11-Prob. + Injector
+                multi     : true
+              },
               ConfigService,
+              MainNavService,
               FarcTreeService,
               AdminService,
               StatusService,
               FileSizePipe,
+              ListService,
+              SelectService,
+
+              AdminGuard,
 
               //   // -> @Inject('METADATA') private metadata: any
               // { provide: "METADATA", useFactory() { return WEBPACK_DATA.metadata; } },
@@ -193,6 +227,8 @@ export function initConf(configService: ConfigService, injector: Injector) {
               EpListComponent,
               ConfigComponent,
               StatusComponent,
+              ErrorComponent,
+              PageNotFoundComponent,
 
               // pipes
               FarcDrivetypePipe,
@@ -205,6 +241,7 @@ export function initConf(configService: ConfigService, injector: Injector) {
 
             ],
 
-            bootstrap   : [AppComponent],
+            bootstrap: [AppComponent],
           })
-export class AppModule { }
+export class AppModule {
+}

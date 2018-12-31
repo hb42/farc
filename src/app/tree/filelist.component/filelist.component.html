@@ -1,97 +1,142 @@
-<p-breadcrumb class="flex-panel flex-content-fix"
-              [style.min-height]="bcHeight" [style.height]="bcHeight" [style.max-height]="bcHeight"
-              [model]="farcService.breadcrumbs"
->
-</p-breadcrumb>
-<!-- damit Scrolling fkt. muss dataTable mit div umgeben werden -->
-<div class="flex-panel flex-content-fix" style="height: 100%; max-height: 100%;">
-
-  <p-dataTable [value]="farcService.files" [(selection)]="farcService.selectedFiles"
-               scrollable="true" scrollHeight="100%" [loading]="farcService.loading" [dataKey]="'entryid'"
-               [rowTrackBy]="farcService.rowTrackBy"
-               emptyMessage="Keine Dateien gefunden."
-               (onFilter)="farcService.onFilter($event)" filterDelay="400" >
-               <!-- als electron-app koennte es ohne virt. scroll. klappen -->
-               <!--[headerCheckboxToggleAllPages]="true"-->
-               <!--[rows]="farcService.lazyRows" [totalRecords]="farcService.totalRows" [virtualScroll]="true"-->
-
-    <p-column *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt'"
-              [style]="{'width':'38px'}" [selectionMode]="farcService.selectedNode.selected ? '' : 'multiple'"
-              >
-    </p-column>
-    <p-column field="label" header="Name"
-              [filter]="true" filterMatchMode="contains" filterPlaceholder="Filtern: Teil des Namens eingeben"
-              sortable="custom" (sortFunction)="farcService.sort($event)">
-      <ng-template pTemplate="body" let-col let-row="rowData">
-        <div *ngIf="row.type === 'file';then fileRow else dirRow"></div>
-        <ng-template #fileRow>
-          <div title="{{row[col.field]}}">{{row[col.field]}}</div>
-        </ng-template>
-        <ng-template #dirRow >
-          <a class="btn" (click)="farcService.expandTo(row.path)" title="{{row[col.field]}}">
-            <i class="fa fa-folder-open-o" style="color: goldenrod"></i> {{row[col.field]}}
-          </a>
-        </ng-template>
-      </ng-template>
-    </p-column>
-    <p-column [style]="{'width':'180px'}" field="timestamp" header="Zeit"
-              sortable="custom" (sortFunction)="farcService.sort($event)">
-      <ng-template pTemplate="body" let-col let-row="rowData">
-        <div class="right-align">{{row[col.field] | iedate }}</div>
-      </ng-template>
-    </p-column>
-    <p-column [style]="{'width':'100px'}" field="size" header="Größe"
-              sortable="custom" (sortFunction)="farcService.sort($event)">
-      <ng-template pTemplate="body" let-col let-row="rowData">
-        <div class="right-align">{{row[col.field] | filesize }}</div>
-      </ng-template>
-    </p-column>
-    <p-column *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt'"
-              [style]="{'width':'150px'}" field="selected" header="Vormerkung">
-      <ng-template pTemplate="body" let-col let-row="rowData">
-        <div *ngIf="row.selected > 0" class="right-align">
-          <mark title="{{row.selectUid}} - {{row.selectDate | iedate}}">{{row[col.field] | vormerk }}</mark>
-          <button *ngIf="!farcService.selectedNode.selected"
-                  class="btn btn-xs btn-link text-danger"
-                  (click)="farcService.undoSelectionFor(row)"
-                  title="Vormerkung entfernen">
-            <i class="fa fa-times-circle"></i>
-          </button>
-
-        </div>
-      </ng-template>
-    </p-column>
-  </p-dataTable>
-
+<div class="card" >
+  <div class="card-body bg-light200" >
+    <p-breadcrumb [model]="farcService.breadcrumbs"></p-breadcrumb>
+  </div>
 </div>
 
-<p-toolbar class="flex-panel flex-content-fix"
-           [style.min-height]="tbHeight" [style.height]="tbHeight"
->
+<!-- damit Scrolling fkt. muss dataTable mit div umgeben werden -->
+<div id="filelisttable" class="flex-panel flex-content-fix" >
+  <p-table #filetable
+           [value]="farcService.virtualfiles"
+           [scrollable]="true"
+           scrollHeight="100%"
+           [(selection)]="farcService.selectedFiles"
+           (onHeaderCheckboxToggle)="farcService.selectAll($event)"
+           [loading]="farcService.loading"
+           loadingIcon="fa fa-cog fa-spin"
+           [rowTrackBy]="farcService.rowTrackBy"
+           dataKey="entryid"
+           [customSort]="true"
+           (sortFunction)="farcService.onSort($event)"
+           [sortField]="farcService.sortField"
+           [sortOrder]="farcService.sortOrder"
+           [virtualScroll]="true"
+           [virtualScrollDelay]="farcService.virtualScrollDelay"
+           (onLazyLoad)="farcService.loadFilesOnScroll($event)"
+           [lazy]="true"
+           [totalRecords]="farcService.totalRows"
+           [virtualRowHeight]="38"
+           [rows]="farcService.lazyRows"
+  >
+    <!--<ng-template pTemplate="caption">-->
+
+    <!--</ng-template>-->
+    <ng-template pTemplate="emptymessage">
+      Keine Dateien gefunden.
+    </ng-template>
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col style="width: 38px">
+        <col>
+        <col style="width: 100px">
+        <col style="width: 180px">
+        <col style="width: 180px">
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th>
+          <p-tableHeaderCheckbox *ngIf="farcService.isNodeSelectable()"></p-tableHeaderCheckbox>
+        </th>
+        <th [pSortableColumn]="'label'">
+          Name
+          <p-sortIcon [field]="'label'"></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'size'" class="center-align">
+          Belegt
+          <p-sortIcon [field]="'size'"></p-sortIcon>
+        </th>
+        <th [pSortableColumn]="'timestamp'" class="center-align">
+          Datum
+          <p-sortIcon [field]="'timestamp'"></p-sortIcon>
+        </th>
+        <th>Vorgemerkt für</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="rowData" style="height:38px">
+        <td>
+          <p-tableCheckbox *ngIf="farcService.isNodeSelectable()" [value]="rowData"></p-tableCheckbox>
+        </td>
+        <td>
+            <div *ngIf="rowData.type === 'file';then fileRow else dirRow"></div>
+            <ng-template #fileRow>
+              <div title="{{farcService.fullPath(rowData)}}" [class.archivenode]="rowData.arc">
+                <i class="fa fa-file-o fa-fw"></i> {{rowData.label}}
+              </div>
+            </ng-template>
+            <ng-template #dirRow >
+              <div><a class="btn link" (click)="farcService.expandTo(rowData.path)" title="{{farcService.fullPath(rowData)}}" tabindex="{{10000 + rowIndex}}">
+                <i class="fa fa-folder-open fa-fw"></i> {{rowData.label}}
+              </a></div>
+            </ng-template>
+        </td>
+        <td class="right-align">{{rowData.size | filesize }}</td>
+        <td class="right-align">{{rowData.timestamp | date:'medium' }}</td>
+        <td>
+          <div *ngIf="rowData.selected > 0" class="right-align">
+            <mark title="{{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}"
+                  [class.inheritselect]="!farcService.isNodeSelectable()">
+              {{rowData.selected | vormerk }}
+              <button *ngIf="farcService.isNodeSelectable()"
+                      class="btn btn-link text-success iconbtn"
+                      (click)="farcService.execVormerk(rowData)"
+                      title="Vormerkung sofort ausführen">
+                <i class="fa fa-check-circle"></i>
+              </button>
+              <button *ngIf="farcService.isNodeSelectable()"
+                      class="btn btn-link text-danger iconbtn"
+                      (click)="farcService.undoSelectionFor(rowData)"
+                      title="Vormerkung entfernen">
+                <i class="fa fa-times-circle"></i>
+              </button>
+            </mark>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <!--<ng-template pTemplate="summary">-->
+    <!--</ng-template>-->
+  </p-table>
+</div>
+
+<div class="navbar navbar-light bg-light200 justify-content-between">
+  <div >
   <div *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt' && farcService.selectedFiles.length > 0"
-       class="ui-toolbar-group-left button-height">
-    <button class="btn btn-xs btn-warning"
+       class=" button-height">
+    <button class="btn btn-sm btn-warning"
             (click)="farcService.moveSelected()"
             title="{{farcService.selectedNode.arc ? 'Auswahl aus dem Archiv zurückkopieren'
                                                   : 'Auswahl ins Archiv verschieben'}}">
       <i class="fa fa-plus"></i> {{farcService.selectedNode.arc ? "Zurücksichern" : "Archivieren"}}
     </button>
-    <button class="btn btn-xs btn-warning"
+    <button class="btn btn-sm btn-warning"
             (click)="farcService.delSelected()"
             title="Ausgewählte Dateien und Verzeichnisse fürs Löschen vormerken">
       <i class="fa fa-trash"></i> Löschen
     </button>
-    <button class="btn btn-xs btn-warning" [class.disabled]="!farcService.vormerkInSelected()"
+    <button class="btn btn-sm btn-warning" [class.disabled]="!farcService.vormerkInSelected()"
             (click)="farcService.undoSelection()"
             title="Vorhandene Vormerkungen für die ausgewählten Dateien und Verzeichnisse entfernen">
       <i class="fa fa-times-circle"></i> Vormerkung entfernen
     </button>
   </div>
+  </div>
   <div  class="small sum-panel">
-    <div class="sum-line full-sum"> {{(farcService.filteredFiles ? farcService.filteredFiles : farcService.files) | filesSum:"all"}} </div> <br/>
+    <div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div> <br/>
     <div class="sum-line" >
       <span *ngIf="farcService.selectedFiles.length" class="ui-state-highlight select-sum" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </span>
-      <span *ngIf="farcService.isVormerk()" class="bg-warning todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </span>
+      <mark *ngIf="farcService.isVormerk()" class="todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
     </div>
   </div>
-</p-toolbar>
+</div>

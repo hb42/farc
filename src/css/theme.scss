@@ -1,0 +1,39 @@
+// --- bootstrap ---
+
+//$blue:    darken(#007bff, 5%);
+//$indigo:  darken(#6610f2, 5%);
+//$purple:  darken(#6f42c1, 5%);
+//$pink:    darken(#e83e8c, 5%);
+//$red:     darken(#dc3545, 5%);
+//$orange:  darken(#fd7e14, 5%);
+//$yellow:  darken(#ffc107, 5%);
+//$green:   darken(#28a745, 5%);
+//$teal:    darken(#20c997, 5%);
+//$cyan:    darken(#17a2b8, 5%);
+
+//$blue: #0078df;
+//$yellow: rgba(255, 211, 27, 0.7);
+
+$font-size-base: 0.9rem;
+
+$line-height-base: 1.4;
+
+$enable-gradients: true;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+/* bootstrap formatiert hellgelb -> auf 'warning' umsetzen */
+//mark, .mark {
+//  background-color: $warning;
+//}
+
+/* bg-light -> gray-100 */
+.bg-light200 {
+  background-color: $gray-200 !important;
+}
+
+/* pointer explizit einschalten */
+.pointer {
+  cursor: pointer;
+}
+

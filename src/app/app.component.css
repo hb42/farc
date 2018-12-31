@@ -1,6 +1,6 @@
 .header {
-  height: 52.5px;
-  min-height: 52.5px;
+  height: 43px;  /* bootstrap pills 52.5 */
+  min-height: 43px;
 }
 
 .footer {
@@ -9,12 +9,12 @@
 }
 .foot-center {
   width: 100%;
-  background: #f4f4f4;
+  background: var(--lighter-gray-background);
 }
-.foot-ver {
+.foot-right {
   padding-right: 10px;
   white-space: nowrap;
-  background: #f4f4f4;
+  background: var(--lighter-gray-background);
 }
 .foot-link {
   font-size: .8em;

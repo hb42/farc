@@ -1,0 +1,39 @@
+div.statusmessage {
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 600px;
+  background: var(--light-gray-background);
+}
+
+/* p-overlaypanel ohne appendto zum gewuenschten Verhalten zwingen */
+/* (mit appendto fkt. das Panel nicht wie gewuenscht).             */
+:host >>> .ui-overlaypanel {
+  position: fixed !important;
+  max-height: 200px !important;
+  width: 600px !important;
+  /* overflow-y: auto; */
+  overflow-x: auto;
+  left: 1px !important;
+  bottom: 1px !important;
+  top: auto !important;
+  display: block !important;
+  margin-bottom: 20px !important;
+}
+:host >>> .ui-overlaypanel:after,
+:host >>> .ui-overlaypanel:before {
+  content: none !important;
+}
+
+.statustext {
+  width: 95%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.statusicon {
+  display: inline-block;
+  float: right;
+  color: initial;
+}

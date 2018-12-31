@@ -1,60 +1,76 @@
-<p-dataTable [value]="oes"
-             scrollable="true" scrollHeight="100%">
-  <!--<header>-->
-  <!--Single Selection-->
-  <!--</header>-->
-  <!--<p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>-->
-  <p-column [style]="{'width':'200px'}" field="name" header="OE">
-  </p-column>
-  <p-column field="roles" header="Profile">
-    <ng-template pTemplate let-col let-row="rowData">
-      {{ row[col.field] | rolenames }}
-    </ng-template>
-  </p-column>
-  <p-column [style]="{'width':'80px'}">
-    <ng-template pTemplate="header">
-      <button type="button" pButton (click)="newOe()" icon="fa-file-o" class="minibtn"
-              title="Neues Laufwerk"></button>
-    </ng-template>
-    <ng-template let-oe="rowData" pTemplate="body">
-      <button type="button" pButton (click)="editOe(oe)" icon="fa-edit" class="minibtn"
-              title="Bearbeiten"></button>
-      <button type="button" pButton (click)="deleteOe(oe)" icon="fa-trash" class="minibtn"
-              title="Löschen"></button>
-    </ng-template>
-  </p-column>
-</p-dataTable>
+<p-table [value]="oes"
+         [scrollable]="true"
+         scrollHeight="100%"
+         [rowTrackBy]="rowTrackBy"
+         dataKey="_id"
+>
+  <!--<ng-template pTemplate="caption">-->
+  <!--</ng-template>-->
+  <ng-template pTemplate="emptymessage">
+    Keine Dateien gefunden.
+  </ng-template>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col style="width: 200px">
+      <col >
+      <col style="width: 84px">
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>OE</th>
+      <th>DAW-Rollen</th>
+      <th class="center-align">
+        <button type="button" pButton (click)="newOe()" icon="fa fa-file-o" class="minibtn"
+                title="Neue OE"></button>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr >
+      <td>
+        {{rowData.name}}
+      </td>
+      <td>
+        {{rowData.roles | rolenames}}
+      </td>
+      <td>
+        <button type="button" pButton (click)="editOe(rowData)" icon="fa fa-edit" class="minibtn mr-1"
+                title="Bearbeiten"></button>
+        <button type="button" pButton (click)="deleteOe(rowData)" icon="fa fa-trash" class="minibtn ui-button-warning"
+                title="Löschen"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <!--<ng-template pTemplate="summary">-->
+  <!--</ng-template>-->
+</p-table>
 
-<p-dialog header="OE bearbeiten" [(visible)]="displayDialog"
+<p-dialog header="DAW-Rollen der OE zuweisen" [(visible)]="displayDialog"
           [responsive]="true" showEffect="fade" [modal]="true">
   <div *ngIf="editData">
-    <div class="row">
-      <div class="col-md-3"><label for="oname">OE-Name</label></div>
-      <div class="col-md-12">
-        <input pInputText id="oname" [(ngModel)]="editData.name" style="width: 20em" />
-      </div>
+    <div class="mb-3 mt-1">
+        <label for="oname" style="width: 8em;">OE-Name </label>
+        <input pInputText id="oname" [(ngModel)]="editData.name" style="width: 20em" placeholder="OE"/>
     </div>
-    <div class="row">
-      <div class="col-md-3"><label for="type">Profile zuordnen</label></div>
-      <div class="col-md-12">
-        <p-pickList [source]="allroles" [target]="oeroles" id="type"
-                    sourceHeader="Profile" targetHeader="Profile der OE"
-                    [showSourceControls]="false" [showTargetControls]="false"
-                    [responsive]="true"
-                    (onMoveToTarget)="onMoveToTarget($event)"
-                    (onMoveToSource)="onMoveToSource($event)"
-        >
-          <ng-template let-role pTemplate="item">
-            {{role.name}}
-          </ng-template>
-        </p-pickList>
-      </div>
+
+    <div >
+      <p-pickList [source]="allroles" [target]="oeroles" id="type"
+                  sourceHeader="DAW-Rollen" targetHeader="DAW-Rollen der OE"
+                  [showSourceControls]="false" [showTargetControls]="false"
+                  [responsive]="true"
+                  (onMoveToTarget)="onMoveToTarget($event)"
+                  (onMoveToSource)="onMoveToSource($event)"
+      >
+        <ng-template let-role pTemplate="item">
+          {{role.name}}
+        </ng-template>
+      </p-pickList>
     </div>
   </div>
-
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-check" (click)="dlgSave()" label="Speichern"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="dlgSave()" label="Speichern"></button>
     </div>
   </p-footer>
 </p-dialog>

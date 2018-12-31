@@ -4,28 +4,13 @@
 
 import {
   Component,
-    // HostBinding,
-    Inject,
-    OnInit,
+  OnInit,
 } from "@angular/core";
-import {
-  Http,
-  Response,
-} from "@angular/http";
-import {
-  NavigationEnd,
-  Router,
-} from "@angular/router";
 
 import {
-  environment,
-} from "../environments/environment";
-import {
-  keepaliveMinutes,
-  keepaliveURL,
-  Version,
   VersionService,
-} from "../shared/ext";
+} from "@hb42/lib-client";
+
 import {
   ConfigService,
   StatusService,
@@ -38,32 +23,13 @@ import {
            })
 export class AppComponent implements OnInit {
 
-  // fuer die main-component funktioniert "host: {class: "blah blah"}" nicht
-  // also hier eintragen, auch wenn die classes fix sind
-  // koennte daran liegen, dass <app></app> in der index.html fest eingetragen ist
-  // @HostBinding("class.flex-page") protected fp = true;
-  // @HostBinding("class.flex-col") protected fc = true;
-
-  constructor(private httphandler: Http, private status: StatusService, public version: VersionService) {
-    console.info("Programm gestartet");
-    status.info("App Start");
+  constructor(public configService: ConfigService, private status: StatusService, public version: VersionService) {
+    console.debug("c'tor AppComponent");
   }
 
   public ngOnInit(): void {
-    console.info("App.ngOnInit start");
-    console.dir(process ? process.versions : null);
-    this.startKeepalive();
-
-  }
-
-  private startKeepalive() {
-    window.setInterval(
-      () => {
-        this.httphandler.get(environment.webserviceServer + keepaliveURL)
-          .map((response: Response) => response.text())
-          .subscribe( (res) => console.info("keepalive " + res),
-                      (err) => console.info("keepalive ERROR"));  // session error -> 401 -> httpErrorHandler
-      }, 1000 * 60 * keepaliveMinutes );
+    console.debug("App.ngOnInit start");
+    this.status.info(this.version.ver.displayname + " " + this.version.ver.version + " gestartet");
   }
 
 }

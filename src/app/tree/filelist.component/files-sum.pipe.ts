@@ -1,20 +1,15 @@
-import {
-  Pipe,
-  PipeTransform,
-} from "@angular/core";
+import { Pipe, PipeTransform, } from "@angular/core";
 
-import {
-  FarcEntryTypes,
-  FarcTreeNode,
-  FileSizePipe,
-} from "../../../shared/ext";
+import { FileSizePipe, } from "@hb42/lib-client";
+import { FarcEntryTypes, FarcTreeNode, } from "@hb42/lib-farc";
 
 @Pipe({
-  name: "filesSum",
-})
+        name: "filesSum",
+      })
 export class FilesSumPipe implements PipeTransform {
 
-  constructor(private filesizePipe: FileSizePipe) { }
+  constructor(private filesizePipe: FileSizePipe) {
+  }
 
   transform(value: any, args?: any): any {
     const files: FarcTreeNode[] = value;
@@ -28,7 +23,7 @@ export class FilesSumPipe implements PipeTransform {
     let f = 0;
     let fs = 0;
     let rc = "";
-    files.forEach( (file) => {
+    files.forEach((file) => {
       if (file.entrytype === FarcEntryTypes.file) {
         f++;
         fs += file.size;
@@ -43,15 +38,15 @@ export class FilesSumPipe implements PipeTransform {
     const flsSize = this.filesizePipe.transform(fs);
     const allSize = this.filesizePipe.transform(ds + fs);
     if (display === "all") {
-       if (d) {
-         rc += dirs + " (" + dirSize + ")";
-       }
-       if (f) {
-         if (d) {
-           rc += ", ";
-         }
-         rc += fls + " (" + flsSize + ")";
-       }
+      if (d) {
+        rc += dirs + " (" + dirSize + ")";
+      }
+      if (f) {
+        if (d) {
+          rc += ", ";
+        }
+        rc += fls + " (" + flsSize + ")";
+      }
     } else {
       rc += allSize + " (";
       if (d) {

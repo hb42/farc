@@ -3,18 +3,10 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-// --env=dev
+// --env=prod
 
 export const environment = {
-  production: false,
-  // interner Name
-  name: "farc",
-  // REST-API
-  webserviceServer: "http://calvados:23100",
-  webservicePath: "/farc",
-  // NTLM-Logon
-  NTLMserver: "http://calvados:23142/asp/get",
-  authType: "NTLM",
-  // WebApp
-  webappServer: "http://calvados:23000",
+  env: "Production",
+  production: true,
+  configFile: "./resource/config.prod.json",
 };

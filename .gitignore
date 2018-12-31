@@ -1,24 +1,21 @@
 # node
 /node_modules
-/typings
 
 # IDE
 /.idea
 
 # build
 /dist
-/tmp
 /src/**/*.js
+/src/**/*.map
 
 # logs, internal files
 *.zip
+*.tgz
 *.log
 /div
 
 # os
 .DS_STORE
-Thumbs.db
 
-# e2e
-/e2e/*.js
-/e2e/*.map
+/src/resource/config*

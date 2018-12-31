@@ -1,0 +1,13 @@
+{
+  "versions": [
+    { "ver":  "Version 3.0.0",
+      "text": [
+        "Das Aussehen des Programms wurde vollständig überarbeitet.",
+        "Beim Zurücksichern aus dem Archiv wird der Archiv-Inhalt nicht mehr gelöscht.",
+        "In der OE-Übersicht werden jetzt auch die jährlichen Kosten des Speichers angezeigt.",
+        "Wechsel von Original zum Archiv als Auswahl-Buttons gestaltet.",
+        "Diverse Fehlerbereinigungen."
+      ]
+    }
+  ]
+}

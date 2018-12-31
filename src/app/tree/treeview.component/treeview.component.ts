@@ -2,23 +2,11 @@
  * Created by hb on 10.07.16.
  */
 
-import {
-    Component,
-    HostBinding,
-    Inject,
-    OnInit,
-    ViewChild,
-} from "@angular/core";
+import { Component, HostBinding, OnInit, } from "@angular/core";
 
 @Component({
-  selector: "farc-tree-view",
-  // styles: [
-  //   ":host { height: 100%; width: 100%;}",
-  // ],
-  // host: {
-  //   class: "flex-panel flex-content-fix",
-  // },
-  templateUrl: "./treeview.component.html",
+             selector   : "farc-tree-view",
+             templateUrl: "./treeview.component.html",
            })
 export class TreeViewComponent implements OnInit {
   @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
@@ -29,7 +17,7 @@ export class TreeViewComponent implements OnInit {
   public centerPaneMinWidth: string;
 
   constructor() {
-    console.info("c'tor Home");
+    console.debug("c'tor TreeViewComponent");
   }
 
   public ngOnInit(): void {

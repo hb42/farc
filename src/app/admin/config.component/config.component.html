@@ -1,0 +1,61 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-card header="Zeitsteuerung" >
+  <div class="mb-2">
+    <label for="cron">Einlesezeit (HH:MM)</label>
+    <input pInputText id="cron" [(ngModel)]="cron" class="input"/>
+    <button pButton="" type="button" (click)="setCronTime()" icon="pi pi-check" title="Einlesezeit übernehmen"></button>
+  </div>
+  <div class="mb-2">
+    <label for="check1"></label>
+    <p-checkbox id="check1" [(ngModel)]="runReadTree" binary="true" label="Dateisystem einlesen"></p-checkbox>
+  </div>
+  <div class="mb-2">
+    <label for="check2"></label>
+    <p-checkbox id="check2" [(ngModel)]="runVormerk" binary="true" label="Vormerkungen ausführen"></p-checkbox>
+  </div>
+</p-card>
+<p-card header="Vormerkungen" >
+  <div class="mb-2">
+    <label for="maxerl">Anzahl Tage, die die Protokolle aufbewahrt werden sollen</label>
+    <input pInputText id="maxerl" [(ngModel)]="maxerl" class="input"/>
+    <button pButton="" type="button" (click)="setMaxerl()" icon="pi pi-check" title="Anzahl übernehmen"></button>
+  </div>
+</p-card>
+<p-card header="Sofort starten">
+  <p class="mb-4">Vorsicht: die beiden Aktionen wirken sich deutlich auf die Performance der Anwendung aus!</p>
+  <button pButton="" type="button" (click)="readAll()"
+          title="Alle Verzeichnisse einlesen und Verzeichnisbaum neu aufbauen"
+          label="Alle Laufwerke einlesen"></button>
+  <button pButton="" type="button" (click)="vormerkAll()"
+          class="ml-5"
+          title="Alle gespeicherten Vormerkungen ausführen"
+          label="Alle Vormerkungen ausführen"></button>
+</p-card>
+<p-card header="E-Mail" >
+  <div class="mb-2">
+    <label for="sender">Absenderadresse für E-Mails aus dem Programm</label>
+    <input pInputText id="sender" [(ngModel)]="senderMail" class="input inputLong"/>
+    <button pButton="" type="button" (click)="setSenderMail()" icon="pi pi-check" title="Adresse übernehmen"></button>
+  </div>
+  <div class="mb-2">
+    <label for="adminmail">Empfängeradresse für administrative E-Mails</label>
+    <input pInputText id="adminmail" [(ngModel)]="adminMail" class="input inputLong"/>
+    <button pButton="" type="button" (click)="setAdminMail()" icon="pi pi-check" title="Adresse übernehmen"></button>
+  </div>
+</p-card>
+<p-card header="Kosten" >
+  <div class="mb-2">
+    <label for="price">Preis pro GB pro Monat, ohne MWSt</label>
+    <input pInputText id="price" [(ngModel)]="pricegb" class="input"/>
+    <button pButton="" type="button" (click)="setPrice()" icon="pi pi-check" title="Betrag übernehmen"></button>
+  </div>
+  <div class="mb-2">
+    <label for="mwst">Mehrwertsteuersatz</label>
+    <input pInputText id="mwst" [(ngModel)]="mwst" class="input"/>
+    <button pButton="" type="button" (click)="setMwst()" icon="pi pi-check" title="MWSt übernehmen"></button>
+  </div>
+</p-card>
+
+<p-confirmDialog header="Vorsicht" icon="fa fa-question-circle"
+                 acceptLabel="OK" rejectLabel="Abbrechen" ></p-confirmDialog>

@@ -1,28 +1,82 @@
-<p-toolbar>  <!-- primeng -->
-  <div class="ui-toolbar-group-left">
-    <ul class="nav nav-pills">  <!-- bootstrap -->
-      <li [class.active]="activetab === 'list'" >
-        <a (click)="tabclick('list')"><span class="fa fa-list"></span> OE-Übersicht</a>
-      </li>
-      <li [class.active]="activetab === 'tree'" >
-        <a (click)="tabclick('tree')"><span class="fa fa-folder-open"></span> Details</a>
-      </li>
-      <li [class.active]="activetab === 'select'" >
-        <a (click)="tabclick('select')"><span class="fa fa-check-square"></span> Vormerkungen</a>
-      </li>
-      <li [class.active]="activetab === 'admin'" *ngIf="isAdmin">  <!-- nur fuer Admin sichtbar -->
-        <a (click)="tabclick('admin')"><span class="fa fa-gears"></span> Admin</a>
-      </li>
-    </ul>
-  </div>
-  <div class="ui-toolbar-group-right">
-    <!--<a  title="{{ver.copyright}}"-->
-        <!--class="btn btn-sm">-->
-      <!--{{ver.description}} {{ver.version}}-->
-    <!--</a>-->
-    <a href="/doku.html" target="farcdoku" title="Dokumentation"
-       class="btn btn-success ">
+<div class="flex-row menupanel" >
+
+  <p-tabMenu [model]="mainNavService.mainMenu"></p-tabMenu>
+
+  <div >
+    <a  title="Anwendung neu starten" (click)="errorService.resetApp()" tabindex="100001"
+        class="btn btn-sm link" style="padding-right: 0">
+      {{cliVer.displayname}}
+    </a>
+    <a  title="über"
+        class="btn btn-sm link" style="padding-left: 0" (click)="showVersion()" tabindex="100002">
+      {{cliVer.major}}.{{cliVer.minor}}.{{cliVer.patch}}
+    </a>
+    <a href="./doku.html" target="farcdoku" title="Dokumentation" tabindex="100003"
+       class="btn btn-info ">
       Hilfe
     </a>
   </div>
-</p-toolbar>
+</div>
+
+<p-dialog header="Über {{cliVer.displayname}}" [(visible)]="ueber" [dismissableMask]="true"
+          [responsive]="true" showEffect="fade" [modal]="true" [closeOnEscape]="true">
+
+  <div  style="white-space: nowrap; display: flex; flex-wrap: wrap">
+    <div style="float: left; margin: 10px"  >
+      <img src="./resource/farc.png" >
+    </div>
+    <div style="float: left; margin: 10px">
+      <h2>{{cliVer.displayname}} {{cliVer.version}}</h2>
+      <h5>{{cliVer.copyright}}</h5>
+      <hr>
+      <div class="small">Basiert auf:
+        <ul>
+          <li *ngFor="let vers of subVer">{{vers}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <span class="footer-link pointer link" (click)="showWhatsNew()">Was ist neu?</span>
+    <button type="button" pButton icon="pi pi-check" (click)="ueber = false" label="OK"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="Was ist neu im {{cliVer.displayname}}" [(visible)]="whatsnew" [dismissableMask]="true"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          [contentStyle]="{'max-height':'500px', 'max-width':'700px'}" [closeOnEscape]="true">
+
+  <div  style="display: flex;">
+    <div style="float: left; margin: 10px">
+      <img src="./resource/farc.png">
+    </div>
+    <div style="float: left; margin: 10px">
+      <div *ngFor="let upd of configService.whatsnew.versions">
+        <h3>{{upd.ver}}</h3>
+        <hr>
+        <ul>
+          <li *ngFor="let txt of upd.text" class="wn-list">{{txt}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <span class="footer-link-small pointer"(click)="showChangelog()">Changelog</span>
+    <button type="button" pButton icon="pi pi-check" (click)="whatsnew = false" label="OK"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- FIXME param height ist deprecated, wird aber noch gesetzt (und ueberschreibt contentSytyle.height)
+          -> Dialog#positionOverlay() - primeNG v7.0.3
+-->
+<p-dialog header="Changelog" [(visible)]="changelog" [dismissableMask]="true"
+          showEffect="fade" [modal]="true" [height]="600"
+          [contentStyle]="{'max-height':'500px', 'height':'600px', 'max-width':'800px', 'width':'800px'}" [closeOnEscape]="true">
+
+  <div  class="fullsize">
+    <iframe class="fullsize" style="border: 0" src="./resource/versionen.txt"></iframe>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="changelog = false" label="OK"></button>
+  </p-footer>
+</p-dialog>

@@ -1,22 +1,23 @@
-## TODOs
+##TODO farc@3.0.0
 
-* (x) Einlesen/ Datenmodell fertigstellen [srv, lib-farc] 
-  * (x) Test read EPs
-  * (x) read Entries
-* (x) Relevante Infos beim Einlesen protokollieren [srv]
-  * (x) Logging-Lib aussuchen und einbauen (-> log4js-node)
-  * (x) Protokoll-Typen und -Ablageorte festlegen  
-  * (x) Infos, die Nacharbeiten erfordern könnten, protokollieren
-* (x) Konsistenz-Checks fürs EP-Einlesen [srv]  
-* (x) Tree überarbeiten [srv]
-* Select-Handling -> copy/del + Datenmodell / Provisorische UI für select [srv, lib-farc, farc]
-* (x) Module aufraeumen (bes. farc-server/services) [srv]
-* (x) Deps in package.json/ webpack [all]
-* (x) Logon/Navigation aufräumen (config handling) [srv, farc]
-* Error-Handling f. REST-calls -> StatusService [srv, farc]
-* UI OE zu EP [farc]
-* UI config, state+nav [farc]
-* Cron / events (server-> UI) [srv, farc]
-* UI List/ Tree/ Select
+* Test als User !!!
+* Hilfe-Seiten (p-dialog?)
+* Archiv auf NAS umziehen/ lowerCase f. EPs
 
-* Für Produktion: in farc.read.eps.ts Erzeugen von archivepath einschalten
+##TODO farc@next
+
+* JWT-Secret in Server-Config (farc-server/farc.user.check)
+
+* typeorm/ DB-Zugriffe in DAOs zusammenfassen
+
+* app f. Serverconfig, generiert config.json (ggf. verschluesselt)
+
+* Filter in Dateiliste (evtl. slider fuer size/timestamp)
+
+* Sprung vom source tree zum gleichen Verzeichnis im archive tree
+
+* aus source-file list "in Explorer oeffnen"
+
+* Beim Einlesen Infos fuer Nacharbeiten festhalten + Mail an Admin (z.B. fehlende EP, Zugriffsprobleme)
+
+* Vormerk-Scripte fuer Linux (hat Zeit)

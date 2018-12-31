@@ -1,32 +1,41 @@
-<div class="flex-row" style="background: purple">
-  <!--<div class="flex-panel" [style.width]="leftPaneWidth" [style.min-width]="leftPaneMinWidth"-->
-       <!--style="background: green">-->
-    <!--<p-tree [value]="tree">-->
-      <!--<ng-template let-node pTemplate="default">-->
-        <!--<span style="color: red" >{{node.label}}</span>-->
-      <!--</ng-template>-->
-      <!--<ng-template let-node pTemplate="ep">-->
-        <!--<span >{{node.label}} *EP*</span>-->
-      <!--</ng-template>-->
-    <!--</p-tree>-->
-  <!--</div>-->
-  <!--<div fb-splitter ></div>-->
+<div class="flex-col" >
 
-  <!-- TODO testen mit p-tree, damit sollte scrolling + selection besser fkt. -->
-
-  <div class="flex-panel flex-max flex-content" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth"
-       style="background: red">
-    <p-treeTable [value]="farcService.oelist">
-      <p-column [style]="{'width':'200px'}" header="Name">
-        <ng-template pTemplate let-col let-row="rowData">
-          <span [class.oerow]="row.type === 'strukt'">{{row.label}}</span>
-        </ng-template>
-      </p-column>
-      <p-column [style]="{'width':'180px'}" header="Größe">
-        <ng-template pTemplate let-col let-row="rowData">
-          <span [class.oerow]="row.type === 'strukt'">{{row.size | filesize}}</span>
-        </ng-template>
-      </p-column>
-    </p-treeTable>
+  <div class="sort-bar">
+    <div class="sort-title">OE-Übersicht</div>
+    <div class="sort-sum">
+      <span>Summe aller Laufwerke:</span>
+      <span class="sort-sum-size">{{listService.fullsum | filesize}}</span>
+      <span >&#8793; {{listService.fullprice | currency:'EUR':'symbol':'1.2-2':'de'}} p.a.</span>
+    </div>
+    <div class="sort-radio border-left border-right border-top">
+      <span class="radio-margin">Sortierung der Übersicht nach </span>
+      <p-radioButton name="sort" value="label" [(ngModel)]="listService.sortalpha" label="Name" class="radio-margin"></p-radioButton>
+      <p-radioButton name="sort" value="size" [(ngModel)]="listService.sortalpha" label="Größe"></p-radioButton>
+    </div>
   </div>
+
+  <div class="flex-panel flex-max flex-content" style="width: 80%" > <!--[style.min-width]="centerPaneMinWidth"-->
+
+    <p-accordion [activeIndex]="listService.index"
+                 (onClose)="listService.onAccordionTabClose($event)"
+                 (onOpen)="listService.onAccordionTabOpen($event)">
+      <div *ngFor="let oe of listService.oelist">
+        <p-accordionTab >
+          <p-header class="btn" title="Verzeichnisse der OE {{oe.label}}">
+            <span class="label label-size">{{oe.size | filesize}}</span>
+            <span class="label label-price">{{listService.priceFor(oe.size) | currency:'EUR':'symbol':'1.2-2':'de' }} p.a.</span>
+            <span class="label label-oename">{{oe.label}}</span>
+          </p-header>
+          <div *ngFor="let ep of oe.children">
+            <div (click)="listService.gotoTree(ep.path)" class="ml-5 btn link" title="{{ep.label}}">
+              <span class="label label-size">{{ep.size | filesize}}</span>
+              <span class="label label-dirname">{{ep.label}}</span>
+            </div>
+          </div>
+        </p-accordionTab>
+      </div>
+    </p-accordion>
+
+  </div>
+
 </div>

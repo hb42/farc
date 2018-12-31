@@ -1,59 +1,62 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import {
-  NavigationEnd,
-  Router,
-} from "@angular/router";
+import { Component, OnInit, } from "@angular/core";
 
-import {
-  Version,
-  VersionService,
-} from "../../../shared/ext";
-import {
-  ConfigService,
-  StatusService,
-} from "../../shared";
+import { ErrorService, Version, VersionService, } from "@hb42/lib-client";
+
+import { ConfigService, } from "../config.service"
+import { MainNavService} from "../main-nav.service";
 
 @Component({
-  selector: "farc-main-header",
-  templateUrl: "./main-header.component.html",
-  styleUrls: ["./main-header.component.css"],
-})
+             selector   : "farc-main-header",
+             templateUrl: "./main-header.component.html",
+             styleUrls  : ["./main-header.component.css"],
+           })
 export class MainHeaderComponent implements OnInit {
 
-  public activetab: string;
-  public isAdmin = false;
-  public ver: Version;
+  public cliVer: Version;
+  public srvVer: Version;
+  public subVer: string[];
+  public ueber = false;
+  public whatsnew = false;
+  public changelog = false;
 
-  constructor(private router: Router, private statusService: StatusService,
-              private configService: ConfigService, private version: VersionService) {
-    this.activetab = "list";
+  constructor(public version: VersionService,
+              public configService: ConfigService,
+              public mainNavService: MainNavService,
+              public errorService: ErrorService) {
   }
 
   public ngOnInit() {
-    this.configService.isAdmin().subscribe( (res) => {
-      this.isAdmin = res.isadmin;
-    });
-    this.ver = this.version.ver;
 
-    // tab
-    this.router.events
-      .filter( (event) => event instanceof NavigationEnd)
-      .subscribe( (evt: NavigationEnd) => {
-        // path -> /a/b => split -> "", "a","b"
-        const addr: string[] = evt.urlAfterRedirects.split("/");
-        if (addr.length > 1) {
-          this.activetab = addr[1];
-        }
-      });
+    this.cliVer = this.version.ver;
+    this.srvVer = this.version.serverVer;
+    this.subVer = [...this.cliVer.versions,
+                   this.srvVer.displayname + " " + this.srvVer.version, ...this.srvVer.versions];
 
+    if (this.configService.checkWhatsNew()) {
+      this.showWhatsNew();
+    }
   }
 
-  public tabclick(tab: string) {
-    this.activetab = tab;
-    this.router.navigate(["/" + tab]);
+  public isAdmin(): boolean {
+    return this.configService.getUserConfig().isAdmin();
+  }
+
+  public showVersion() {
+    this.ueber = true;
+    this.whatsnew = false;
+    this.changelog = false;
+  }
+
+  public showWhatsNew() {
+    this.whatsnew = true;
+    this.ueber = false;
+    this.changelog = false;
+  }
+
+  public showChangelog() {
+    this.changelog = true;
+    this.whatsnew = false;
+    this.ueber = false;
   }
 
 }

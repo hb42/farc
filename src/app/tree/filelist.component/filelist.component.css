@@ -3,35 +3,50 @@
 :host {
   white-space: nowrap;
 }
-/* etwas mehr Platz fuer die Icons li+re 6px, top +1 (5px),
-   bottom 3 statt 0 dadurch bekommt Icon gleiche Hoehe wie Text */
-* >>> .ui-breadcrumb ul li.fa {
-  margin: 5px 6px 3px 6px;
+
+:host >>> .card {
+  min-height: 33px;
 }
-/* "Home"-Icon entfernen */
-:host >>> .ui-breadcrumb ul li.fa-home {
-  display: none;
-}
-/* Link im letzten Eintrag abschalten */
-:host >>> .ui-breadcrumb ul li:last-child a {
-  color: black;
-  cursor: default;
-  pointer-events: none;
-}
-/* chevron-icon ueberschreiben */
-:host >>> .ui-breadcrumb ul li.ui-breadcrumb-chevron.fa-chevron-right:before {
-  content: "\F0DA";  /* fa-caret-right */
-  font-size: 1.2em;
-  font-weight: 100;
+:host >>> .card-body {
+  padding: 0.3rem 0.3rem;
 }
 
-/** scrolling **/
+/* Linksbuendig und trotzdem overflow left:
+   aeusserer DIV: max-width: 100%; display: inline-block
+   innerer DIV: float: left
+   + ggf. white-space: nowrap oder flex-wrap: nowrap */
+:host >>> p-breadcrumb {
+  max-width: 100%;
+  display: inline-block;
+}
+:host >>> .ui-breadcrumb {
+  float: right;
+  padding: 0.2em 0.5em;
+}
+:host >>> .ui-breadcrumb ul li.ui-breadcrumb-chevron {
+  font-size: 0.8em !important;
+  margin: 0 0.2em;
+}
+:host >>> .ui-breadcrumb ul li .ui-menuitem-text {
+  color: var(--link-color);
+}
+:host >>> .ui-breadcrumb ul li .ui-menuitem-text:hover {
+  color: var(--link-hover-color);
+}
+
+/** scrolling -> z.Zt. global gesetzt
 :host >>> .ui-datatable-scrollable-view {
   display: flex;
   flex-direction: column;
 }
 :host >>> .ui-datatable-scrollable-body {
   flex: 1 1 0;
+}
+*/
+
+#filelisttable {
+  height: 100%;
+  max-height: 100%;
 }
 
 /** list footer **/
@@ -50,46 +65,55 @@
   height: 15px;
 }
 .full-sum {
-  padding: 0 5px;
+  padding: 0 10px;
+  background-color: white;
+  border-radius: 3px;
+  margin-bottom: 2px;
 }
 .select-sum {
-  padding: 0 5px;
+  padding: 1px 10px;
+  background-color: var(--highlight-color);
+  color: white;
+  border-radius: 3px;
 }
 .todo-sum {
-  margin-left: 10px;
-  padding: 0 5px;
-}
-
-  /** div **/
-/* sort header runterdimmen */
-:host >>> .ui-datatable thead th.ui-state-active {
-  background-color: #c7c7c7;
-  border-color: #c8c8c8;
-  color: white;
+  margin-left: 5px;
+  padding: 1px 10px;
+  border-radius: 3px;
 }
 
 /* links ohne extra Abstand */
 :host >>> a.btn {
   padding: 0;
 }
+
+:host >>> a {
+  text-decoration: none;
+}
+
+/*:host >>> tr.ui-state-highlight  {*/
+  /*background: var(--primary) !important;*/
+  /*!* background: #0275d8 !important; *!*/
+/*}*/
+
 /* datatable Farbe f. selected links */
 :host >>> .ui-state-highlight a.btn {
-  color: white;
+color: white !important;
 }
 :host >>> .ui-state-highlight a.btn:hover {
-  color: black;
+color: var(--gray-dark) !important;
+}
+:host >>> .ui-state-highlight i  {
+  color: inherit !important;
 }
 
-.right-align {
-  text-align: right;
+/* sort header color - default ist zu aufdringlich */
+:host >>> th.ui-sortable-column.ui-state-highlight {
+  background-color: var(--gray-background);
 }
 
-/* Entfernen-Button */
-button.btn-link.text-danger {
-  color: #a94442;  /* text-danger */
-  vertical-align: baseline;
-  font-size: .9em;
-  border: none;
+:host >>> .ui-state-highlight button.iconbtn > i.fa {
+  color: inherit;
 }
 
 /* padding in datatable reduzieren (default 0.75em -> 10.8px) */
@@ -97,8 +121,11 @@ button.btn-link.text-danger {
   padding: 0.5em 0.5em;
 }
 
-/* padding f. Vormerkungs-Text abschalten (damit es zum Rest passt)*/
-mark,
-button.text-danger {
-  padding: 0 5px;
+/* vererbte Vormerkung */
+.inheritselect {
+  opacity: .75;
 }
+/* padding f. Vormerkungs-Text abschalten (damit es zum Rest passt)*/
+/*mark {*/
+  /*padding: 0 5px;*/
+/*}*/

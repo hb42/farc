@@ -1,0 +1,24 @@
+<!-- damit das overlay aus der Flexbox "ausbrechen" kann muss es mit position: fixed formatiert werden
+     (position:absolute setzt im Chrome bottom=-1 => scrollbar)
+ -->
+<p-overlayPanel #statusline
+                [showCloseIcon]="false"
+                [dismissable]="true"
+                id="messagepanel"
+                (click)="statusline.hide()"
+                >
+  <div *ngFor="let line of lines"
+       [ngClass]="messageClass(line.type)">
+    {{line.date | date:'dd.MM.yyyy HH:mm:ss'}} {{line.text}}
+  </div>
+</p-overlayPanel>
+<div (click)="statusline.toggle($event)"
+     class="statusmessage farc-panel"
+     [ngClass]="latestClass()">
+  <div class="statustext">
+  {{latestText()}}
+  </div>
+  <div class="statusicon">
+    <i class="fa fa-caret-up"></i>
+  </div>
+</div>

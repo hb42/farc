@@ -8,12 +8,17 @@ import {
 } from "@angular/router";
 
 import {
+  AdminGuard,
   AdminViewComponent,
   ConfigComponent,
   DriveListComponent,
   EpListComponent,
   OeListComponent,
 } from "./admin";
+import {
+  ErrorComponent,
+  PageNotFoundComponent,
+} from "./error";
 import {
   ListViewComponent,
 } from "./list";
@@ -23,20 +28,27 @@ import {
 import {
     TreeViewComponent,
 } from "./tree";
+import {
+  MainNavService,
+} from "./shared";
 
 const appRoutes: Routes = [
-  { path: "", redirectTo: "/list", pathMatch: "full" },  // "" muss vorhanden sein!
-  { path: "list", component: ListViewComponent },
-  { path: "tree", component: TreeViewComponent },
-  { path: "select", component: SelectViewComponent },
-  { path: "admin", component: AdminViewComponent,
+  { path: "", redirectTo: "/" + MainNavService.NAV_LIST, pathMatch: "full" },  // "" muss vorhanden sein!
+  { path: MainNavService.NAV_LIST, component: ListViewComponent },
+  { path: MainNavService.NAV_TREE, component: TreeViewComponent },
+  { path: MainNavService.NAV_VORM, component: SelectViewComponent },
+  { path: MainNavService.NAV_ADMI, component: AdminViewComponent,
+    canActivate: [ AdminGuard ],
     children: [
-      { path: "drives", component: DriveListComponent },
-      { path: "oes", component: OeListComponent },
-      { path: "eps", component: EpListComponent },
-      { path: "config", component: ConfigComponent },
+      { path: MainNavService.NAV_ADM_DRV, component: DriveListComponent, canActivate: [ AdminGuard ] },
+      { path: MainNavService.NAV_ADM_OES, component: OeListComponent,    canActivate: [ AdminGuard ] },
+      { path: MainNavService.NAV_ADM_EPS, component: EpListComponent,    canActivate: [ AdminGuard ] },
+      { path: MainNavService.NAV_ADM_CFG, component: ConfigComponent,    canActivate: [ AdminGuard ] },
     ]},
+  { path: MainNavService.NAV_ERROR, component: ErrorComponent },
+  // { path: "error/:status/:msg", component: ErrorComponent },
 
+  { path: "**", component: PageNotFoundComponent },
   // {
   //   path: 'heroes',
   //   component: HeroListComponent,
