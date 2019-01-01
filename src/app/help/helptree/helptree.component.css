@@ -1,0 +1,8 @@
+/* p-selectButtonS verkleinern */
+:host >>> .ui-selectbutton .ui-button {
+  font-size: 0.7em;
+}
+:host >>> .ui-selectbutton .ui-button.ui-button-text-icon-left .ui-button-text {
+  padding-top: 0.129em;
+  padding-bottom: 0.129em;
+}

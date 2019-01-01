@@ -1,10 +1,10 @@
-##TODO farc@3.0.0
+## TODO farc@3.0.0
 
 * Test als User !!!
-* Hilfe-Seiten (p-dialog?)
+* Hilfe-Seiten (Screenshots!)
 * Archiv auf NAS umziehen/ lowerCase f. EPs
 
-##TODO farc@next
+## TODO farc@next
 
 * JWT-Secret in Server-Config (farc-server/farc.user.check)
 
@@ -19,5 +19,7 @@
 * aus source-file list "in Explorer oeffnen"
 
 * Beim Einlesen Infos fuer Nacharbeiten festhalten + Mail an Admin (z.B. fehlende EP, Zugriffsprobleme)
+
+* Die monolithischen Elemente in kleinere (evtl. wiederverwendbare) components zerlegen
 
 * Vormerk-Scripte fuer Linux (hat Zeit)

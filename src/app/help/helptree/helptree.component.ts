@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FarcTreeService } from "../../tree";
 import { HelpService } from "../help.service";
 
 @Component({
@@ -8,7 +9,7 @@ import { HelpService } from "../help.service";
 })
 export class HelptreeComponent implements OnInit {
 
-  constructor(public helpSAervice: HelpService) { }
+  constructor(public helpService: HelpService, public farcService: FarcTreeService) { }
 
   ngOnInit() {
   }

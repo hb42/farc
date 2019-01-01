@@ -15,16 +15,11 @@ export class FarcTreeComponent implements OnInit {
 
   @ViewChild("farctree") protected farcTree: Tree;  // f. Zugriff auf Tree-API
 
-  public sortButtons: SelectItem[];
-
   constructor(public farcService: FarcTreeService) {
     console.debug("c'tor FarcTree");
   }
 
   public ngOnInit(): void {
-    this.sortButtons = [];
-    this.sortButtons.push({label: "Name", value: true, icon: "fa fa-fw fa-sort-alpha-asc"});
-    this.sortButtons.push({label: "Größe", value: false, icon: "fa fa-fw fa-sort-numeric-desc"});
   }
 
   protected getnodestyle(node) {

@@ -1,6 +1,7 @@
 .panel-left {
   white-space: nowrap;
   font-weight: bold;
+  color: var(--light-gray-background);
 }
 .panel-center {
   width: 100%;
@@ -43,4 +44,8 @@
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link .ui-menuitem-text,
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link .ui-menuitem-icon {
   color: white;
+}
+
+:host ::ng-deep .ui-panel .ui-panel-titlebar {
+  background-color: var(--gray);
 }

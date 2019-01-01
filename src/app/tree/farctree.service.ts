@@ -8,7 +8,7 @@ import {Injectable, } from "@angular/core";
 import {AppConfig} from "@hb42/lib-client";
 import {dateString} from "@hb42/lib-common";
 import {confTREEDATE, FarcEntryTypes, FarcSelectType, FarcTreeNode, } from "@hb42/lib-farc";
-import {MenuItem, TreeNode, } from "primeng/primeng";
+import { MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
 import {Table, TableHeaderCheckbox} from "primeng/table";
 import {Observable, } from "rxjs";
 
@@ -70,6 +70,8 @@ export class FarcTreeService {
                         {label: "Archiv",   value: true},
                       ];
 
+  public sortButtons: SelectItem[];
+
   // @ts-ignore
   public get isArcTree(): boolean {
     return this.userSession.isArcTree;
@@ -109,6 +111,11 @@ export class FarcTreeService {
               this.selectedFiles && this.selectedFiles.length > 0 &&
               this.selectedFiles.length === this.files_.length);
     }
+
+    this.sortButtons = [];
+    this.sortButtons.push({label: "Name", value: true, icon: "fa fa-fw fa-sort-alpha-asc"});
+    this.sortButtons.push({label: "Größe", value: false, icon: "fa fa-fw fa-sort-numeric-desc"});
+
     this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
     this.userSession = this.configService.getUserConfig();
     if (!this.sortField) {

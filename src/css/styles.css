@@ -181,3 +181,19 @@ body .ui-table .ui-table-tbody > tr > td > div {
 .link:hover {
   color: var(--link-hover-color);
 }
+
+/* Sort-Buttons im Tree */
+/* Ueberschrift und Rahmen (style wird auch fuer Hilfe gebraucht, deshalb global)*/
+.sort {
+  font-size: 0.6em;
+  text-align: center;
+  background-color: var(--light);
+  border-radius: 3px;
+  border: 1px solid var(--light);
+}
+
+/* Abstand fuer Screenshots */
+.screenshot {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
