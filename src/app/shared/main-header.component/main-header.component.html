@@ -11,7 +11,7 @@
         class="btn btn-sm link" style="padding-left: 0" (click)="showVersion()" tabindex="100002">
       {{cliVer.major}}.{{cliVer.minor}}.{{cliVer.patch}}
     </a>
-    <a href="./doku.html" target="farcdoku" title="Dokumentation" tabindex="100003"
+    <a (click)="mainNavService.startHelp()"  title="Dokumentation" tabindex="100003"
        class="btn btn-info ">
       Hilfe
     </a>

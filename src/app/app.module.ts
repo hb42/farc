@@ -41,6 +41,7 @@ import {
   MessageModule, MessageService,
   MessagesModule,
   OverlayPanelModule,
+  PanelModule,
   PickListModule,
   RadioButtonModule,
   SelectButtonModule,
@@ -83,6 +84,8 @@ import {
   TreeViewComponent,
   VormerkPipe,
 } from "./tree";
+import { HelpComponent, HelplistComponent, HelpmainComponent,
+  HelptreeComponent, HelpvormComponent, HelpService } from "./help";
 
 registerLocaleData(localeDe);  // + provider, s.u.
 
@@ -157,6 +160,7 @@ export function logonOptionsFactory(): LogonParameter {
               MessageModule,
               MessagesModule,
               OverlayPanelModule,
+              PanelModule,
               PickListModule,
               RadioButtonModule,
               SelectButtonModule,
@@ -205,6 +209,7 @@ export function logonOptionsFactory(): LogonParameter {
               FileSizePipe,
               ListService,
               SelectService,
+              HelpService,
 
               AdminGuard,
 
@@ -229,6 +234,11 @@ export function logonOptionsFactory(): LogonParameter {
               StatusComponent,
               ErrorComponent,
               PageNotFoundComponent,
+              HelpComponent,
+              HelpmainComponent,
+              HelplistComponent,
+              HelptreeComponent,
+              HelpvormComponent,
 
               // pipes
               FarcDrivetypePipe,

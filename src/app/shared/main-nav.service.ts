@@ -14,11 +14,17 @@ export class MainNavService {
   public static NAV_VORM = "select";
   public static NAV_ADMI = "admin";
   public static NAV_ERROR = "error";
+  public static NAV_HELP = "help";
 
   public static NAV_ADM_DRV = "drives";
   public static NAV_ADM_OES = "oes";
   public static NAV_ADM_EPS = "eps";
   public static NAV_ADM_CFG = "config";
+
+  public static NAV_HELP_MAIN = "help";
+  public static NAV_HELP_LIST = "list";
+  public static NAV_HELP_TREE = "tree";
+  public static NAV_HELP_VORM = "select";
 
   public mainMenu: MenuItem[];
 
@@ -63,6 +69,10 @@ export class MainNavService {
 
   public goto(targ: string) {
     this.router.navigate(["/" + targ]);
+  }
+
+  public startHelp() {
+    this.router.navigate(["/" + MainNavService.NAV_HELP + "/" + MainNavService.NAV_HELP_MAIN])
   }
 
 }

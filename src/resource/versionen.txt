@@ -1,6 +1,13 @@
 Changelog
 
-3.0.0-beta.x   30.12.2018
+3.0.0-beta.1   01.01.2019
+           Hilfeseiten, nebst Navigation funktionieren. Die Inhalte muessen noch ueber-
+           arbeitet und mit aktuellen Screenshots versehen werden.
+
+3.0.0-beta.0   30.12.2018
+           Das Programm funktioniert schon mal wie gewuenscht. Die Funktionen der
+           Version 2.0 sind vollstaendig uebernommen. Jetzt fehlen noch die Hilfe, sowie
+           intensive Testes.
 
 3.x        Nochmal ein Neustart. Mit dem Sprung von Angular 1.x auf 2.0 aendert sich in
            dem Framework so viel, dass es mit kleinen Anpassungen im Code nicht mehr

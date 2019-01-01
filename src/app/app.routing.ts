@@ -19,6 +19,7 @@ import {
   ErrorComponent,
   PageNotFoundComponent,
 } from "./error";
+import { HelpComponent, HelplistComponent, HelpmainComponent, HelptreeComponent, HelpvormComponent } from "./help";
 import {
   ListViewComponent,
 } from "./list";
@@ -44,6 +45,14 @@ const appRoutes: Routes = [
       { path: MainNavService.NAV_ADM_OES, component: OeListComponent,    canActivate: [ AdminGuard ] },
       { path: MainNavService.NAV_ADM_EPS, component: EpListComponent,    canActivate: [ AdminGuard ] },
       { path: MainNavService.NAV_ADM_CFG, component: ConfigComponent,    canActivate: [ AdminGuard ] },
+    ]},
+  { path: MainNavService.NAV_HELP, component: HelpComponent,
+    children: [
+      { path: "", component: HelpmainComponent},
+      { path: MainNavService.NAV_HELP_MAIN, component: HelpmainComponent},
+      { path: MainNavService.NAV_HELP_LIST, component: HelplistComponent},
+      { path: MainNavService.NAV_HELP_TREE, component: HelptreeComponent},
+      { path: MainNavService.NAV_HELP_VORM, component: HelpvormComponent},
     ]},
   { path: MainNavService.NAV_ERROR, component: ErrorComponent },
   // { path: "error/:status/:msg", component: ErrorComponent },

@@ -1,0 +1,54 @@
+<h3>Hintergrund</h3>
+<p>
+  Das Datei-Archiv soll Ihnen dabei helfen, den Speicherplatzverbrauch auf den Laufwerken I:, J: und U: zu managen.
+</p>
+<p>
+  Hinter den genannten Laufwerken stehen aufwendige Dateiserversysteme der FI mit umfangreichen Möglichkeiten der Datenwiederherstellung.
+  Die Kosten dafür verrechnet die FI uns zur Zeit mit ca. 1 € pro Monat pro GB.
+  Den Speicherplatz permanent zu erweitern würde folglich nur die laufenden Kosten erhöhen. Wir sollten vielmehr
+  versuchen mit sowenig Platz wie möglich auszukommen.
+</p>
+<p>
+  Die beste Möglichkeit den Speicherverbrauch zu begrenzen, besteht im Löschen nicht mehr benötigter Dateien.
+  Das sollte oberste Priorität haben. Für Dateien, die unter Umständen noch einmal gebraucht werden, bietet das
+  Datei-Archiv die Möglichkeit solche Dateien auszulagern und bei Bedarf zurückzuholen.
+</p>
+<p>
+  Die Archivierung erfolgt auf einem Server, der in der Hoheit der Sparkasse befindet und damit über die
+  Hardware hinaus kaum weitere Kosten verursacht.
+</p>
+<h3>Das Datei-Archiv</h3>
+<p>
+  Das Einlesen aller Dateien und Verzeichnisse ist sehr zeitaufwendig. Deshalb passiert das Einlesen über Nacht. Das Programm zeigt also immer
+  den Stand des letzten Nacht an (Datum und Uhrzeit werden am unteren Bildschirmrand angezeigt).
+  Änderungen, die sich im Lauf des Tages ergeben, wird das Datei-Archiv erst am folgenden Tag anzeigen.
+</p>
+<p>
+  Die Aktionen Löschen, ins Archiv verschieben und aus dem Archiv zurückholen werden in der Vormerkungsliste gespeichert und jeweils
+  in der folgenden Nacht ausgeführt. Für dringende Fälle besteht die Möglichkeit einzelne Aktionen sofort zu starten.
+</p>
+<p>
+  Das Programm bietet folgende Funktionen:
+</p>
+<ul>
+  <li>Das Datei-Archiv zeigt den Speicherplatzverbrauch je Verzeichnis an. So können Sie erkennen, wo besonders viel Platz
+      verbraucht wird.</li>
+  <li>Mit dem Datei-Archiv können Sie einzelne Dateien oder ganze Verzeichnisse löschen.</li>
+  <li>Sie können Dateien und Verzeichnisse, die eventuell noch gebraucht werden, ins Archiv verschieben.</li>
+  <li>Sie können Dateien und Verzeichnisse aus dem Archiv zurückholen (die Dateien bleiben dabei im Archiv erhalten). </li>
+</ul>
+<h3>Navigation</h3>
+<p>
+  Das Programm ist in drei Ansichten unterteilt, die über die Navigationsleiste am oberen Rand des Programm-Fensters angesteuert
+  werden.
+</p>
+<ul>
+  <li>Die <button (click)="helpService.goto('list')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-list"></span> OE-Übersicht</button>
+      gibt einen Überblick über den Speicherverbrauch je Abteilung und über die Verzeichnisse im Verantwortungsbereich
+      der Abteilung.</li>
+  <li>In der Ansicht <button (click)="helpService.goto('tree')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-folder-open"></span> Details</button>
+      können Verzeichnisse und Dateien fürs Löschen oder Archivieren/Zurücksichern ausgewählt werden.</li>
+  <li>Der Bildschirm  <button (click)="helpService.goto('vorm')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-check"></span> Vormerkungen</button>
+      zeigt die vorgemerkten Aktionen (Löschen, Archivieren, Zurücksichern) an, die in der folgenden Nacht ausgeführt werden.
+      Hier können Sie einzelne Aktionen zurücknehmen oder sofort ausführen.</li>
+</ul>
