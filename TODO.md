@@ -8,7 +8,7 @@
 
 * JWT-Secret in Server-Config (farc-server/farc.user.check)
 
-* typeorm/ DB-Zugriffe in DAOs zusammenfassen
+* typeorm/ DB-Zugriffe in DAOs zusammenfassen/ evtl. auf loopback4 umstellen?
 
 * app f. Serverconfig, generiert config.json (ggf. verschluesselt)
 
@@ -21,5 +21,7 @@
 * Beim Einlesen Infos fuer Nacharbeiten festhalten + Mail an Admin (z.B. fehlende EP, Zugriffsprobleme)
 
 * Die monolithischen Elemente in kleinere (evtl. wiederverwendbare) components zerlegen
+
+* Alle collections außer entities vor dem Einlesen als JSON sichern -> Test wie Einlesen klappt
 
 * Vormerk-Scripte fuer Linux (hat Zeit)
