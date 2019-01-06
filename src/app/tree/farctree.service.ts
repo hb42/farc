@@ -7,7 +7,15 @@ import {Injectable, } from "@angular/core";
 
 import {AppConfig} from "@hb42/lib-client";
 import {dateString} from "@hb42/lib-common";
-import {confTREEDATE, FarcEntryTypes, FarcSelectType, FarcTreeNode, } from "@hb42/lib-farc";
+import {
+  apiCHILDREN, apiEXECVORM,
+  apiFILES,
+  apiTREE, apiVORMERKUNG,
+  confTREEDATE,
+  FarcEntryTypes,
+  FarcSelectType,
+  FarcTreeNode,
+} from "@hb42/lib-farc";
 import { MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
 import {Table, TableHeaderCheckbox} from "primeng/table";
 import {Observable, } from "rxjs";
@@ -358,17 +366,17 @@ export class FarcTreeService {
   }
 
   private childrenFor(id): Promise<FarcTreeNode[]> {
-    return this.httphandler.get<FarcTreeNode[]>(this.restServer + "/children/" + id)
+    return this.httphandler.get<FarcTreeNode[]>(this.restServer + apiCHILDREN + "/" + id)
       .toPromise();
   }
 
   private filesFor(id): Promise<FarcTreeNode[]> {
-    return this.httphandler.get<FarcTreeNode[]>(this.restServer + "/files/" + id)
+    return this.httphandler.get<FarcTreeNode[]>(this.restServer + apiFILES + "/" + id)
       .toPromise();
   }
 
   private getTree(): Observable<FarcTreeNode[]> {
-    return this.httphandler.get<FarcTreeNode[]>(this.restServer + "/tree");
+    return this.httphandler.get<FarcTreeNode[]>(this.restServer + apiTREE);
   }
 
   /**
@@ -684,7 +692,7 @@ export class FarcTreeService {
         type      : f.type,
       } as FarcTreeNode;
     });
-    return this.httphandler.post(this.restServer + "/vormerkung", selectedfiles)
+    return this.httphandler.post(this.restServer + apiVORMERKUNG, selectedfiles)
       .toPromise().then((rc: string) => {
       if (rc === "OK") {
         if (selectedfiles.length > 0) {
@@ -740,7 +748,7 @@ export class FarcTreeService {
   }
 
   public execVormerk(node: FarcTreeNode): Promise<boolean> {
-    return this.httphandler.get<string>(this.restServer + "/execvorm/" + node.entryid).toPromise()
+    return this.httphandler.get<string>(this.restServer + apiEXECVORM + "/" + node.entryid).toPromise()
       .then((res) => {
         if (res.startsWith("Fehler")) {
           this.status.error(res);

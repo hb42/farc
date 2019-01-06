@@ -2,7 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, } from "@angular/core";
 
 import { AppConfig } from "@hb42/lib-client";
-import { FarcEntryTypes, FarcResultDocument, FarcSelectType, FarcTreeNode, } from "@hb42/lib-farc";
+import {
+  apiRESULT,
+  apiRESULTS,
+  apiVORMERKUNG,
+  FarcEntryTypes,
+  FarcResultDocument,
+  FarcSelectType,
+  FarcTreeNode,
+} from "@hb42/lib-farc";
 import { ConfirmationService } from "primeng/api";
 import { OverlayPanel } from "primeng/primeng";
 
@@ -183,7 +191,7 @@ export class SelectService {
   }
 
   private getSelectList(): Promise<FarcTreeNode[]> {
-    return this.httphandler.get<FarcTreeNode[]>(this.restServer + "/vormerkung").toPromise();
+    return this.httphandler.get<FarcTreeNode[]>(this.restServer + apiVORMERKUNG).toPromise();
   }
 
   private selectListSort() {
@@ -306,11 +314,11 @@ export class SelectService {
   }
 
   private getResultList(): Promise<FarcResultDocument[]> {
-    return this.httphandler.get<FarcResultDocument[]>(this.restServer + "/result").toPromise();
+    return this.httphandler.get<FarcResultDocument[]>(this.restServer + apiRESULTS).toPromise();
   }
 
   private delResult(result: FarcResultDocument): Promise<any> {
-    return this.httphandler.request("delete", this.restServer + "/result", {body: result}).toPromise();
+    return this.httphandler.request("delete", this.restServer + apiRESULT + "/" + result._id).toPromise();
   }
 
 }

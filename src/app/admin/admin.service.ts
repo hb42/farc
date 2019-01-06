@@ -8,7 +8,15 @@ import { MenuItem } from "primeng/api";
 import { Observable, } from "rxjs";
 
 import { AppConfig } from "@hb42/lib-client";
-import { FarcDrive, FarcDriveDocument, FarcEndpunktDocument, FarcOe, FarcOeDocument, } from "@hb42/lib-farc";
+import {
+  apiDRIVES, apiEPS, apiOE,
+  apiOES, apiREADALL, apiREADVORM,
+  FarcDrive,
+  FarcDriveDocument,
+  FarcEndpunktDocument,
+  FarcOe,
+  FarcOeDocument,
+} from "@hb42/lib-farc";
 
 import { ConfigService, MainNavService, StatusService, } from "../shared";
 
@@ -47,43 +55,42 @@ export class AdminService {
 
   public getDrives(): Observable<FarcDriveDocument[]> {
     // this.statusService.success("AdminService getDrives()");
-    return this.httphandler.get<FarcDriveDocument[]>(this.restServer + "/drives");
+    return this.httphandler.get<FarcDriveDocument[]>(this.restServer + apiDRIVES);
   }
 
   public setDrive(drv: FarcDrive) {
-    return this.httphandler.post(this.restServer + "/drives", drv);
+    return this.httphandler.post(this.restServer + apiDRIVES, drv);
   }
 
   public deleteDrive(drv: FarcDriveDocument) {
-    return this.httphandler.request("delete", this.restServer + "/drives", {body: drv});
+    return this.httphandler.request("delete", this.restServer + apiDRIVES, {body: drv});
     // .map( (response: Response) => response.json() );
   }
 
   public getOEs(): Observable<FarcOeDocument[]> {
-    return this.httphandler.get<FarcOeDocument[]>(this.restServer + "/oes");
+    return this.httphandler.get<FarcOeDocument[]>(this.restServer + apiOES);
   }
 
   public setOE(oe: FarcOe) {
-    return this.httphandler.post(this.restServer + "/oes", oe);
+    return this.httphandler.post(this.restServer + apiOES, oe);
     // .map((response: Response) => response.json() );
   }
 
   public deleteOE(oe: FarcOeDocument) {
-    return this.httphandler.request("delete", this.restServer + "/oes", {body: oe});
-      // .pipe(map((response: Response) => response.json()));
+    return this.httphandler.request("delete", this.restServer + apiOE + "/" + oe._id);
   }
 
   public getEps(): Observable<FarcEndpunktDocument[]> {
-    return this.httphandler.get<FarcEndpunktDocument[]>(this.restServer + "/eps");
+    return this.httphandler.get<FarcEndpunktDocument[]>(this.restServer + apiEPS);
   }
 
   public setEp(ep: FarcEndpunktDocument, newoe): Observable<any> {
-    return this.httphandler.post(this.restServer + "/eps", {endpunkt: ep, oe: newoe});
+    return this.httphandler.post(this.restServer + apiEPS, {endpunkt: ep, oe: newoe});
     // .map((response: Response) => response.json() );
   }
 
   public execReadAll() {
-    this.httphandler.get(this.restServer + "/readall")
+    this.httphandler.get(this.restServer + apiREADALL)
       .subscribe(
         (res) => {
           this.statusService.info(res.toString());
@@ -96,7 +103,7 @@ export class AdminService {
   }
 
   public execVormerkAll() {
-    this.httphandler.get(this.restServer + "/readvorm")
+    this.httphandler.get(this.restServer + apiREADVORM)
       .subscribe(
         (res) => {
           this.statusService.info(res.toString());

@@ -6,7 +6,16 @@ import { HttpClient } from "@angular/common/http";
 import { EventEmitter, Injectable, } from "@angular/core";
 
 import { AppConfig, ErrorService, LogonService, SseHandler, Version, VersionService, } from "@hb42/lib-client";
-import { confPACK, confUSER, getConfigValue, setConfigValue, sseNEWTREE, sseNEWVORM } from "@hb42/lib-farc";
+import {
+  apiCONFIG,
+  confPACK,
+  confUSER,
+  getConfigValue,
+  setConfigValue,
+  sseNAME,
+  sseNEWTREE,
+  sseNEWVORM
+} from "@hb42/lib-farc";
 import * as semver from "semver";
 
 import { UserData, } from "./user-data";
@@ -65,7 +74,7 @@ export class ConfigService {
       return "OK";
     }).then((result) => {
       console.debug(">>> getting app meta data");
-      return this.version.init(this.restServer + "/config/" + confPACK).then((ver) => {
+      return this.version.init(this.restServer + apiCONFIG + "/" + confPACK).then((ver) => {
         console.debug(">>> meta data done");
         // this.startKeepalive();
         console.info(ver.displayname + " v" + ver.version + " " + ver.copyright);
@@ -75,7 +84,7 @@ export class ConfigService {
         console.dir(server.versions);
 
         // SSE init
-        this.sse = new SseHandler(AppConfig.settings.webserviceServer, "farc");
+        this.sse = new SseHandler(AppConfig.settings.webserviceServer, sseNAME);
 
         // Verzeichnisse wurden vom Server neu eingelesen
         // => App neu laden, dadurch wird der aktualisierte Baum geholt
@@ -151,7 +160,7 @@ export class ConfigService {
    *
    */
   public getConfig(confName: string): Promise<any> {
-    return this.http.get(this.restServer + "/config/" + confName).toPromise().then((val) => {
+    return this.http.get(this.restServer + apiCONFIG + "/" + confName).toPromise().then((val) => {
       return getConfigValue(val);
     });
   }
@@ -164,13 +173,13 @@ export class ConfigService {
     if (val === null) {
       return this.deleteConfig(confName);
     }
-    return this.http.post(this.restServer + "/config/" + confName, val).toPromise().then( (rc) => {
+    return this.http.post(this.restServer + apiCONFIG + "/" + confName, val).toPromise().then( (rc) => {
       return rc;
     });
   }
 
   public deleteConfig(confName: string): Promise <any> {
-    return this.http.delete(this.restServer + "/config/" + confName).toPromise().then((rc) => {
+    return this.http.delete(this.restServer + apiCONFIG + "/" + confName).toPromise().then((rc) => {
       return rc;
     });
   }
