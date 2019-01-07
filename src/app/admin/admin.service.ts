@@ -10,7 +10,7 @@ import { Observable, } from "rxjs";
 import { AppConfig } from "@hb42/lib-client";
 import {
   apiDRIVES, apiEPS, apiOE,
-  apiOES, apiREADALL, apiREADVORM,
+  apiOES, apiREADALL, apiREADVORM, apiROOT,
   FarcDrive,
   FarcDriveDocument,
   FarcEndpunktDocument,
@@ -29,7 +29,7 @@ export class AdminService {
   constructor(private httphandler: HttpClient, private statusService: StatusService,
               private configService: ConfigService) {
     console.debug("c'tor AdminService");
-    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+    this.restServer = AppConfig.settings.webserviceServer + apiROOT;
 
     const adm = "/" + MainNavService.NAV_ADMI + "/";
     this.adminMenu = [

@@ -4,7 +4,7 @@ import { Injectable, } from "@angular/core";
 import { AppConfig } from "@hb42/lib-client";
 import {
   apiRESULT,
-  apiRESULTS,
+  apiRESULTS, apiROOT,
   apiVORMERKUNG,
   FarcEntryTypes,
   FarcResultDocument,
@@ -66,7 +66,7 @@ export class SelectService {
               private confirmationService: ConfirmationService,
               public farcService: FarcTreeService) {
 
-    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+    this.restServer = AppConfig.settings.webserviceServer + apiROOT;
     this.userSession = this.configService.getUserConfig();
     if (!this.sortField) {
       this.userSession.setSelectsort("label", 1);

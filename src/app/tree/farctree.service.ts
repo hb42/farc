@@ -9,7 +9,7 @@ import {AppConfig} from "@hb42/lib-client";
 import {dateString} from "@hb42/lib-common";
 import {
   apiCHILDREN, apiEXECVORM,
-  apiFILES,
+  apiFILES, apiROOT,
   apiTREE, apiVORMERKUNG,
   confTREEDATE,
   FarcEntryTypes,
@@ -124,7 +124,7 @@ export class FarcTreeService {
     this.sortButtons.push({label: "Name", value: true, icon: "fa fa-fw fa-sort-alpha-asc"});
     this.sortButtons.push({label: "Größe", value: false, icon: "fa fa-fw fa-sort-numeric-desc"});
 
-    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+    this.restServer = AppConfig.settings.webserviceServer + apiROOT;
     this.userSession = this.configService.getUserConfig();
     if (!this.sortField) {
       this.userSession.setFilesort("label", 1);

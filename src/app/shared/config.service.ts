@@ -7,7 +7,7 @@ import { EventEmitter, Injectable, } from "@angular/core";
 
 import { AppConfig, ErrorService, LogonService, SseHandler, Version, VersionService, } from "@hb42/lib-client";
 import {
-  apiCONFIG,
+  apiCONFIG, apiROOT,
   confPACK,
   confUSER,
   getConfigValue,
@@ -52,7 +52,7 @@ export class ConfigService {
               private version: VersionService,
               private errorService: ErrorService) {
     console.debug("c'tor ConfigService");
-    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+    this.restServer = AppConfig.settings.webserviceServer + apiROOT;
 
     // in den Event fuer Benutzer-Config-Aenderungen einklinken
     this.userDataChange.subscribe(() => {

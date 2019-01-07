@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, } from "@angular/core";
 
 import { AppConfig, } from "@hb42/lib-client";
-import { apiOELIST, confGBPRICE, confMWST, FarcTreeNode, } from "@hb42/lib-farc";
+import {apiOELIST, apiROOT, confGBPRICE, confMWST, FarcTreeNode,} from "@hb42/lib-farc";
 
 import { ConfigService, MainNavService, UserSession, } from "../shared";
 import { FarcTreeService, } from "../tree";
@@ -35,7 +35,7 @@ export class ListService {
   constructor(public farcService: FarcTreeService, private mainNavService: MainNavService,
               private httphandler: HttpClient, private configService: ConfigService) {
 
-    this.restServer = AppConfig.settings.webserviceServer + AppConfig.settings.webservicePath;
+    this.restServer = AppConfig.settings.webserviceServer + apiROOT;
     this.userSession = this.configService.getUserConfig();
 
     this.initList();
