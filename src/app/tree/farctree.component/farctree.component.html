@@ -4,16 +4,18 @@
             [class.ui-button-secondary]="farcService.isArcTree"
             [class.text-success]="farcService.isArcTree"
             [class.ui-button-success]="!farcService.isArcTree"
-            title="Original-Laufwerke per {{farcService.lastReadDate}}"></button>
+            pTooltip="Original-Laufwerke per {{farcService.lastReadDate}}"
+            tooltipPosition="right"></button>
     <button pButton type="button" label="Archiv" (click)="farcService.onSwitchTree(true)"
             [class.ui-button-secondary]="!farcService.isArcTree"
             [class.text-danger]="!farcService.isArcTree"
             [class.ui-button-danger]="farcService.isArcTree"
-            title="Archiv-Laufwerke per {{farcService.lastReadDate}}"></button>
+            pTooltip="Archiv-Laufwerke per {{farcService.lastReadDate}}"
+            tooltipPosition="right"></button>
   </div>
   <div class="sort">Sortieren nach <br/>
     <p-selectButton [options]="farcService.sortButtons" [(ngModel)]="farcService.sortalpha"
-                    title="Sortieren" ></p-selectButton>
+                    pTooltip="Sortieren nach Name oder Größe" tooltipPosition="bottom"></p-selectButton>
   </div>
   <!--<button class=" btn btn-link" (click)="farcService.sortalpha = !farcService.sortalpha"-->
           <!--title="{{farcService.sortalpha ? 'Nach Größe sortieren' : 'Nach Name sortieren'}}">-->

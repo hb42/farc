@@ -48,6 +48,7 @@ import {
   SharedModule,
   TabMenuModule,
   ToolbarModule,
+  TooltipModule,
   TreeModule,
   TreeTableModule,
 } from "primeng/primeng";
@@ -169,6 +170,7 @@ export function logonOptionsFactory(): LogonParameter {
               TabMenuModule,
               ToastModule,
               ToolbarModule,
+              TooltipModule,
               TreeModule,
               TreeTableModule,
 
