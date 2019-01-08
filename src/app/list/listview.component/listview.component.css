@@ -7,8 +7,9 @@
 }
 
 .sort-bar {
-  background-color: var(--light);
-  width: 80%;
+  background-color: var(--listheader-background);
+  color: var(--light);
+  width: 100%;
   border-radius: 3px;
 }
 .sort-title {
@@ -19,8 +20,8 @@
 }
 .sort-sum {
   float: left;
-  margin-top: 6px;
   margin-left: 60px;
+  padding: 6px 8px;
 }
 .sort-sum-size {
   font-weight: bold;
@@ -31,6 +32,7 @@
   float: right;
   padding: 7px;
   font-size: 0.8em;
+  margin-right: 2em;
 }
 
 

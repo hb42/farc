@@ -1,7 +1,22 @@
 .menupanel {
   justify-content: space-between;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding: 6px;
+  background-color: var(--light-gray-background);
+}
+
+:host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem {
+  margin-right: 6px;
+  background-color: white;
+}
+
+:host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(1) {
+  background-color: var(--listheader-background);
+}
+:host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(2) {
+  background-color: var(--treeheader-background);
+}
+:host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(3) {
+  background-color: var(--vormheader-background);
 }
 
 .wn-list {

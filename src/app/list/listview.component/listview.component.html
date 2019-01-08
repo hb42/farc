@@ -2,19 +2,19 @@
 
   <div class="sort-bar">
     <div class="sort-title">OE-Übersicht</div>
-    <div class="sort-sum">
+    <div class="sort-sum border-left border-right">
       <span>Summe aller Laufwerke:</span>
       <span class="sort-sum-size">{{listService.fullsum | filesize}}</span>
       <span >&#8793; {{listService.fullprice | currency:'EUR':'symbol':'1.2-2':'de'}} p.a.</span>
     </div>
-    <div class="sort-radio border-left border-right border-top">
+    <div class="sort-radio border-left">
       <span class="radio-margin">Sortierung der Übersicht nach </span>
       <p-radioButton name="sort" value="label" [(ngModel)]="listService.sortalpha" label="Name" class="radio-margin"></p-radioButton>
       <p-radioButton name="sort" value="size" [(ngModel)]="listService.sortalpha" label="Größe"></p-radioButton>
     </div>
   </div>
 
-  <div class="flex-panel flex-max flex-content" style="width: 80%" > <!--[style.min-width]="centerPaneMinWidth"-->
+  <div class="flex-panel flex-max flex-content" style="width: 99%" > <!--[style.min-width]="centerPaneMinWidth"-->
 
     <p-accordion [activeIndex]="listService.index"
                  (onClose)="listService.onAccordionTabClose($event)"

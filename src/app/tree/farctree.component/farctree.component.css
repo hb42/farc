@@ -8,21 +8,22 @@
 
 .treebuttons {
   justify-content: space-between;
-  height: auto;
+  height: 40px;
+  background-color: var(--treeheader-background);
+  padding-left: 2px;
+  align-items: center;
 }
 
-/* feste Position fuer Sort-Button (z.Zt. nicht benoetigt) */
-.sort-button {
-  position: absolute;
-  right: 5px;
-  top: 3px;
-  font-size: 1.3em;
+/* Sort-Buttons im Tree */
+.sort {
+  padding-top: 0.8em;
+  padding-right: 2px;
 }
-
 /* p-selectButtonS verkleinern */
 :host >>> .ui-selectbutton .ui-button {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
+
 :host >>> .ui-selectbutton .ui-button.ui-button-text-icon-left .ui-button-text {
   padding-top: 0.129em;
   padding-bottom: 0.129em;

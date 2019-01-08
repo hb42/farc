@@ -39,7 +39,7 @@
 }
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem {
   font-size: .8em;
-  background-color: var(--info);
+  background-color: var(--gray);
 }
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link .ui-menuitem-text,
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link .ui-menuitem-icon {
@@ -47,5 +47,5 @@
 }
 
 :host ::ng-deep .ui-panel .ui-panel-titlebar {
-  background-color: var(--gray);
+  background-color: var(--info);
 }

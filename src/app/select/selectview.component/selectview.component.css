@@ -1,3 +1,7 @@
+:host ::ng-deep .ui-toolbar {
+  background-color: var(--vormheader-background);
+}
+
 /* sort header color - default ist zu aufdringlich */
 :host >>> th.ui-sortable-column.ui-state-highlight {
   background-color: var(--gray-background);
