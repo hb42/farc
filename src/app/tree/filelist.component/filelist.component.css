@@ -188,3 +188,10 @@ color: var(--gray-dark) !important;
   float: right;;
   margin-left: 1em;
 }
+
+:host ::ng-deep .ui-contextmenu-selected .link {
+  color: white;
+}
+:host ::ng-deep .ui-contextmenu {
+  position: fixed;
+}

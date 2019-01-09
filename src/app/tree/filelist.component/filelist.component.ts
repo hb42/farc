@@ -3,6 +3,7 @@
  */
 
 import { AfterViewChecked, Component, ElementRef, HostBinding, HostListener, OnInit, ViewChild, } from "@angular/core";
+import { ContextMenu } from "primeng/primeng";
 import { Table } from "primeng/table";
 
 import { FarcTreeService, } from "../farctree.service";
@@ -19,6 +20,7 @@ export class FileListComponent implements OnInit, AfterViewChecked {
   public tbHeight: string;
 
   @ViewChild("filetable") protected filetable: Table;
+  @ViewChild("cm") protected ctx: ContextMenu;
 
   private tabBody: HTMLElement;
   private tabTable: HTMLElement;
@@ -87,4 +89,16 @@ export class FileListComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  public showCtx(cm, event) {
+    console.debug("elipsis click");
+    // console.dir(cm);
+    console.dir(event);
+    const evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("contextmenu", true, true, document.defaultView, 1,
+                       event.screenX, event.screenY, event.clientX, event.clientY, false, false,
+                       false, false, 2, null);
+    this.tabBody.dispatchEvent(evt);
+    event.stopPropagation();
+    event.preventDefault();
+  }
 }

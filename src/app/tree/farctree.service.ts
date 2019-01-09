@@ -50,6 +50,8 @@ export class FarcTreeService {
   public fileTable: Table;
 
   public selectedFiles: FarcTreeNode[] = [];
+  // context menu select
+  public ctxSelect: FarcTreeNode;
   // dargestellter Teil der Dateiliste
   public virtualfiles: FarcTreeNode[] = [];
   // nachzuladende Datensaetze
@@ -79,6 +81,8 @@ export class FarcTreeService {
                       ];
 
   public sortButtons: SelectItem[];
+
+  public fileContextMenu: MenuItem[];
 
   // @ts-ignore
   public get isArcTree(): boolean {
@@ -147,6 +151,14 @@ export class FarcTreeService {
         console.debug("done reading tree");
       },
     );
+
+    this.fileContextMenu = [
+      { label: "test1", command: (event) => {
+                              console.debug("context-menu event:");
+                              console.dir(event);
+                            }, },
+      { label: "test2", },
+    ];
   }
 
   /**
@@ -556,6 +568,23 @@ export class FarcTreeService {
     console.debug("(2) _select = " + Object.keys(this.fileTable._selection).length + " selectionKeys = " +
       Object.keys(this.fileTable.selectionKeys).length);
   }
+
+  // --- context menu ---
+
+  // event.data -> FarcTreeNode
+  public contextMenuSelect(event: any) {
+    console.debug("on context menu");
+    // console.dir(event.data);
+    // console.dir(this.ctxSelect);
+
+    // this.fileContextMenu.push({label: "dynamic"});
+  }
+  // public showCtx(cm, event) {
+  //   console.debug("elipsis click");
+  //   console.dir(cm);
+  //   console.dir(event);
+  //   cm.show(event);
+  // }
 
   // --- Vormerkung ---
 

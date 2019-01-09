@@ -24,6 +24,7 @@ import {
   LogonParameter,
   // LogonService,
 } from "@hb42/lib-client";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   AccordionModule,
@@ -33,9 +34,10 @@ import {
   CheckboxModule,
   ConfirmationService,
   ConfirmDialogModule,
+  ContextMenuModule,
   DataTableModule,
   DialogModule,
-  DropdownModule,
+  DropdownModule, MegaMenuModule,
   MenubarModule,
   MenuModule,
   MessageModule, MessageService,
@@ -154,8 +156,10 @@ export function logonOptionsFactory(): LogonParameter {
               CardModule,
               CheckboxModule,
               ConfirmDialogModule,
+              ContextMenuModule,
               DialogModule,
               DropdownModule,
+              MegaMenuModule,
               MenubarModule,
               MenuModule,
               MessageModule,
@@ -173,6 +177,9 @@ export function logonOptionsFactory(): LogonParameter {
               TooltipModule,
               TreeModule,
               TreeTableModule,
+
+              // angular-bootstrp
+              NgbModule,
 
               // -- eigene
               LibClientModule,

@@ -57,6 +57,9 @@
            [virtualRowHeight]="38"
            [rows]="farcService.lazyRows"
   >
+<!-- TODO -->
+           <!--[(contextMenuSelection)]="farcService.ctxSelect" [contextMenu]="cm"-->
+           <!--(onContextMenuSelect)="farcService.contextMenuSelect($event)"-->
     <!--<ng-template pTemplate="caption">-->
 
     <!--</ng-template>-->
@@ -93,7 +96,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="rowData" style="height:38px">
+      <tr [pSelectableRow]="rowData" style="height:38px" [pContextMenuRow]="rowData">
         <td>
           <p-tableCheckbox *ngIf="farcService.isNodeSelectable()" [value]="rowData"></p-tableCheckbox>
         </td>
@@ -130,13 +133,16 @@
                 <i class="fa fa-times"></i>
               </button>
             </mark>
-          <!--<span class="line-menu"><i class="fa fa-ellipsis-v"></i></span>-->
+          <!-- TODO -->
+          <!--<a class="line-menu" (click)="showCtx(cm, $event)"><i class="fa fa-ellipsis-v"></i></a>-->
+
         </td>
       </tr>
     </ng-template>
     <!--<ng-template pTemplate="summary">-->
     <!--</ng-template>-->
   </p-table>
+  <p-contextMenu #cm [model]="farcService.fileContextMenu" appendTo="body"></p-contextMenu>
 </div>
 
 <div class="filelist-status small bg-light200"
