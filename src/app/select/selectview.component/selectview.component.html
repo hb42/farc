@@ -1,11 +1,8 @@
 <div class="flex-col" >
-  <!-- TODO p-selectButton -->
 
   <p-toolbar class="flex-panel flex-content-fix vorm-header"
-             [style.min-height]="tbHeight" [style.height]="tbHeight"
-  >
-    <p-selectButton [options]="selectButtons" [(ngModel)]="selectService.selectTable"
-                    ></p-selectButton>
+             [style.min-height]="tbHeight" [style.height]="tbHeight">
+    <p-selectButton [options]="selectButtons" [(ngModel)]="selectService.selectTable"></p-selectButton>
   </p-toolbar>
 
   <div id="selectlisttable" class="flex-panel flex-content-fix" [style.width]="centerPaneWidth" [style.min-width]="centerPaneMinWidth" style="height: 100%; max-height: 100%;">
@@ -70,16 +67,17 @@
           <td class="right-align">{{rowData.selectDate | date:'medium' }}</td>
           <td>
             <div *ngIf="rowData.selected > 0" class="right-align">
-              <mark title="{{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}">{{rowData.selected | vormerk }}
+              <mark title="{{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}" class="select-mark">
+                {{rowData.selected | vormerk }}
                 <button class="btn btn-link text-success iconbtn"
                         (click)="selectService.execVormerk(rowData)"
                         title="Vormerkung sofort ausführen">
-                  <i class="fa fa-check-circle"></i>
+                  <i class="fa fa-play"></i>
                 </button>
                 <button class="btn btn-link text-danger iconbtn"
                         (click)="selectService.undoSelectionFor(rowData)"
                         title="Vormerkung entfernen">
-                  <i class="fa fa-times-circle"></i>
+                  <i class="fa fa-times"></i>
                 </button>
               </mark>
             </div>
