@@ -35,7 +35,7 @@ export class MainNavService {
     this.usersession = this.configService.getUserConfig();
 
     this.mainMenu = [
-      {label: "OE-Übersicht", icon: "fa fa-list",         routerLink: ["/" + MainNavService.NAV_LIST]},
+      {label: "OE-Übersicht", icon: "fa fa-list-alt",     routerLink: ["/" + MainNavService.NAV_LIST]},
       {label: "Details",      icon: "fa fa-folder-open",  routerLink: ["/" + MainNavService.NAV_TREE]},
       {label: "Vormerkungen", icon: "fa fa-check",        routerLink: ["/" + MainNavService.NAV_VORM]},
       {label: "Admin",        icon: "fa fa-gears",        routerLink: ["/" + MainNavService.NAV_ADMI],

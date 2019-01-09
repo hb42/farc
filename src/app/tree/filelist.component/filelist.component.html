@@ -2,18 +2,18 @@
   <span class="filelist-navbar-text">Ausgewählte Zeilen: </span>
   <!--<div *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt' && farcService.selectedFiles.length > 0"-->
        <!--class=" button-height">-->
-    <button class="btn btn-sm btn-warning button-height" [class.disabled]="!farcService.selectedFiles.length"
+    <button class="btn btn-sm btn-warning file-button" [class.disabled]="!farcService.selectedFiles.length"
             (click)="farcService.moveSelected()"
             title="{{farcService.isArcTree ? 'Auswahl aus dem Archiv zurückkopieren'
                                            : 'Auswahl ins Archiv verschieben'}}">
       <i class="fa fa-plus"></i> {{farcService.isArcTree ? "Zurücksichern" : "Archivieren"}}
     </button>
-    <button class="btn btn-sm btn-warning button-height" [class.disabled]="!farcService.selectedFiles.length"
+    <button class="btn btn-sm btn-warning file-button" [class.disabled]="!farcService.selectedFiles.length"
             (click)="farcService.delSelected()"
             title="Ausgewählte Dateien und Verzeichnisse fürs Löschen vormerken">
       <i class="fa fa-trash"></i> Löschen
     </button>
-    <button class="btn btn-sm btn-warning button-height" [class.disabled]="!farcService.vormerkInSelected()"
+    <button class="btn btn-sm btn-warning file-button" *ngIf="farcService.vormerkInSelected()"
             (click)="farcService.undoSelection()"
             title="Vorhandene Vormerkungen für die ausgewählten Dateien und Verzeichnisse entfernen">
       <i class="fa fa-times-circle"></i> Vormerkung entfernen
@@ -22,14 +22,19 @@
 
 </div>
 
-<div class="card" >
+<div class="card"
+     [class.header-orig]="!farcService.isArcTree"
+     [class.header-arc]="farcService.isArcTree">
   <div class="card-body bg-light200" >
     <p-breadcrumb [model]="farcService.breadcrumbs"></p-breadcrumb>
   </div>
 </div>
 
 <!-- damit Scrolling fkt. muss dataTable mit div umgeben werden -->
-<div id="filelisttable" class="flex-panel flex-content-fix" >
+<div id="filelisttable" class="flex-panel flex-content-fix"
+     [class.list-orig]="!farcService.isArcTree"
+     [class.list-arc]="farcService.isArcTree">
+
   <p-table #filetable
            [value]="farcService.virtualfiles"
            [scrollable]="true"
@@ -107,25 +112,25 @@
         </td>
         <td class="right-align">{{rowData.size | filesize }}</td>
         <td class="right-align">{{rowData.timestamp | date:'medium' }}</td>
-        <td>
-          <div *ngIf="rowData.selected > 0" class="right-align">
-            <mark title="{{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}"
+        <td class="right-align">
+            <mark *ngIf="rowData.selected > 0" class="select-mark"
+                  title="Für kommende Nacht vorgemerkt. Veranlasst von {{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}"
                   [class.inheritselect]="!farcService.isNodeSelectable()">
               {{rowData.selected | vormerk }}
               <button *ngIf="farcService.isNodeSelectable()"
                       class="btn btn-link text-success iconbtn"
                       (click)="farcService.execVormerk(rowData)"
                       title="Vormerkung sofort ausführen">
-                <i class="fa fa-check-circle"></i>
+                <i class="fa fa-play"></i>
               </button>
               <button *ngIf="farcService.isNodeSelectable()"
                       class="btn btn-link text-danger iconbtn"
                       (click)="farcService.undoSelectionFor(rowData)"
                       title="Vormerkung entfernen">
-                <i class="fa fa-times-circle"></i>
+                <i class="fa fa-times"></i>
               </button>
             </mark>
-          </div>
+          <!--<span class="line-menu"><i class="fa fa-ellipsis-v"></i></span>-->
         </td>
       </tr>
     </ng-template>
@@ -134,31 +139,10 @@
   </p-table>
 </div>
 
-<div class="filelist-status small bg-light200">
-  <!--<div >-->
-  <!--<div *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt' && farcService.selectedFiles.length > 0"-->
-       <!--class=" button-height">-->
-    <!--<button class="btn btn-sm btn-warning"-->
-            <!--(click)="farcService.moveSelected()"-->
-            <!--title="{{farcService.selectedNode.arc ? 'Auswahl aus dem Archiv zurückkopieren'-->
-                                                  <!--: 'Auswahl ins Archiv verschieben'}}">-->
-      <!--<i class="fa fa-plus"></i> {{farcService.selectedNode.arc ? "Zurücksichern" : "Archivieren"}}-->
-    <!--</button>-->
-    <!--<button class="btn btn-sm btn-warning"-->
-            <!--(click)="farcService.delSelected()"-->
-            <!--title="Ausgewählte Dateien und Verzeichnisse fürs Löschen vormerken">-->
-      <!--<i class="fa fa-trash"></i> Löschen-->
-    <!--</button>-->
-    <!--<button class="btn btn-sm btn-warning" [class.disabled]="!farcService.vormerkInSelected()"-->
-            <!--(click)="farcService.undoSelection()"-->
-            <!--title="Vorhandene Vormerkungen für die ausgewählten Dateien und Verzeichnisse entfernen">-->
-      <!--<i class="fa fa-times-circle"></i> Vormerkung entfernen-->
-    <!--</button>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<div  class="small sum-panel">-->
-    <div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div>
+<div class="filelist-status small bg-light200"
+     [class.footer-orig]="!farcService.isArcTree"
+     [class.footer-arc]="farcService.isArcTree">
+<div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div>
     <div class="sum-line ui-state-highlight select-sum" *ngIf="farcService.selectedFiles.length" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </div>
     <mark *ngIf="farcService.isVormerk()" class="sum-line todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
-  <!--</div>-->
 </div>

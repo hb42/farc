@@ -8,16 +8,41 @@
 
 .treebuttons {
   justify-content: space-between;
-  height: 40px;
+  height: 50px;
+  min-height: 50px;
   background-color: var(--treeheader-background);
-  padding-left: 2px;
-  align-items: center;
+  padding-left: 6px;
+  padding-top: 12px;
+}
+/* die beiden folgenden Klassen muessen so spezifisch sein,
+   weil '!important' nicht mit var() funktioniert
+   (zumnindest bei Angular AOT)
+ */
+:host ::ng-deep .ui-state-default.ui-button-success.orig-button-active {
+  border-bottom: 10px solid var(--original-color);
+}
+:host ::ng-deep .ui-state-default.ui-button-danger.arc-button-active {
+  border-bottom: 10px solid var(--archive-color);
+}
+.orig-border {
+  border-top: 3px solid var(--original-color);
+  border-left: 3px solid var(--original-color);
+  border-bottom: 3px solid var(--original-color);
+}
+.arc-border {
+  border-top: 3px solid var(--archive-color);
+  border-left: 3px solid var(--archive-color);
+  border-bottom: 3px solid var(--archive-color);
+}
+
+:host ::ng-deep .ui-button.ui-state-default.ui-button-danger {
+  background-color: var(--archive-color);
 }
 
 /* Sort-Buttons im Tree */
 .sort {
   padding-top: 0.8em;
-  padding-right: 2px;
+  padding-right: 6px;
 }
 /* p-selectButtonS verkleinern */
 :host >>> .ui-selectbutton .ui-button {

@@ -1,5 +1,6 @@
 :host ::ng-deep .ui-toolbar {
   background-color: var(--vormheader-background);
+  border: 0;
 }
 
 /* sort header color - default ist zu aufdringlich */
@@ -26,4 +27,8 @@ pre {
 :host >>> .ui-overlaypanel.ui-overlaypanel-flipped:before,
 :host >>> .ui-overlaypanel.ui-overlaypanel-flipped:after {
   display: none;
+}
+
+.select-mark {
+  font-style: italic;
 }

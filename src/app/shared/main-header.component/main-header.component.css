@@ -11,12 +11,15 @@
 
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(1) {
   background-color: var(--listheader-background);
+  border-color: var(--panel-border-color);
 }
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(2) {
   background-color: var(--treeheader-background);
+  border-color: var(--panel-border-color);
 }
 :host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active:nth-child(3) {
   background-color: var(--vormheader-background);
+  border-color: var(--panel-border-color);
 }
 
 .wn-list {

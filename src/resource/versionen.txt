@@ -1,5 +1,10 @@
 Changelog
 
+3.0.0-beta.5  09.01.2019
+           Design des Seitenkopfes uebearbeitet. Einheiltiche 'Menueleiste' und klarere
+           Erkennbarkeit der Tab. Kleine Aenderungen im Filelist-Design. Auswahl Original
+           Archiv deutlicher gestaltet.
+
 3.0.0-beta.3  06.01.2019
            REST-API-Pfade als const in lib-farc abgelegt, sowie ein paar Ungereimtheiten
            bei der API bereinigt.

@@ -1,5 +1,6 @@
 .filelist-navbar {
-  height: 40px;
+  height: 50px;
+  min-height: 50px;
   background-color: var(--treeheader-background);
   display: flex;
   flex-wrap: nowrap;
@@ -15,12 +16,42 @@
   background-color: var(--treeheader-background);
   border-color: var(--light);
 }
+.file-button {
+  height: 25px;
+  margin-top: 2px;
+}
 
 .filelist-status {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   padding: 6px;
+}
+
+.header-orig {
+  border-radius: 0;
+  border-bottom: 0;
+  border-top: 3px solid var(--original-color);
+  border-right: 3px solid var(--original-color);
+}
+.header-arc {
+  border-radius: 0;
+  border-top: 3px solid var(--archive-color);
+  border-right: 3px solid var(--archive-color);
+}
+.list-orig {
+  border-right: 3px solid var(--original-color);
+}
+.list-arc {
+  border-right: 3px solid var(--archive-color);
+}
+.footer-orig {
+  border-right: 3px solid var(--original-color);
+  border-bottom: 3px solid var(--original-color);
+}
+.footer-arc {
+  border-right: 3px solid var(--archive-color);
+  border-bottom: 3px solid var(--archive-color);
 }
 
 /** breadcrumb **/
@@ -75,10 +106,7 @@
 }
 
 /** list footer **/
-/* panel height fuer ausgeblendete Buttons */
-.button-height {
-  height: 25px;
-}
+
 /* in Kombination mit float:right bewirken overflow:hidden + white-space:nowrap,
    das *links* abgeschnitten wird */
 .sum-panel {
@@ -147,11 +175,16 @@ color: var(--gray-dark) !important;
   padding: 0.5em 0.5em;
 }
 
+.select-mark {
+  font-style: italic;
+}
 /* vererbte Vormerkung */
 .inheritselect {
   opacity: .75;
 }
-/* padding f. Vormerkungs-Text abschalten (damit es zum Rest passt)*/
-/*mark {*/
-  /*padding: 0 5px;*/
-/*}*/
+
+/* Entry-Menu */
+.line-menu {
+  float: right;;
+  margin-left: 1em;
+}

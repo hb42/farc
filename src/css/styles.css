@@ -8,9 +8,12 @@
   --light-gray-background: #e4e4e4;
   --lighter-gray-background: #f4f4f4;
 
-  --listheader-background: darkred;
-  --treeheader-background: darkslategray;
-  --vormheader-background: darkblue;
+  --listheader-background: #5f4f5f;
+  --treeheader-background: #2f4f6f;
+  --vormheader-background: #4f5f4f;
+
+  --original-color: #34a835;
+  --archive-color: #bd2834; /*#e91224;*/
 
   --file-icon-color: goldenrod;
   --folder-icon-color: gold;

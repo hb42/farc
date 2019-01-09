@@ -10,18 +10,18 @@
   background-color: var(--listheader-background);
   color: var(--light);
   width: 100%;
-  border-radius: 3px;
+  height: 50px;
+  min-height: 50px;
 }
 .sort-title {
   font-size: x-large;
-  margin-left: 10px;
-  margin-right: 10px;
   float: left;
+  padding: 8px 18px;
 }
 .sort-sum {
   float: left;
   margin-left: 60px;
-  padding: 6px 8px;
+  padding: 16px 18px;
 }
 .sort-sum-size {
   font-weight: bold;
@@ -30,7 +30,7 @@
 }
 .sort-radio {
   float: right;
-  padding: 7px;
+  padding: 18px 18px;
   font-size: 0.8em;
   margin-right: 2em;
 }
