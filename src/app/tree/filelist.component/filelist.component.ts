@@ -20,7 +20,6 @@ export class FileListComponent implements OnInit, AfterViewChecked {
   public tbHeight: string;
 
   @ViewChild("filetable") protected filetable: Table;
-  @ViewChild("cm") protected ctx: ContextMenu;
 
   private tabBody: HTMLElement;
   private tabTable: HTMLElement;
@@ -91,13 +90,20 @@ export class FileListComponent implements OnInit, AfterViewChecked {
 
   public showCtx(cm, event) {
     console.debug("elipsis click");
-    // console.dir(cm);
+    console.dir(cm);
     console.dir(event);
     const evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent("contextmenu", true, true, document.defaultView, 1,
-                       event.screenX, event.screenY, event.clientX, event.clientY, false, false,
-                       false, false, 2, null);
-    this.tabBody.dispatchEvent(evt);
+    evt.initMouseEvent("contextmenu", event.bubbles, event.cancelable, event.view,
+                       event.detail, event.screenX, event.screenY, event.clientX, event.clientY,
+                       event.ctrlKey, event.altKey, event.shiftKey, event.metaKey,
+                       2, event.relatedTarget);
+    event.target.dispatchEvent(evt);
+
+    // const evt = document.createEvent("MouseEvents");
+    // evt.initMouseEvent("contextmenu", true, true, document.defaultView, 1,
+    //                    event.screenX, event.screenY, event.clientX, event.clientY, false, false,
+    //                    false, false, 2, null);
+    // this.tabBody.dispatchEvent(evt);
     event.stopPropagation();
     event.preventDefault();
   }

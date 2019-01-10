@@ -2,25 +2,28 @@
  * Created by hb on 17.07.16.
  */
 
-import {HttpClient, } from "@angular/common/http";
-import {Injectable, } from "@angular/core";
+import { HttpClient, } from "@angular/common/http";
+import { Injectable, } from "@angular/core";
 
-import {AppConfig} from "@hb42/lib-client";
-import {dateString} from "@hb42/lib-common";
+import { AppConfig } from "@hb42/lib-client";
+import { dateString } from "@hb42/lib-common";
 import {
-  apiCHILDREN, apiEXECVORM,
-  apiFILES, apiROOT,
-  apiTREE, apiVORMERKUNG,
+  apiCHILDREN,
+  apiEXECVORM,
+  apiFILES,
+  apiROOT,
+  apiTREE,
+  apiVORMERKUNG,
   confTREEDATE,
   FarcEntryTypes,
   FarcSelectType,
   FarcTreeNode,
 } from "@hb42/lib-farc";
 import { MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
-import {Table, TableHeaderCheckbox} from "primeng/table";
-import {Observable, } from "rxjs";
+import { Table, TableHeaderCheckbox, } from "primeng/table";
+import { Observable, } from "rxjs";
 
-import {ConfigService, StatusService, UserSession, } from "../shared";
+import { ConfigService, StatusService, UserSession, } from "../shared";
 
 @Injectable()
 export class FarcTreeService {
@@ -152,13 +155,6 @@ export class FarcTreeService {
       },
     );
 
-    this.fileContextMenu = [
-      { label: "test1", command: (event) => {
-                              console.debug("context-menu event:");
-                              console.dir(event);
-                            }, },
-      { label: "test2", },
-    ];
   }
 
   /**
@@ -574,17 +570,93 @@ export class FarcTreeService {
   // event.data -> FarcTreeNode
   public contextMenuSelect(event: any) {
     console.debug("on context menu");
-    // console.dir(event.data);
-    // console.dir(this.ctxSelect);
+    const node: FarcTreeNode = event.data;
 
-    // this.fileContextMenu.push({label: "dynamic"});
+    this.fileContextMenu = [];
+    const menuDel: MenuItem = {
+      label: "Löschen", command: (evt) => {
+        this.setVormerk([node], FarcSelectType.del);
+        this.saveVormerk([node]).then((rc) => {
+          this.ctxSelect = null;
+        })
+      }, icon: "fa fa-trash"
+    };
+    const menuArc: MenuItem = {
+      label: "Archivieren", command: (evt) => {
+        this.setVormerk([node], FarcSelectType.toArchive);
+        this.saveVormerk([node]).then((rc) => {
+          this.ctxSelect = null;
+        })
+      }, icon: "fa fa-plus"
+    };
+    const menuBack: MenuItem = {
+      label: "Zurücksichern", command: (evt) => {
+        this.setVormerk([node], FarcSelectType.fromArchive);
+        this.saveVormerk([node]).then((rc) => {
+          this.ctxSelect = null;
+        })
+      }, icon: "fa fa-plus"
+    };
+    const menuNone: MenuItem = {
+      label: "Vormerkung entfernen", command: (evt) => {
+        this.setVormerk([node], FarcSelectType.none);
+        this.saveVormerk([node]).then((rc) => {
+          this.ctxSelect = null;
+        })
+      }, icon: "fa fa-times"
+    };
+    const menuExec: MenuItem = {
+      label: "Vormerkung sofort ausführen", command: (evt) => {
+        this.execVormerk(node).then((rc) => {
+          this.ctxSelect = null;
+        })
+        }, icon: "fa fa-play"
+    };
+    const menuSep: MenuItem = {
+      separator: true,
+    };
+
+    if (this.nodeMenuSelectable(node)) {
+      if (node.selected === FarcSelectType.none) { // nichts vorgemerkt
+        this.fileContextMenu.push(menuDel);
+        this.fileContextMenu.push(node.arc ? menuBack : menuArc);
+      } else {
+        if (node.selected === FarcSelectType.del) {  // Loeschen
+          this.fileContextMenu.push(node.arc ? menuBack : menuArc);
+        } else {
+          this.fileContextMenu.push(menuDel);
+        }
+        this.fileContextMenu.push(menuSep);
+        this.fileContextMenu.push(menuNone);
+        this.fileContextMenu.push(menuExec);
+      }
+    }
   }
-  // public showCtx(cm, event) {
-  //   console.debug("elipsis click");
-  //   console.dir(cm);
-  //   console.dir(event);
-  //   cm.show(event);
-  // }
+
+  /**
+   * Klick auf Zeilenmenue als Rechtsklick weiterschicken.
+   *
+   * Dadurch wird das primeNG-ContextMenu ausgeloest. Andere Moeglichkeiten
+   * ein Menu anzuhaengen waeren noch aufwendiger, also erst einmal mit den
+   * 'Nebenwirkungen' des ContextMenu fuer die Zeile leben.
+   *
+   * @param event
+   */
+  public showCtx(event) {
+    console.debug("elipsis click");
+    // neuer mouse event
+    const evt = document.createEvent("MouseEvents");
+    // als Rechtsklick mit den Werten des Linksklick
+    evt.initMouseEvent("contextmenu", event.bubbles, event.cancelable, event.view,
+                       event.detail, event.screenX, event.screenY, event.clientX, event.clientY,
+                       event.ctrlKey, event.altKey, event.shiftKey, event.metaKey,
+                       2, event.relatedTarget);
+    // an den Ausloeser des Linksklicks schicken
+    event.target.dispatchEvent(evt);
+    // alten event beenden
+    event.stopPropagation();
+    event.preventDefault();
+  }
 
   // --- Vormerkung ---
 
@@ -595,6 +667,9 @@ export class FarcTreeService {
     return this.selectedNode && (this.selectedNode.entrytype === FarcEntryTypes.ep ||
                                  this.selectedNode.entrytype === FarcEntryTypes.dir)
       && !this.selectedNode.selected;  // selected -> Knoten ist vorgemerkt, dann ist die Vormerkung hier vererbt
+  }
+  private nodeMenuSelectable(node: FarcTreeNode): boolean {
+    return node && (node.entrytype === FarcEntryTypes.dir || node.entrytype === FarcEntryTypes.file);
   }
 
   public moveSelected() {

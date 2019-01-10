@@ -56,10 +56,10 @@
            [totalRecords]="farcService.totalRows"
            [virtualRowHeight]="38"
            [rows]="farcService.lazyRows"
+           [(contextMenuSelection)]="farcService.ctxSelect" [contextMenu]="cm"
+           (onContextMenuSelect)="farcService.contextMenuSelect($event)"
   >
 <!-- TODO -->
-           <!--[(contextMenuSelection)]="farcService.ctxSelect" [contextMenu]="cm"-->
-           <!--(onContextMenuSelect)="farcService.contextMenuSelect($event)"-->
     <!--<ng-template pTemplate="caption">-->
 
     <!--</ng-template>-->
@@ -96,7 +96,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="rowData" style="height:38px" [pContextMenuRow]="rowData">
+      <tr [pSelectableRow]="rowData" style="height:38px" >
         <td>
           <p-tableCheckbox *ngIf="farcService.isNodeSelectable()" [value]="rowData"></p-tableCheckbox>
         </td>
@@ -115,7 +115,7 @@
         </td>
         <td class="right-align">{{rowData.size | filesize }}</td>
         <td class="right-align">{{rowData.timestamp | date:'medium' }}</td>
-        <td class="right-align">
+        <td class="right-align" >
             <mark *ngIf="rowData.selected > 0" class="select-mark"
                   title="Für kommende Nacht vorgemerkt. Veranlasst von {{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}"
                   [class.inheritselect]="!farcService.isNodeSelectable()">
@@ -134,15 +134,16 @@
               </button>
             </mark>
           <!-- TODO -->
-          <!--<a class="line-menu" (click)="showCtx(cm, $event)"><i class="fa fa-ellipsis-v"></i></a>-->
-
+          <a class="line-menu" (click)="farcService.showCtx($event)" [pContextMenuRow]="rowData"><i class="fa fa-ellipsis-v"></i></a>
         </td>
       </tr>
     </ng-template>
     <!--<ng-template pTemplate="summary">-->
     <!--</ng-template>-->
   </p-table>
+
   <p-contextMenu #cm [model]="farcService.fileContextMenu" appendTo="body"></p-contextMenu>
+
 </div>
 
 <div class="filelist-status small bg-light200"
