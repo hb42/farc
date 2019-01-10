@@ -134,7 +134,11 @@
               </button>
             </mark>
           <!-- TODO -->
-          <a class="line-menu" (click)="farcService.showCtx($event)" [pContextMenuRow]="rowData"><i class="fa fa-ellipsis-v"></i></a>
+          <a class="line-menu" (click)="farcService.showCtx($event)"
+             *ngIf="farcService.isNodeSelectable()"
+             [pContextMenuRow]="rowData">
+            <i class="fa fa-ellipsis-v"></i>
+          </a>
         </td>
       </tr>
     </ng-template>
