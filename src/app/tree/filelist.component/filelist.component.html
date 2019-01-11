@@ -1,7 +1,5 @@
 <div class="filelist-navbar">
   <span class="filelist-navbar-text">Ausgewählte Zeilen: </span>
-  <!--<div *ngIf="farcService.selectedNode && farcService.selectedNode.type !== 'strukt' && farcService.selectedFiles.length > 0"-->
-       <!--class=" button-height">-->
     <button class="btn btn-sm btn-warning file-button" [class.disabled]="!farcService.selectedFiles.length"
             (click)="farcService.moveSelected()"
             title="{{farcService.isArcTree ? 'Auswahl aus dem Archiv zurückkopieren'
@@ -18,8 +16,6 @@
             title="Vorhandene Vormerkungen für die ausgewählten Dateien und Verzeichnisse entfernen">
       <i class="fa fa-times-circle"></i> Vormerkung entfernen
     </button>
-  <!--</div>-->
-
 </div>
 
 <div class="card"
@@ -59,10 +55,6 @@
            [(contextMenuSelection)]="farcService.ctxSelect" [contextMenu]="cm"
            (onContextMenuSelect)="farcService.contextMenuSelect($event)"
   >
-<!-- TODO -->
-    <!--<ng-template pTemplate="caption">-->
-
-    <!--</ng-template>-->
     <ng-template pTemplate="emptymessage">
       Keine Dateien gefunden.
     </ng-template>
@@ -120,20 +112,19 @@
                   title="Für kommende Nacht vorgemerkt. Veranlasst von {{rowData.selectUid}} - {{rowData.selectDate | date:'medium'}}"
                   [class.inheritselect]="!farcService.isNodeSelectable()">
               {{rowData.selected | vormerk }}
-              <button *ngIf="farcService.isNodeSelectable()"
-                      class="btn btn-link text-success iconbtn"
-                      (click)="farcService.execVormerk(rowData)"
-                      title="Vormerkung sofort ausführen">
-                <i class="fa fa-play"></i>
-              </button>
-              <button *ngIf="farcService.isNodeSelectable()"
-                      class="btn btn-link text-danger iconbtn"
-                      (click)="farcService.undoSelectionFor(rowData)"
-                      title="Vormerkung entfernen">
-                <i class="fa fa-times"></i>
-              </button>
+              <!--<button *ngIf="farcService.isNodeSelectable()"-->
+                      <!--class="btn btn-link text-success iconbtn"-->
+                      <!--(click)="farcService.execVormerk(rowData)"-->
+                      <!--title="Vormerkung sofort ausführen">-->
+                <!--<i class="fa fa-play"></i>-->
+              <!--</button>-->
+              <!--<button *ngIf="farcService.isNodeSelectable()"-->
+                      <!--class="btn btn-link text-danger iconbtn"-->
+                      <!--(click)="farcService.undoSelectionFor(rowData)"-->
+                      <!--title="Vormerkung entfernen">-->
+                <!--<i class="fa fa-times"></i>-->
+              <!--</button>-->
             </mark>
-          <!-- TODO -->
           <a class="line-menu" (click)="farcService.showCtx($event)"
              *ngIf="farcService.isNodeSelectable()"
              [pContextMenuRow]="rowData">
@@ -142,8 +133,6 @@
         </td>
       </tr>
     </ng-template>
-    <!--<ng-template pTemplate="summary">-->
-    <!--</ng-template>-->
   </p-table>
 
   <p-contextMenu #cm [model]="farcService.fileContextMenu" appendTo="body"></p-contextMenu>

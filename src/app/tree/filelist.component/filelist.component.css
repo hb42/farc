@@ -1,3 +1,10 @@
+
+#filelisttable {
+  height: 100%;
+  max-height: 100%;
+}
+
+/* Kopfzeile mit buttons */
 .filelist-navbar {
   height: 50px;
   min-height: 50px;
@@ -21,13 +28,7 @@
   margin-top: 2px;
 }
 
-.filelist-status {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  padding: 6px;
-}
-
+/* farbiger Rahmen zur Unterscheidung Original - Archiv */
 .header-orig {
   border-radius: 0;
   border-bottom: 0;
@@ -100,15 +101,13 @@
 }
 */
 
-#filelisttable {
-  height: 100%;
-  max-height: 100%;
-}
-
 /** list footer **/
-
-/* in Kombination mit float:right bewirken overflow:hidden + white-space:nowrap,
-   das *links* abgeschnitten wird */
+.filelist-status {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 6px;
+}
 .sum-panel {
   overflow: hidden;
   white-space: nowrap;
@@ -190,11 +189,4 @@ color: var(--gray-dark) !important;
   padding-left: 5px;
   padding-right: 5px;
   cursor: pointer;
-}
-
-:host ::ng-deep .ui-contextmenu-selected .link {
-  color: white;
-}
-:host ::ng-deep .ui-contextmenu {
-  position: fixed;
 }

@@ -567,11 +567,14 @@ export class FarcTreeService {
 
   // --- context menu ---
 
-  // event.data -> FarcTreeNode
+  /**
+   * onContextmen: Zeilenmenue zusammensetzen
+   *
+   * @param event
+   */
   public contextMenuSelect(event: any) {
-    console.debug("on context menu");
     const node: FarcTreeNode = event.data;
-    this.fileContextMenu = [];
+
     const menuDel: MenuItem = {
       label: "Löschen", command: (evt) => {
         this.setVormerk([node], FarcSelectType.del);
@@ -615,18 +618,19 @@ export class FarcTreeService {
       separator: true,
     };
 
+    this.fileContextMenu = [];
     if (node.selected === FarcSelectType.none) { // nichts vorgemerkt
       this.fileContextMenu.push(menuDel);
       this.fileContextMenu.push(node.arc ? menuBack : menuArc);
     } else {
-      if (node.selected === FarcSelectType.del) {  // Loeschen
+      this.fileContextMenu.push(menuNone);
+      this.fileContextMenu.push(menuExec);
+      this.fileContextMenu.push(menuSep);
+      if (node.selected === FarcSelectType.del) {
         this.fileContextMenu.push(node.arc ? menuBack : menuArc);
       } else {
         this.fileContextMenu.push(menuDel);
       }
-      this.fileContextMenu.push(menuSep);
-      this.fileContextMenu.push(menuNone);
-      this.fileContextMenu.push(menuExec);
     }
   }
 
