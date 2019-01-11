@@ -2,7 +2,7 @@
   "name": "@hb42/farc",
   "displayname": "Datei-Archiv",
   "description": "Auslagern und Zurücksichern für den FI-Filer",
-  "version": "3.0.0-beta.6",
+  "version": "3.0.0-beta.7",
   "copyright": "Copyright (c) 2011-2019 Hartmut Bauer",
   "author": "hb",
   "license": "MIT",
@@ -69,7 +69,7 @@
     "primeng": "^7.0.4",
     "rxjs": "^6.3.3",
     "semver": "^5.6.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "^0.8.27"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.12.1",
@@ -93,7 +93,7 @@
     "node-sass": "^4.11.0",
     "protractor": "^5.4.2",
     "ts-node": "~7.0.0",
-    "tslint": "~5.12.0",
+    "tslint": "^5.12.1",
     "typescript": "3.2.2"
   }
 }

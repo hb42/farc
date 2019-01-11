@@ -1,24 +1,42 @@
 /**
  * electron Start-Script
+ *
+ * stdout mit electron ist problematisch, da electron nur zu console und
+ * nicht auf stdout ausgibt. Dieses Verhelten laesst sich aendern indem
+ * folgende Umgebungsvaribale gesetzt wird:
+ *   set ELECTRON_NO_ATTACH_CONSOLE=true
+ * Wenn electron allerdings via "start xxx.exe" aufgerufen wird funktioniert
+ * das nicht (die pipe mit ^ escapen hilft auch nicht).
+ *
+ * Da der Aufruf von einem Netzlaufwerk sehr langsam sein kann, waere es nuetzlich,
+ * die Umgebung zu informieren, wenn die Anwendung soweit ist. Dies wird realisiert,
+ * indem electron als zweiter Parameter ein Dateiname uebergeben wird. Wenn die
+ * Anwendung per IPC-event "app-ready" Bereitschaft meldet wird die Datei angelegt.
+ * Das laesst sich recht einfach per Batch-Script abfragen.
+ *
  */
  
-const electron = require('electron')
+const electron = require("electron");
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
 const session = electron.session;
 const ipcMain = electron.ipcMain;
 
-const windowStateKeeper = require('electron-window-state');
+const windowStateKeeper = require("electron-window-state");
 
-const path = require('path')
-const url = require('url')
+const path = require("path");
+const url = require("url");
+const fs = require("fs");
 
 // Kommandozeile
 //   - command line param[1] "dev" startet die Entwicklertools mit der Anwendung
 const development = process.argv[1] === "dev";
+//   - command line param[2] uebergibt den Dateinamen fuer die Protokollierung
+//     des Anwendungsstarts
+const checkfile = process.argv[2];
 
 const menuTemplate = [
   {
@@ -86,6 +104,17 @@ const createWindow = function() {
   ipcMain.on("get-version", function(event, arg) {
     event.returnValue = process.versions.electron;
   });
+
+  ipcMain.on("app-ready", function(event, arg) {
+    if (checkfile) {
+      fs.writeFile(checkfile, "app-ready", function(err) {
+        if(err) {
+          console.log(err);
+        }
+      });
+    }
+  });
+
 
    // Load the previous window state with fallback to defaults
   var mainWindowState = windowStateKeeper({
