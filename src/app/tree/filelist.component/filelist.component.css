@@ -114,13 +114,12 @@
 }
 .sum-line {
   float: left;
-  height: 15px;
+  height: 17px;
 }
 .full-sum {
-  padding: 0 10px;
+  padding: 1px 10px;
   background-color: white;
   border-radius: 3px;
-  margin-bottom: 2px;
 }
 .select-sum {
   padding: 1px 10px;
