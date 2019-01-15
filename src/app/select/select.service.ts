@@ -249,7 +249,7 @@ export class SelectService {
     const idx: number = this.resultlist.findIndex((d) => d._id === row._id);
     this.delResult(row).then((rc) => {
       if (rc === "OK") {
-        this.status.success("Erledigte Vormerkung gelöscht.")
+        this.status.success("Erledigte Vormerkung gelöscht.");
         this.resultlist.splice(idx, 1);
       } else {
         this.status.error("Fehler beim Löschen einer erledigten Vormerkung - " + rc);
@@ -257,10 +257,18 @@ export class SelectService {
     })
   }
 
-  public deleteAllResults() {
-    [...this.resultlist].forEach((res) => {
-      this.deleteResult(res);
-    })
+  public async deleteAllResults() {
+    const rest: FarcResultDocument[] = await Promise.all([...this.resultlist].filter(async (res) => {
+      const rc = await this.delResult(res);
+      return (rc !== "OK");
+    }));
+    if (rest.length) { // FIXME funktioniert so nicht!
+      this.resultlist = rest;
+      this.status.error("Nicht alle Erledigten konnten gelöscht werden.");
+    } else {
+      this.resultlist = [];
+      this.status.success("Alle erledigten Vormerkungen gelöscht.")
+    }
   }
 
   public fullPath(row: FarcResultDocument): string {
