@@ -32,3 +32,24 @@ pre {
 .select-mark {
   font-style: italic;
 }
+
+/** list footer **/
+.filelist-status {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 6px;
+}
+.sum-panel {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.sum-line {
+  float: left;
+  height: 17px;
+}
+.full-sum {
+  padding: 1px 10px;
+  background-color: white;
+  border-radius: 3px;
+}

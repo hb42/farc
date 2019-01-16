@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, } from "@angular/core";
 
 import { FileSizePipe, } from "@hb42/lib-client";
-import { FarcEntryTypes, FarcTreeNode, } from "@hb42/lib-farc";
+import { FarcEntryTypes, FarcResultDocument, FarcTreeNode, } from "@hb42/lib-farc";
 
 @Pipe({
         name: "filesSum",
@@ -12,24 +12,40 @@ export class FilesSumPipe implements PipeTransform {
   }
 
   transform(value: any, args?: any): any {
-    const files: FarcTreeNode[] = value;
-    const display: string = args; // 'all' = x Verz. (xxkb), x Dat. (xxkb)
-                                  // 'sum' = xxkb (x Verz., x Dat.)
-    if (!files) {
+    // const files: FarcTreeNode[] = value;
+    if (!value || !(value instanceof Array)) {
       return "";
     }
+    const display: string = args; // 'all' = x Verz. (xxkb), x Dat. (xxkb)
+                                  // 'sum' = xxkb (x Verz., x Dat.)
+    // if (!files) {
+    //   return "";
+    // }
     let d = 0;
     let ds = 0;
     let f = 0;
     let fs = 0;
     let rc = "";
-    files.forEach((file) => {
-      if (file.entrytype === FarcEntryTypes.file) {
+    value.forEach((file) => {
+      let isfile: boolean;
+      let size: number;
+      if (<FarcTreeNode>file.entrytype) {
+        isfile = file.entrytype === FarcEntryTypes.file;
+        size = file.size;
+      } else if (<FarcResultDocument>file.processDate) {
+        isfile = file.label === "*";
+        size = file.size;
+      } else {
+        console.error("FileSumPipe: ungültiger Datentyp");
+        return "";
+      }
+      // if (file.entrytype === FarcEntryTypes.file) {
+      if (isfile) {
         f++;
-        fs += file.size;
+        fs += size; // file.size;
       } else {  // dir
         d++;
-        ds += file.size;
+        ds += size; // file.size;
       }
     });
     const dirs = "" + d + (d === 1 ? " Verzeichnis" : " Verzeichnisse");

@@ -56,7 +56,7 @@
     "@angular/router": "7.2.0",
     "@hb42/lib-client": "https://github.com/hb42/lib-client/releases/download/v1.0.0/hb42-lib-client-1.0.0.tgz",
     "@hb42/lib-common": "https://github.com/hb42/lib-common/releases/download/v1.0.1/hb42-lib-common-1.0.1.tgz",
-    "@hb42/lib-farc": "https://github.com/hb42/lib-farc/releases/download/v1.0.3/hb42-lib-farc-1.0.3.tgz",
+    "@hb42/lib-farc": "https://github.com/hb42/lib-farc/releases/download/v1.0.4/hb42-lib-farc-1.0.4.tgz",
     "@ng-bootstrap/ng-bootstrap": "^4.0.1",
     "@types/mongoose": "^5.3.7",
     "bootstrap": "^4.2.1",

@@ -191,6 +191,12 @@
   </div>
 </div>
 
+<div class="filelist-status small bg-light200">
+  <div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div>
+  <div class="sum-line ui-state-highlight select-sum" *ngIf="farcService.selectedFiles.length" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </div>
+  <mark *ngIf="farcService.isVormerk()" class="sum-line todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
+</div>
+
 <p-confirmDialog header="Löschen" icon="fa fa-question-circle"
                  acceptLabel="OK" rejectLabel="Abbrechen" ></p-confirmDialog>
 
