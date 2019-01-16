@@ -4,7 +4,8 @@ import { Injectable, } from "@angular/core";
 import { AppConfig } from "@hb42/lib-client";
 import {
   apiRESULT,
-  apiRESULTS, apiROOT,
+  apiRESULTS,
+  apiROOT,
   apiVORMERKUNG,
   FarcEntryTypes,
   FarcResultDocument,
@@ -236,6 +237,53 @@ export class SelectService {
       }
       return this.sortOrder * result;
     })];
+  }
+
+  public currentList(): FarcResultDocument[] | FarcTreeNode[] {
+    if (this.tablestat) {
+      return this.selectlist;
+    } else {
+      return this.resultlist;
+    }
+  }
+  public isCurrentList(): boolean {
+    if (this.tablestat) {
+      return (this.selectlist && this.selectlist.length > 0);
+    } else {
+      return (this.resultlist && this.resultlist.length > 0);
+    }
+  }
+  public isDelList(): boolean {
+    return this.isListFor(FarcSelectType.del);
+  }
+  public isMoveList(): boolean {
+    return this.isListFor(FarcSelectType.toArchive);
+  }
+  public isCopyList(): boolean {
+    return this.isListFor(FarcSelectType.fromArchive);
+  }
+  public delList(): FarcResultDocument[] | FarcTreeNode[] {
+    return this.getListFor(FarcSelectType.del);
+  }
+  public moveList(): FarcResultDocument[] | FarcTreeNode[] {
+    return this.getListFor(FarcSelectType.toArchive);
+  }
+  public copyList(): FarcResultDocument[] | FarcTreeNode[] {
+    return this.getListFor(FarcSelectType.fromArchive);
+  }
+  private getListFor(sel: FarcSelectType): FarcResultDocument[] | FarcTreeNode[] {
+    if (this.tablestat) {
+      return this.selectlist ? this.selectlist.filter((n) => n.selected === sel) : [];
+    } else {
+      return this.resultlist ? this.resultlist.filter((n) => n.selected === sel) : [];
+    }
+  }
+  private isListFor(sel: FarcSelectType): boolean {
+    if (this.tablestat) {
+      return this.selectlist ? this.selectlist.reduce((l, c) => l || c.selected === sel, false) : false;
+    } else {
+      return this.resultlist ? this.resultlist.reduce((l, c) => l || c.selected === sel, false) : false;
+    }
   }
 
   // --- Result ---

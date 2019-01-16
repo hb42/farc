@@ -38,7 +38,8 @@ pre {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  padding: 6px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--panel-border-color);
 }
 .sum-panel {
   overflow: hidden;
@@ -51,5 +52,10 @@ pre {
 .full-sum {
   padding: 1px 10px;
   background-color: white;
+  border-radius: 3px;
+}
+.todo-sum {
+  margin-left: 5px;
+  padding: 1px 10px;
   border-radius: 3px;
 }

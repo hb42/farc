@@ -191,10 +191,11 @@
   </div>
 </div>
 
-<div class="filelist-status small bg-light200">
-  <div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div>
-  <div class="sum-line ui-state-highlight select-sum" *ngIf="farcService.selectedFiles.length" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </div>
-  <mark *ngIf="farcService.isVormerk()" class="sum-line todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
+<div *ngIf="selectService.isCurrentList()" class="filelist-status small bg-light200">
+  <div class="sum-line full-sum"> {{selectService.currentList() | filesSum:"all"}} </div>
+  <mark *ngIf="selectService.isDelList()" class="sum-line todo-sum">Löschen: {{selectService.delList() | filesSum:"sum"}}</mark>
+  <mark *ngIf="selectService.isMoveList()" class="sum-line todo-sum">Archivieren: {{selectService.moveList() | filesSum:"sum"}}</mark>
+  <mark *ngIf="selectService.isCopyList()" class="sum-line todo-sum">Zurücksichern: {{selectService.copyList() | filesSum:"sum"}}</mark>
 </div>
 
 <p-confirmDialog header="Löschen" icon="fa fa-question-circle"

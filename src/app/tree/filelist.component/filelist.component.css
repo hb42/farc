@@ -106,7 +106,8 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  padding: 6px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--panel-border-color);
 }
 .sum-panel {
   overflow: hidden;

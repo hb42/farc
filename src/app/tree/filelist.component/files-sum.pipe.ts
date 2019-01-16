@@ -12,15 +12,11 @@ export class FilesSumPipe implements PipeTransform {
   }
 
   transform(value: any, args?: any): any {
-    // const files: FarcTreeNode[] = value;
     if (!value || !(value instanceof Array)) {
       return "";
     }
     const display: string = args; // 'all' = x Verz. (xxkb), x Dat. (xxkb)
                                   // 'sum' = xxkb (x Verz., x Dat.)
-    // if (!files) {
-    //   return "";
-    // }
     let d = 0;
     let ds = 0;
     let f = 0;
@@ -34,18 +30,17 @@ export class FilesSumPipe implements PipeTransform {
         size = file.size;
       } else if (<FarcResultDocument>file.processDate) {
         isfile = file.label === "*";
-        size = file.size;
+        size = file.size ? file.size : 0;
       } else {
         console.error("FileSumPipe: ungültiger Datentyp");
         return "";
       }
-      // if (file.entrytype === FarcEntryTypes.file) {
       if (isfile) {
         f++;
-        fs += size; // file.size;
+        fs += size;
       } else {  // dir
         d++;
-        ds += size; // file.size;
+        ds += size;
       }
     });
     const dirs = "" + d + (d === 1 ? " Verzeichnis" : " Verzeichnisse");
@@ -64,17 +59,20 @@ export class FilesSumPipe implements PipeTransform {
         rc += fls + " (" + flsSize + ")";
       }
     } else {
-      rc += allSize + " (";
-      if (d) {
-        rc += dirs;
-      }
-      if (f) {
+      rc += allSize;
+      if (allSize) {
+        rc += " (";
         if (d) {
-          rc += ", ";
+          rc += dirs;
         }
-        rc += fls;
+        if (f) {
+          if (d) {
+            rc += ", ";
+          }
+          rc += fls;
+        }
+        rc += ")";
       }
-      rc += ")";
     }
     return rc;
   }
