@@ -245,29 +245,28 @@ export class SelectService {
     op.toggle(event);
   }
 
-  public deleteResult(row: FarcResultDocument) {
+  public async deleteResult(row: FarcResultDocument): Promise<string> {
     const idx: number = this.resultlist.findIndex((d) => d._id === row._id);
-    this.delResult(row).then((rc) => {
-      if (rc === "OK") {
-        this.status.success("Erledigte Vormerkung gelöscht.");
-        this.resultlist.splice(idx, 1);
-      } else {
-        this.status.error("Fehler beim Löschen einer erledigten Vormerkung - " + rc);
-      }
-    })
+    const rc: string = await this.delResult(row);
+    if (rc === "OK") {
+      this.status.success("Erledigte Vormerkung gelöscht.");
+      // das ist eigentlich redundant, aber nur so klappt der refresh der Anzeige,
+      // wenn mehrere Eintraege in einer Schleife geloescht werden (-> deleteAllResults())
+      this.resultlist = [...this.resultlist.splice(idx, 1)];
+    } else {
+      this.status.error("Fehler beim Löschen einer erledigten Vormerkung - " + rc);
+    }
+    return rc;
   }
 
   public async deleteAllResults() {
-    const rest: FarcResultDocument[] = await Promise.all([...this.resultlist].filter(async (res) => {
-      const rc = await this.delResult(res);
-      return (rc !== "OK");
-    }));
-    if (rest.length) { // FIXME funktioniert so nicht!
-      this.resultlist = rest;
-      this.status.error("Nicht alle Erledigten konnten gelöscht werden.");
-    } else {
-      this.resultlist = [];
+    const del: Promise<string>[] = [...this.resultlist].map((res) => this.deleteResult(res));
+    const ok: boolean = await Promise.all(del)
+      .then((rc: string[]) => rc.reduce((st, cur) => st && cur === "OK", true));
+    if (ok) {
       this.status.success("Alle erledigten Vormerkungen gelöscht.")
+    } else {
+      this.status.error("Nicht alle Erledigten konnten gelöscht werden.");
     }
   }
 
