@@ -9,3 +9,4 @@ export * from "./main-header.component/main-header.component";
 export * from "./user-data";
 export * from "./user-session";
 export * from "./whats.new";
+export * from "./files-sum.pipe";

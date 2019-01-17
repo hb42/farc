@@ -29,7 +29,7 @@ export class FilesSumPipe implements PipeTransform {
         isfile = file.entrytype === FarcEntryTypes.file;
         size = file.size;
       } else if (<FarcResultDocument>file.processDate) {
-        isfile = file.label === "*";
+        isfile = file.label !== "*";
         size = file.size ? file.size : 0;
       } else {
         console.error("FileSumPipe: ungültiger Datentyp");

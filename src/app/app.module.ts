@@ -76,14 +76,13 @@ import { APP_ROUTING, appRoutingProviders, } from "./app.routing";
 import { ErrorComponent, PageNotFoundComponent, } from "./error";
 import { ListService, ListViewComponent, } from "./list";
 import { SelectService, SelectViewComponent, } from "./select";
-import { ConfigService, MainHeaderComponent, MainNavService, } from "./shared";
+import { ConfigService, FilesSumPipe, MainHeaderComponent, MainNavService, } from "./shared";
 import { StatusComponent, StatusService, } from "./shared/status.component";
 import {
   FarcDrivetypePipe,
   FarcTreeComponent,
   FarcTreeService,
   FileListComponent,
-  FilesSumPipe,
   TreeViewComponent,
   VormerkPipe,
 } from "./tree";

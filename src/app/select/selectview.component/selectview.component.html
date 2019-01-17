@@ -19,6 +19,7 @@
              [sortField]="selectService.sortField"
              [sortOrder]="selectService.sortOrder"
              [loading]="selectService.loading"
+             [resizableColumns]="true"
     >
 
       <!--<ng-template pTemplate="caption">-->
@@ -28,20 +29,20 @@
       </ng-template>
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
-          <col>
-          <col *ngIf="selectService.userSession.isAdmin()" style="width: 170px">
-          <col style="width: 170px">
-          <col style="width: 180px">
+          <col style="min-width: 30px;">
+          <col *ngIf="selectService.userSession.isAdmin()" style="width: 100px; min-width: 30px;">
+          <col style="width: 170px; min-width: 30px;">
+          <col style="width: 160px; min-width: 30px;">
         </colgroup>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th [pSortableColumn]="'label'">
+          <th [pSortableColumn]="'label'" pResizableColumn>
             Name
             <p-sortIcon [field]="'label'"></p-sortIcon>
           </th>
-          <th *ngIf="selectService.userSession.isAdmin()" [pSortableColumn]="'selectUid'">
-            Vorgemerkt von
+          <th *ngIf="selectService.userSession.isAdmin()" [pSortableColumn]="'selectUid'" pResizableColumn>
+            User
             <p-sortIcon [field]="'selectUid'"></p-sortIcon>
           </th>
           <th [pSortableColumn]="'selectDate'" class="center-align">
@@ -99,6 +100,7 @@
              (sortFunction)="selectService.sortResult($event)"
              [sortField]="selectService.sortResultField"
              [sortOrder]="selectService.sortResultOrder"
+             [resizableColumns]="true"
     >
              <!--[loading]="selectService.loading"-->
 
@@ -109,35 +111,35 @@
       </ng-template>
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
-          <col style="width: 160px">  <!-- selected -->
-          <col> <!-- path.join + label -->
-          <col *ngIf="selectService.userSession.isAdmin()" style="width: 170px">  <!-- uid  -->
-          <col style="width: 170px">  <!-- select-time -->
-          <col style="width: 170px">  <!-- process-time -->
-          <col style="width: 80px">  <!-- success -->
-          <col style="width: 60px">  <!-- log -->
-          <col style="width: 60px">  <!-- del btn -->
+          <col style="width: 150px; min-width: 30px;">  <!-- selected -->
+          <col style="min-width: 30px;"> <!-- path.join + label -->
+          <col *ngIf="selectService.userSession.isAdmin()" style="width: 100px; min-width: 30px;">  <!-- uid  -->
+          <col style="width: 170px; min-width: 30px;">  <!-- select-time -->
+          <col style="width: 170px; min-width: 30px;">  <!-- process-time -->
+          <col style="width: 80px; min-width: 30px;">  <!-- success -->
+          <col style="width: 60px; min-width: 30px;">  <!-- log -->
+          <col style="width: 60px; min-width: 30px;">  <!-- del btn -->
         </colgroup>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th [pSortableColumn]="'selected'">
+          <th [pSortableColumn]="'selected'" pResizableColumn>
             Vormerkung
             <p-sortIcon [field]="'selected'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'label'">
+          <th [pSortableColumn]="'label'" pResizableColumn>
             Name
             <p-sortIcon [field]="'label'"></p-sortIcon>
           </th>
-          <th *ngIf="selectService.userSession.isAdmin()" [pSortableColumn]="'selectUid'">
-            Vorgemerkt von
+          <th *ngIf="selectService.userSession.isAdmin()" [pSortableColumn]="'selectUid'" pResizableColumn>
+            User
             <p-sortIcon [field]="'selectUid'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'selectDate'" class="right-align">
+          <th [pSortableColumn]="'selectDate'" class="right-align" pResizableColumn>
             Auswahl-Datum
             <p-sortIcon [field]="'selectDate'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'processDate'" class="right-align">
+          <th [pSortableColumn]="'processDate'" class="right-align" pResizableColumn>
             Ausführung
             <p-sortIcon [field]="'processDate'"></p-sortIcon>
           </th>
