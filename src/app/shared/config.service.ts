@@ -77,10 +77,10 @@ export class ConfigService {
       return this.version.init(this.restServer + apiCONFIG + "/" + confPACK).then((ver) => {
         console.debug(">>> meta data done");
         // this.startKeepalive();
-        console.info(ver.displayname + " v" + ver.version + " " + ver.copyright);
+        console.info(ver.displayname + " v" + ver.version + " " + ver.copyright + " (" + ver.githash + ")");
         console.dir(ver.versions);
         const server = this.version.serverVer;
-        console.info(server.displayname + " v" + server.version + " " + server.copyright);
+        console.info(server.displayname + " v" + server.version + " " + server.copyright + " (" + server.githash + ")");
         console.dir(server.versions);
 
         // SSE init
