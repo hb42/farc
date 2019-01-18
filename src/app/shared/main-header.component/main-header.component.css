@@ -36,8 +36,9 @@
   font-size: small;
   margin-top: 10px;
 }
-.footer-link-small {
-  float: left;
-  font-size: x-small;
-  margin-top: 16px;
+.commit {
+  position: absolute;
+  bottom: 0;
+  right: 16px;
+  font-size: xx-small;
 }
