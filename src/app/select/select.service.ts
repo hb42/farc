@@ -141,18 +141,22 @@ export class SelectService {
    * @param node
    */
   public undoSelectionFor(node: FarcTreeNode) {
-    this.deleteSelection(node);
+    this.deleteSelection(node).then((rc) => {
+      if (rc) {
+        this.status.info("Vormerkung entfernt");
+      }
+    });
     this.removeSelection(node);
     // Tree-View updaten
     this.farcService.switchTree(this.farcService.isArcTree);
   }
 
   // Vormerkung in farcTreeService.tree und der DB entfernen
-  private deleteSelection(node: FarcTreeNode) {
+  private deleteSelection(node: FarcTreeNode): Promise<boolean> {
     node.selected = FarcSelectType.none;
     node.selectUid = "";
     node.selectDate = 0;
-    this.farcService.undoSelectionForId(node);
+    return this.farcService.undoSelectionForId(node);
   }
   // Vormerkung aus der Vormerkliste entfernen
   private removeSelection(node: FarcTreeNode) {
@@ -167,15 +171,18 @@ export class SelectService {
   public deleteAll() {
     this.confirmationService.confirm(
       {
-        message: "Sollen alle Vormerkungen gelöscht werden?",
-        accept : () => {
+        message: "Sollen alle Vormerkungen entfernt werden?",
+        accept : async () => {
           this.loading = true;
-          [...this.selectlist].forEach((node) => {
-            this.deleteSelection(node);
+          Promise.all([...this.selectlist].map(async (node) => {
+            return await this.deleteSelection(node);
+          })).then((rc) => {
+            const count = this.selectlist.length;
+            this.selectlist = [];
+            this.farcService.switchTree(this.farcService.isArcTree);
+            this.loading = false;
+            this.farcService.vormerkChangeStatus(count, true);
           });
-          this.selectlist = [];
-          this.farcService.switchTree(this.farcService.isArcTree);
-          this.loading = false;
         },
       });
   }
@@ -293,28 +300,30 @@ export class SelectService {
     op.toggle(event);
   }
 
-  public async deleteResult(row: FarcResultDocument): Promise<string> {
+  public async deleteResult(row: FarcResultDocument, nomsg?: boolean): Promise<string> {
     const idx: number = this.resultlist.findIndex((d) => d._id === row._id);
     const rc: string = await this.delResult(row);
     if (rc === "OK") {
-      this.status.success("Erledigte Vormerkung gelöscht.");
+      if (!nomsg) {
+        this.status.success("Erledigte Vormerkung entfernt.");
+      }
       // das ist eigentlich redundant, aber nur so klappt der refresh der Anzeige,
       // wenn mehrere Eintraege in einer Schleife geloescht werden (-> deleteAllResults())
       this.resultlist = [...this.resultlist.splice(idx, 1)];
     } else {
-      this.status.error("Fehler beim Löschen einer erledigten Vormerkung - " + rc);
+      this.status.error("Fehler beim Entfernen einer erledigten Vormerkung - " + rc);
     }
     return rc;
   }
 
   public async deleteAllResults() {
-    const del: Promise<string>[] = [...this.resultlist].map((res) => this.deleteResult(res));
+    const del: Promise<string>[] = [...this.resultlist].map((res) => this.deleteResult(res, true));
     const ok: boolean = await Promise.all(del)
       .then((rc: string[]) => rc.reduce((st, cur) => st && cur === "OK", true));
     if (ok) {
-      this.status.success("Alle erledigten Vormerkungen gelöscht.")
+      this.status.success("Alle erledigten Vormerkungen entfernt.")
     } else {
-      this.status.error("Nicht alle Erledigten konnten gelöscht werden.");
+      this.status.error("Nicht alle Erledigten konnten entfernt werden.");
     }
   }
 

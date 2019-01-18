@@ -2,11 +2,11 @@
  * Created by hb on 17.07.16.
  */
 
-import { HttpClient, } from "@angular/common/http";
-import { Injectable, } from "@angular/core";
+import {HttpClient, } from "@angular/common/http";
+import {Injectable, } from "@angular/core";
 
-import { AppConfig } from "@hb42/lib-client";
-import { dateString } from "@hb42/lib-common";
+import {AppConfig} from "@hb42/lib-client";
+import {dateString} from "@hb42/lib-common";
 import {
   apiCHILDREN,
   apiEXECVORM,
@@ -19,11 +19,11 @@ import {
   FarcSelectType,
   FarcTreeNode,
 } from "@hb42/lib-farc";
-import { MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
-import { Table, TableHeaderCheckbox, } from "primeng/table";
-import { Observable, } from "rxjs";
+import {MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
+import {Table, TableHeaderCheckbox, } from "primeng/table";
+import {Observable, } from "rxjs";
 
-import { ConfigService, StatusService, UserSession, } from "../shared";
+import {ConfigService, StatusService, UserSession, } from "../shared";
 
 @Injectable()
 export class FarcTreeService {
@@ -579,6 +579,7 @@ export class FarcTreeService {
       label: "Löschen", command: (evt) => {
         this.setVormerk([node], FarcSelectType.del);
         this.saveVormerk([node]).then((rc) => {
+          this.status.info("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-trash"
@@ -587,6 +588,7 @@ export class FarcTreeService {
       label: "Archivieren", command: (evt) => {
         this.setVormerk([node], FarcSelectType.toArchive);
         this.saveVormerk([node]).then((rc) => {
+          this.status.info("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-plus"
@@ -595,6 +597,7 @@ export class FarcTreeService {
       label: "Zurücksichern", command: (evt) => {
         this.setVormerk([node], FarcSelectType.fromArchive);
         this.saveVormerk([node]).then((rc) => {
+          this.status.info("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-plus"
@@ -603,6 +606,7 @@ export class FarcTreeService {
       label: "Vormerkung entfernen", command: (evt) => {
         this.setVormerk([node], FarcSelectType.none);
         this.saveVormerk([node]).then((rc) => {
+          this.status.info("Vormerkung entfernt.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-times"
@@ -677,25 +681,53 @@ export class FarcTreeService {
     if (this.selectedFiles.length === 0) {
       return;
     }
+    const count = this.selectedFiles.length;
     this.setVormerk(this.selectedFiles,
                     this.selectedNode.arc ? FarcSelectType.fromArchive : FarcSelectType.toArchive);
-    this.saveVormerkForSelected();
+    this.saveVormerkForSelected().then((rc) => {
+      if (rc) {
+        this.vormerkChangeStatus(count, false);
+      }
+    });
   }
 
   public delSelected() {
     if (this.selectedFiles.length === 0) {
       return;
     }
+    const count = this.selectedFiles.length;
     this.setVormerk(this.selectedFiles, FarcSelectType.del);
-    this.saveVormerkForSelected();
+    this.saveVormerkForSelected().then((rc) => {
+      if (rc) {
+        this.vormerkChangeStatus(count, false);
+      }
+    });
   }
 
   public undoSelection() {
     if (this.selectedFiles.length === 0) {
       return;
     }
+    const count = this.selectedFiles.reduce((n: number, cur: FarcTreeNode) => {
+      if (cur.selected !== FarcSelectType.none) {
+        n += 1;
+      }
+      return n;
+    } , 0);
     this.setVormerk(this.selectedFiles, FarcSelectType.none);
-    this.saveVormerkForSelected();
+    this.saveVormerkForSelected().then((rc) => {
+      if (rc) {
+        this.vormerkChangeStatus(count, true);
+      }
+    });
+  }
+
+  public vormerkChangeStatus(count: number, del: boolean) {
+    let msg = "" + count;
+    msg += " Vormerkung";
+    msg += count > 1 ? "en " : " ";
+    msg += del ? "entfernt." : "gespeichert.";
+    this.status.info(msg);
   }
 
   /**
@@ -703,9 +735,9 @@ export class FarcTreeService {
    *
    * @param node
    */
-  public undoSelectionFor(node: FarcTreeNode) {
+  public undoSelectionFor(node: FarcTreeNode): Promise<boolean> {
     this.setVormerk([node], FarcSelectType.none);
-    this.saveVormerk([node]);
+    return this.saveVormerk([node]);
   }
 
   /**
@@ -715,12 +747,12 @@ export class FarcTreeService {
    *
    * @param node
    */
-  public undoSelectionForId(node: FarcTreeNode) {
+  public undoSelectionForId(node: FarcTreeNode): Promise<boolean> {
     const treenode: FarcTreeNode = this.findNodeById(node.arc ? this.arcTree : this.srcTree, node.entryid);
     if (treenode) {  // Knoten bereits geladen -> Vormerkung im Baum und in der DB loeschen
-      this.undoSelectionFor(treenode);
+      return this.undoSelectionFor(treenode);
     } else {  // noch nicht geladen, also nur in DB loeschen
-      this.saveVormerk([node]);
+      return this.saveVormerk([node]);
     }
   }
 
@@ -769,14 +801,15 @@ export class FarcTreeService {
     });
   }
 
-  private saveVormerkForSelected() {
-    this.saveVormerk(this.selectedFiles).then((rc) => {
+  private saveVormerkForSelected(): Promise<boolean> {
+    return this.saveVormerk(this.selectedFiles).then((rc) => {
       this.selectedFiles = [];
+      return rc;
     })
 
   }
 
-  private saveVormerk(files: FarcTreeNode[]) {
+  private saveVormerk(files: FarcTreeNode[]): Promise<boolean> {
     // nur die Zeile, ohne children, etc. zum Server schicken
     // const files = file ? [file] : this.selectedFiles;
     const selectedfiles: FarcTreeNode[] = files.map((f) => {
@@ -800,13 +833,6 @@ export class FarcTreeService {
     return this.httphandler.post(this.restServer + apiVORMERKUNG, selectedfiles)
       .toPromise().then((rc: string) => {
       if (rc === "OK") {
-        if (selectedfiles.length > 0) {
-          let msg = "" + selectedfiles.length;
-          msg += " Vormerkung";
-          msg += selectedfiles.length > 1 ? "en " : " ";
-          msg += selectedfiles[0].selected === FarcSelectType.none ? "gelöscht." : "gespeichert.";
-          this.status.info(msg);
-        }
         return true;
       } else {
         this.status.error(rc);
