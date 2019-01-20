@@ -18,10 +18,10 @@
     </button>
 </div>
 
-<div class="card"
+<div class="filelist-header"
      [class.header-orig]="!farcService.isArcTree"
      [class.header-arc]="farcService.isArcTree">
-  <div class="card-body bg-light200" >
+  <div class="filelist-header-body bg-light200" >
     <p-breadcrumb [model]="farcService.breadcrumbs"></p-breadcrumb>
   </div>
 </div>
@@ -142,7 +142,7 @@
 <div class="filelist-status small bg-light200"
      [class.footer-orig]="!farcService.isArcTree"
      [class.footer-arc]="farcService.isArcTree">
-<div class="sum-line full-sum"> {{farcService.files | filesSum:"all"}} </div>
-    <div class="sum-line ui-state-highlight select-sum" *ngIf="farcService.selectedFiles.length" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </div>
-    <mark *ngIf="farcService.isVormerk()" class="sum-line todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
+  <div class="sum-line full-sum" *ngIf="farcService.files.length"> {{farcService.files | filesSum:"all"}} </div>
+  <div class="sum-line ui-state-highlight select-sum" *ngIf="farcService.selectedFiles.length" > {{farcService.selectedFiles | filesSum:"sum" }} ausgewählt </div>
+  <mark *ngIf="farcService.isVormerk()" class="sum-line todo-sum"> {{farcService.vormerkList() | filesSum:"sum"}} vorgemerkt </mark>
 </div>

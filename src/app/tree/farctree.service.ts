@@ -505,6 +505,7 @@ export class FarcTreeService {
       }
       // hier sollten alle Daten geladen und alle Hintergrundprozesse erledigt sein
       // !! das ist unabhaengig von den PrimeNG-Problemen
+      this.loading = true;
       this.loading = false;
     }, delay);
   }

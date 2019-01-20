@@ -162,6 +162,7 @@ export class SelectService {
   private removeSelection(node: FarcTreeNode) {
     const idx: number = this.selectlist.findIndex((d) => d.entryid === node.entryid);
     this.selectlist.splice(idx, 1);
+    this.selectlist = [...this.selectlist];
   }
 
   /**
@@ -172,10 +173,10 @@ export class SelectService {
     this.confirmationService.confirm(
       {
         message: "Sollen alle Vormerkungen entfernt werden?",
-        accept : async () => {
+        accept : () => {
           this.loading = true;
-          Promise.all([...this.selectlist].map(async (node) => {
-            return await this.deleteSelection(node);
+          Promise.all([...this.selectlist].map( (node) => {
+            return this.deleteSelection(node);
           })).then((rc) => {
             const count = this.selectlist.length;
             this.selectlist = [];
@@ -309,7 +310,8 @@ export class SelectService {
       }
       // das ist eigentlich redundant, aber nur so klappt der refresh der Anzeige,
       // wenn mehrere Eintraege in einer Schleife geloescht werden (-> deleteAllResults())
-      this.resultlist = [...this.resultlist.splice(idx, 1)];
+      this.resultlist.splice(idx, 1);
+      this.resultlist = [...this.resultlist];
     } else {
       this.status.error("Fehler beim Entfernen einer erledigten Vormerkung - " + rc);
     }

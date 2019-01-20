@@ -16,9 +16,6 @@ import { FarcTreeService, } from "../farctree.service";
 export class FileListComponent implements OnInit, AfterViewChecked {
   @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
-  public bcHeight: string;
-  public tbHeight: string;
-
   @ViewChild("filetable") protected filetable: Table;
 
   private tabBody: HTMLElement;
@@ -32,9 +29,6 @@ export class FileListComponent implements OnInit, AfterViewChecked {
   }
 
   public ngOnInit(): void {
-    this.bcHeight = "34.5px";
-    this.tbHeight = "40px";
-
     this.checkTableHeight = true;
     this.farcService.fileTable = this.filetable;
   }
@@ -61,7 +55,9 @@ export class FileListComponent implements OnInit, AfterViewChecked {
         this.setTableHeight();
       }, 10);
     } else {
-      this.setTableHeight();
+      setTimeout(() => {
+        this.setTableHeight();
+      }, 0);
     }
   }
 
