@@ -5,14 +5,14 @@
             [class.text-success]="farcService.isArcTree"
             [class.ui-button-success]="!farcService.isArcTree"
             [class.orig-button-active]="!farcService.isArcTree"
-            pTooltip="Original-Laufwerke per {{farcService.lastReadDate}}"
+            pTooltip="Original-Laufwerke per {{configService.lastReadDate}}"
             tooltipPosition="right"></button>
     <button pButton type="button" label="Archiv" (click)="farcService.onSwitchTree(true)"
             [class.ui-button-secondary]="!farcService.isArcTree"
             [class.text-danger]="!farcService.isArcTree"
             [class.ui-button-danger]="farcService.isArcTree"
             [class.arc-button-active]="farcService.isArcTree"
-            pTooltip="Archiv-Laufwerke per {{farcService.lastReadDate}}"
+            pTooltip="Archiv-Laufwerke per {{configService.lastReadDate}}"
             tooltipPosition="right"></button>
   </div>
   <div class="sort">

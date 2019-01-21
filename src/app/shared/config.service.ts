@@ -6,9 +6,10 @@ import { HttpClient } from "@angular/common/http";
 import { EventEmitter, Injectable, } from "@angular/core";
 
 import { AppConfig, ErrorService, LogonService, SseHandler, Version, VersionService, } from "@hb42/lib-client";
+import { dateString } from "@hb42/lib-common";
 import {
   apiCONFIG, apiROOT,
-  confPACK,
+  confPACK, confTREEDATE,
   confUSER,
   getConfigValue,
   setConfigValue,
@@ -17,6 +18,7 @@ import {
   sseNEWVORM
 } from "@hb42/lib-farc";
 import * as semver from "semver";
+import { StatusService } from "./status.component";
 
 import { UserData, } from "./user-data";
 import { UserSession, } from "./user-session";
@@ -40,6 +42,7 @@ export class ConfigService {
   // Empfang von SSE
   public sse: SseHandler;
   public whatsnew: WhatsNew;
+  public lastReadDate = "";
 
   private restServer: string;
   private userSession: UserSession;
@@ -50,7 +53,8 @@ export class ConfigService {
   constructor(private http: HttpClient,
               private logonService: LogonService,  // autologon handling
               private version: VersionService,
-              private errorService: ErrorService) {
+              private errorService: ErrorService,
+              private status: StatusService) {
     console.debug("c'tor ConfigService");
     this.restServer = AppConfig.settings.webserviceServer + apiROOT;
 
@@ -82,6 +86,12 @@ export class ConfigService {
         const server = this.version.serverVer;
         console.info(server.displayname + " v" + server.version + " " + server.copyright + " (" + server.githash + ")");
         console.dir(server.versions);
+
+        // Datum des letzten Einlesens
+        this.getConfig(confTREEDATE).then((millis: number) => {
+          this.lastReadDate = dateString(millis);
+          this.status.setDefault("Stand der Daten: " + this.lastReadDate);
+        });
 
         // SSE init
         this.sse = new SseHandler(AppConfig.settings.webserviceServer, sseNAME);

@@ -8,15 +8,15 @@
                 (click)="statusline.hide()"
                 >
   <div *ngFor="let line of lines"
-       [ngClass]="messageClass(line.type)">
-    <span *ngIf="line.text">{{line.date | date:'dd.MM.yyyy HH:mm:ss'}} {{line.text}}</span>
+       [ngClass]="line.type">
+    <span *ngIf="line.type !== statusService.defaultType">{{line.date | date:'dd.MM.yyyy HH:mm:ss'}} {{line.text}}</span>
   </div>
 </p-overlayPanel>
 <div (click)="statusline.toggle($event)"
      class="statusmessage farc-panel"
-     [ngClass]="latestClass()">
+     [ngClass]="lines[0].type">
   <div class="statustext">
-  {{latestText()}}
+  {{lines[0].text}}
   </div>
   <div class="statusicon">
     <i class="fa fa-caret-up"></i>

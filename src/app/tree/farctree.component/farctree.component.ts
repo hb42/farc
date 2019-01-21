@@ -2,6 +2,7 @@ import { Component, HostBinding, OnInit, ViewChild, } from "@angular/core";
 import { SelectItem, Tree, } from "primeng/primeng";
 
 import { FarcEntryTypes, } from "@hb42/lib-farc";
+import { ConfigService } from "../../shared";
 
 import { FarcTreeService, } from "../farctree.service";
 
@@ -15,7 +16,7 @@ export class FarcTreeComponent implements OnInit {
 
   @ViewChild("farctree") protected farcTree: Tree;  // f. Zugriff auf Tree-API
 
-  constructor(public farcService: FarcTreeService) {
+  constructor(public farcService: FarcTreeService, public configService: ConfigService) {
     console.debug("c'tor FarcTree");
   }
 

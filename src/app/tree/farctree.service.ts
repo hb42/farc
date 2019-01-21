@@ -67,7 +67,6 @@ export class FarcTreeService {
   // public filteredFiles: FarcTreeNode[] = [];
   public totalRows = 0;
   public loading = false;
-  public lastReadDate = "";
 
   private srcTree: TreeNode[];
   private srcSelectedNode: FarcTreeNode;
@@ -139,10 +138,6 @@ export class FarcTreeService {
 
     this.getTree().subscribe(
       (res) => {
-        this.configService.getConfig(confTREEDATE).then((millis: number) => {
-          this.lastReadDate = dateString(millis);
-          this.status.success("Stand der Daten: " + this.lastReadDate);
-        });
         this.srcTree = res.filter((node) => node.arc === false);
         this.arcTree = res.filter((node) => node.arc === true);
         this.switchTree(this.isArcTree);
