@@ -2,8 +2,8 @@
  * Created by hb on 17.07.16.
  */
 
-import {HttpClient, } from "@angular/common/http";
-import {Injectable, } from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
 
 import {AppConfig} from "@hb42/lib-client";
 import {dateString} from "@hb42/lib-common";
@@ -19,11 +19,11 @@ import {
   FarcSelectType,
   FarcTreeNode,
 } from "@hb42/lib-farc";
-import {MenuItem, SelectItem, TreeNode, } from "primeng/primeng";
-import {Table, TableHeaderCheckbox, } from "primeng/table";
-import {Observable, } from "rxjs";
+import {MenuItem, SelectItem, TreeNode} from "primeng/primeng";
+import {Table, TableHeaderCheckbox} from "primeng/table";
+import {Observable} from "rxjs";
 
-import {ConfigService, StatusService, UserSession, } from "../shared";
+import {ConfigService, StatusService, UserSession} from "../shared";
 
 @Injectable()
 export class FarcTreeService {
@@ -580,7 +580,7 @@ export class FarcTreeService {
       label: "Löschen", command: (evt) => {
         this.setVormerk([node], FarcSelectType.del);
         this.saveVormerk([node]).then((rc) => {
-          this.status.info("Vormerkung gespeichert.");
+          this.status.success("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-trash"
@@ -589,7 +589,7 @@ export class FarcTreeService {
       label: "Archivieren", command: (evt) => {
         this.setVormerk([node], FarcSelectType.toArchive);
         this.saveVormerk([node]).then((rc) => {
-          this.status.info("Vormerkung gespeichert.");
+          this.status.success("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-plus"
@@ -598,7 +598,7 @@ export class FarcTreeService {
       label: "Zurücksichern", command: (evt) => {
         this.setVormerk([node], FarcSelectType.fromArchive);
         this.saveVormerk([node]).then((rc) => {
-          this.status.info("Vormerkung gespeichert.");
+          this.status.success("Vormerkung gespeichert.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-plus"
@@ -607,7 +607,7 @@ export class FarcTreeService {
       label: "Vormerkung entfernen", command: (evt) => {
         this.setVormerk([node], FarcSelectType.none);
         this.saveVormerk([node]).then((rc) => {
-          this.status.info("Vormerkung entfernt.");
+          this.status.success("Vormerkung entfernt.");
           this.ctxSelect = null;
         })
       }, icon: "fa fa-times"
@@ -728,33 +728,31 @@ export class FarcTreeService {
     msg += " Vormerkung";
     msg += count > 1 ? "en " : " ";
     msg += del ? "entfernt." : "gespeichert.";
-    this.status.info(msg);
+    this.status.success(msg);
   }
 
   /**
-   * Vormerkung fuer einzelnen Eintrag loeschen
-   *
-   * @param node
-   */
-  public undoSelectionFor(node: FarcTreeNode): Promise<boolean> {
-    this.setVormerk([node], FarcSelectType.none);
-    return this.saveVormerk([node]);
-  }
-
-  /**
-   * Vormerkung aus der Vormerkliste heraus loeschen
+   * Vormerkungen aus der Vormerkliste heraus loeschen
    *
    * Zusaetzlich einen ggf. bereits in den Baum geladenen Knoten zuruecksetzen.
    *
-   * @param node
+   * @param vormerk
    */
-  public undoSelectionForId(node: FarcTreeNode): Promise<boolean> {
-    const treenode: FarcTreeNode = this.findNodeById(node.arc ? this.arcTree : this.srcTree, node.entryid);
-    if (treenode) {  // Knoten bereits geladen -> Vormerkung im Baum und in der DB loeschen
-      return this.undoSelectionFor(treenode);
-    } else {  // noch nicht geladen, also nur in DB loeschen
-      return this.saveVormerk([node]);
-    }
+  public undoSelectionFor(vormerk: FarcTreeNode[]): Promise<boolean> {
+    const nodes: FarcTreeNode[] = [];
+    vormerk.forEach((n) => {
+      n.selected = FarcSelectType.none;
+      n.selectUid = "uid";
+      n.selectDate = 0;
+      const treenode: FarcTreeNode = this.findNodeById(n.arc ? this.arcTree : this.srcTree, n.entryid);
+      if (treenode) {  // Knoten bereits geladen -> Vormerkung im Baum loeschen
+        nodes.push(treenode);
+      }
+    });
+    // Vormerkungen aus dem Baum entfernen
+    this.setVormerk(nodes, FarcSelectType.none);
+    // Vormerkungen in der DB entfernen
+    return this.saveVormerk(vormerk);
   }
 
   // Knoten anhand entryid rekursiv im Baum suchen
@@ -887,7 +885,7 @@ export class FarcTreeService {
           return false;
         } else {
           // Erfolg -> Vormerkung entfernen
-          this.undoSelectionForId(node);
+          this.undoSelectionFor([node]);
           this.status.success(res);
           return true;
         }
