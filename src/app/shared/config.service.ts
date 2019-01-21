@@ -120,7 +120,8 @@ export class ConfigService {
 
   /**
    * What's new wird angezeigt, wenn der User das erste mal das Programm startet
-   * und wenn sich die Programm-Version seit dem letzten Aufruf geaendert hat.
+   * und wenn sich die Programm-Version seit dem letzten Aufruf geaendert hat
+   * (verglichen wird nur major und minor).
    *
    */
   public checkWhatsNew(): boolean {
@@ -134,10 +135,10 @@ export class ConfigService {
     if (!semver.valid(last)) {
       show = true;
     } else {
-      const pre = semver.prerelease(run);
-      if (!pre || (pre && pre[0] === "rc")) {
-        show = semver.compare(run, last) > 0;
-      }
+      // nur die beiden ersten Stellen der Version vergleichen, Aenderungen auf der dritten Stelle
+      // werden ignoriert, ebenso beta- oder rc-Releases.
+      show = !semver.prerelease(run) && (semver.major(run) > semver.major(last) ||
+             (semver.major(run) === semver.major(last) && semver.minor(run) > semver.minor(last)));
     }
     if (show) {
       this.getUserConfig().lastSeenVersion = run;
