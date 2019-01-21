@@ -143,7 +143,7 @@ export class SelectService {
   public undoSelectionFor(node: FarcTreeNode) {
     this.deleteSelection(node).then((rc) => {
       if (rc) {
-        this.status.info("Vormerkung entfernt");
+        this.status.success("Vormerkung entfernt");
       }
     });
     this.removeSelection(node);
@@ -156,7 +156,7 @@ export class SelectService {
     node.selected = FarcSelectType.none;
     node.selectUid = "";
     node.selectDate = 0;
-    return this.farcService.undoSelectionForId(node);
+    return this.farcService.undoSelectionFor([node]);
   }
   // Vormerkung aus der Vormerkliste entfernen
   private removeSelection(node: FarcTreeNode) {
@@ -175,9 +175,11 @@ export class SelectService {
         message: "Sollen alle Vormerkungen entfernt werden?",
         accept : () => {
           this.loading = true;
-          Promise.all([...this.selectlist].map( (node) => {
-            return this.deleteSelection(node);
-          })).then((rc) => {
+          this.farcService.undoSelectionFor(this.selectlist)
+          // Promise.all([...this.selectlist].map( (node) => {
+          //   return this.deleteSelection(node);
+          // }))
+          .then((rc) => {
             const count = this.selectlist.length;
             this.selectlist = [];
             this.farcService.switchTree(this.farcService.isArcTree);
