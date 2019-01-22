@@ -14,15 +14,24 @@
   padding-left: 6px;
   padding-top: 12px;
 }
+.orig-arc-button {
+  width: 84px;
+}
 /* die beiden folgenden Klassen muessen so spezifisch sein,
    weil '!important' nicht mit var() funktioniert
    (zumnindest bei Angular AOT)
  */
 :host ::ng-deep .ui-state-default.ui-button-success.orig-button-active {
   border-bottom: 10px solid var(--original-color);
+  border-top: 1px solid var(--light);
+  border-left: 1px solid var(--light);
+  border-right: 1px solid var(--light);
 }
 :host ::ng-deep .ui-state-default.ui-button-danger.arc-button-active {
   border-bottom: 10px solid var(--archive-color);
+  border-top: 1px solid var(--light);
+  border-left: 1px solid var(--light);
+  border-right: 1px solid var(--light);
 }
 .orig-border {
   border-top: 3px solid var(--original-color);
