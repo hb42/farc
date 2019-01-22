@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, } from "@angular/router";
 
 import { ErrorService, } from "@hb42/lib-client";
-// import "rxjs/operators/switchMap";
 import { ConfigService, UserSession } from "../../shared";
 
 @Component({
@@ -27,8 +26,6 @@ export class ErrorComponent implements OnInit {
     this.message = latest["message"];
     console.debug("Error:");
     console.dir(latest);
-    // this.status = this.route.snapshot.paramMap.get("status");
-    // this.message = this.route.snapshot.paramMap.get("msg");
   }
 
   /**

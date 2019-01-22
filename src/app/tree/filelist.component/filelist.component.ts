@@ -1,9 +1,4 @@
-/**
- * Created by hb on 07.10.16.
- */
-
 import { AfterViewChecked, Component, ElementRef, HostBinding, HostListener, OnInit, ViewChild, } from "@angular/core";
-import { ContextMenu } from "primeng/primeng";
 import { Table } from "primeng/table";
 
 import { FarcTreeService, } from "../farctree.service";
@@ -49,6 +44,7 @@ export class FileListComponent implements OnInit, AfterViewChecked {
    *
    */
   public ngAfterViewChecked(): void {
+    // beim Start mit Verzoegerung
     if (this.checkTableHeight) {
       this.checkTableHeight = false;
       setTimeout(() => {
@@ -62,7 +58,7 @@ export class FileListComponent implements OnInit, AfterViewChecked {
   }
 
   @HostListener("window:resize", ["$event"]) onResize(event) {
-    console.debug("RESIZE");
+    // console.debug("RESIZE");
     this.setTableHeight(true);
   }
 
@@ -73,7 +69,7 @@ export class FileListComponent implements OnInit, AfterViewChecked {
       this.tabHeader = this.el.nativeElement.querySelector(".ui-table-scrollable-header");
     }
     if (this.tabBody && this.tabTable && this.tabHeader) {
-      // wg. virtuall scrolling hier kein Zugriff auf .offsetHeight oder .getBoundingClientRect()
+      // wg. virtuall scrolling beim Check kein Zugriff auf .offsetHeight oder .getBoundingClientRect()
       // das loesst anscheinend einen zusaetzlichen scroll-event aus, der das virt scrolling stoert
       if (resize ||  this.lastHeight !== parseInt(this.tabBody.style.height, 10)) {
         this.lastHeight = this.tabTable.offsetHeight - this.tabHeader.offsetHeight;
@@ -84,23 +80,4 @@ export class FileListComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  public showCtx(cm, event) {
-    console.debug("elipsis click");
-    console.dir(cm);
-    console.dir(event);
-    const evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent("contextmenu", event.bubbles, event.cancelable, event.view,
-                       event.detail, event.screenX, event.screenY, event.clientX, event.clientY,
-                       event.ctrlKey, event.altKey, event.shiftKey, event.metaKey,
-                       2, event.relatedTarget);
-    event.target.dispatchEvent(evt);
-
-    // const evt = document.createEvent("MouseEvents");
-    // evt.initMouseEvent("contextmenu", true, true, document.defaultView, 1,
-    //                    event.screenX, event.screenY, event.clientX, event.clientY, false, false,
-    //                    false, false, 2, null);
-    // this.tabBody.dispatchEvent(evt);
-    event.stopPropagation();
-    event.preventDefault();
-  }
 }

@@ -1,7 +1,3 @@
-/**
- * Created by hb on 06.02.17.
- */
-
 import { HttpClient } from "@angular/common/http";
 import { EventEmitter, Injectable, } from "@angular/core";
 
@@ -41,6 +37,7 @@ export class ConfigService {
 
   // Empfang von SSE
   public sse: SseHandler;
+
   public whatsnew: WhatsNew;
   public lastReadDate = "";
 
@@ -80,7 +77,6 @@ export class ConfigService {
       console.debug(">>> getting app meta data");
       return this.version.init(this.restServer + apiCONFIG + "/" + confPACK).then((ver) => {
         console.debug(">>> meta data done");
-        // this.startKeepalive();
         console.info(ver.displayname + " v" + ver.version + " " + ver.copyright + " (" + ver.githash + ")");
         console.dir(ver.versions);
         const server = this.version.serverVer;
@@ -96,6 +92,7 @@ export class ConfigService {
         // SSE init
         this.sse = new SseHandler(AppConfig.settings.webserviceServer, sseNAME);
 
+        // SSE event
         // Verzeichnisse wurden vom Server neu eingelesen
         // => App neu laden, dadurch wird der aktualisierte Baum geholt
         const newtreeListener =  (evt: MessageEvent) => {
@@ -104,6 +101,7 @@ export class ConfigService {
         };
         this.sse.addEventListener(sseNEWTREE, newtreeListener);
 
+        // SSE event
         // Alle Vormerkungen wurden erledigt
         // => App neu laden
         // Alle Vormerkungen ausfuehren erledigt normalerweise der Cron-Job in der Nacht, davon merkt
@@ -122,7 +120,6 @@ export class ConfigService {
             this.whatsnew = wn;
             return ver;
           });
-
       })
     });
 
@@ -152,11 +149,9 @@ export class ConfigService {
     }
     if (show) {
       this.getUserConfig().lastSeenVersion = run;
-      console.debug("show info v.old=" + last + " v.new=" + run);
     }
     return show;
   }
-
 
   /**
    * Benutzer-Config
@@ -218,7 +213,6 @@ export class ConfigService {
    *
    */
   private fetchUserConfig(): Promise<UserSession> {
-    console.debug("fetchUserConfig");
     return this.getConfig(confUSER).then((userdata) => {
       return new UserSession(this.userDataChange, userdata, this.logonService);
     });

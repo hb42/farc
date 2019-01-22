@@ -1,12 +1,10 @@
-/**
- * Created by hb on 07.02.17.
- */
-
 import { Pipe, PipeTransform, } from "@angular/core";
 
 import { FarcRole, } from "@hb42/lib-farc";
 
-@Pipe({name: "rolenames"})
+@Pipe({
+        name: "rolenames"
+})
 export class RolesPipe implements PipeTransform {
 
   public transform(value: any[]/*, params: any[]*/): string {

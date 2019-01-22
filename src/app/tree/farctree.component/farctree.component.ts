@@ -1,7 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild, } from "@angular/core";
-import { SelectItem, Tree, } from "primeng/primeng";
+import { Tree, } from "primeng/primeng";
 
-import { FarcEntryTypes, } from "@hb42/lib-farc";
 import { ConfigService } from "../../shared";
 
 import { FarcTreeService, } from "../farctree.service";
@@ -21,13 +20,6 @@ export class FarcTreeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-  }
-
-  protected getnodestyle(node) {
-    if (node.type === FarcEntryTypes.ep) {
-      return {"font-weight": "bold"};  // color nur, wenn selected beruecksichtigt wird
-                                       // -> ui-state-hightlight -> selectors!
-    }
   }
 
 }

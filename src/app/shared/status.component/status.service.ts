@@ -1,7 +1,3 @@
-/**
- * Created by hb on 03.04.17.
- */
-
 import { Injectable, } from "@angular/core";
 import Timeout = NodeJS.Timeout;
 
@@ -14,6 +10,7 @@ import Timeout = NodeJS.Timeout;
 export class StatusService {
 
   public defaultType = "text-secondary";
+
   private messages = [];
   private timer: Timeout;
   private defaultText = {type: this.defaultType, text: "", date: 0};
@@ -57,7 +54,7 @@ export class StatusService {
       this.messages.pop();
     }
     this.messages.unshift({type: typ, text: msg, date: Date.now()});
-    // Nachricht 10 sec. anzeigen
+    // Nachricht 10 sec. anzeigen, dann wird wieder defaultText angezeigt
     this.timer = setTimeout(() => {
       this.messages.unshift(this.defaultText);
     }, 10000);

@@ -1,6 +1,3 @@
-/**
- * Created by hb on 10.07.16.
- */
 
 import { Component, HostBinding, OnInit, } from "@angular/core";
 

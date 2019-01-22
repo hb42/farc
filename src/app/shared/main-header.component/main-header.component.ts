@@ -1,7 +1,6 @@
 import { Component, OnInit, } from "@angular/core";
 
 import { ErrorService, Version, VersionService, } from "@hb42/lib-client";
-import { HelpService } from "../../help";
 
 import { ConfigService, } from "../config.service"
 import { MainNavService} from "../main-nav.service";
@@ -19,7 +18,6 @@ export class MainHeaderComponent implements OnInit {
   public ueber = false;
   public whatsnew = false;
   public changelog = false;
-  // public helplink = "/" + MainNavService.NAV_HELP;
 
   constructor(public version: VersionService,
               public configService: ConfigService,
@@ -28,7 +26,6 @@ export class MainHeaderComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     this.cliVer = this.version.ver;
     this.srvVer = this.version.serverVer;
     this.subVer = [...this.cliVer.versions,

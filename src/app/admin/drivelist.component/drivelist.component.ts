@@ -1,7 +1,3 @@
-/**
- * Created by hb on 17.01.17.
- */
-
 import { Component, HostBinding, OnInit, } from "@angular/core";
 
 import { FarcDrive, FarcDriveDocument, FarcDriveTypes, } from "@hb42/lib-farc";
@@ -12,9 +8,6 @@ import { AdminService, } from "../admin.service";
 
 @Component({
              selector   : "farc-drive-list",
-             // host: {
-             //   class: "flex-content-fix flex-col",
-             // },
              templateUrl: "./drivelist.component.html",
            })
 export class DriveListComponent implements OnInit {
@@ -35,10 +28,6 @@ export class DriveListComponent implements OnInit {
     for (let i = 0; i < cnt; i++) {
       this.types.push({label: FarcDriveTypes[i].toString(), value: i});
     }
-    // options = options.slice(options.length / 2);
-    // options.forEach( (o) => {
-    //   this.types.push({label: FarcDriveTypes[o].toString(), value: FarcDriveTypes[o]});
-    // });
   }
 
   public ngOnInit(): void {

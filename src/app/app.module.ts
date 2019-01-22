@@ -14,15 +14,11 @@ import { RouterModule, } from "@angular/router";
 
 import {
   AppConfig,
-  //  AuthHttpService,
-  //  DefaultAutologinJwtHander,
   ErrorService,
   FileSizePipe,
   LibClientModule,
   LOGON_OPTIONS,
-  // LogonInterceptor,
   LogonParameter,
-  // LogonService,
 } from "@hb42/lib-client";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -130,12 +126,11 @@ export function logonOptionsFactory(): LogonParameter {
 /**
  * Angular-Hauptmodul
  *
- * Exception beim Start: Uncaught Error: Can't resolve all parameters for ...
- *
- * Service kann evtl. nicht aufgeloest werden: muss in index.ts am Anfang stehen,
- * bzw. direkt importieren.
- * -> http://stackoverflow.com/questions/37997824/angular-2-di-error-exception-cant-resolve-all-parameters
- *
+ * (Exception beim Start: Uncaught Error: Can't resolve all parameters for ...
+ *  Service kann evtl. nicht aufgeloest werden => muss in index.ts am Anfang stehen,
+ *  bzw. direkt importieren.
+ *  -> http://stackoverflow.com/questions/37997824/angular-2-di-error-exception-cant-resolve-all-parameters
+ * )
  */
 
 @NgModule({

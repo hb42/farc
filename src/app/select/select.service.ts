@@ -111,7 +111,6 @@ export class SelectService {
     this.loading = true;
     return this.getSelectList()
       .then((sel) => {
-        console.debug("load Select-List");
         this.selectlist = this.sorttable(sel);
         return this.getResultList()
           .then((res) => {
@@ -176,16 +175,13 @@ export class SelectService {
         accept : () => {
           this.loading = true;
           this.farcService.undoSelectionFor(this.selectlist)
-          // Promise.all([...this.selectlist].map( (node) => {
-          //   return this.deleteSelection(node);
-          // }))
-          .then((rc) => {
-            const count = this.selectlist.length;
-            this.selectlist = [];
-            this.farcService.switchTree(this.farcService.isArcTree);
-            this.loading = false;
-            this.farcService.vormerkChangeStatus(count, true);
-          });
+            .then((rc) => {
+              const count = this.selectlist.length;
+              this.selectlist = [];
+              this.farcService.switchTree(this.farcService.isArcTree);
+              this.loading = false;
+              this.farcService.vormerkChangeStatus(count, true);
+            });
         },
       });
   }

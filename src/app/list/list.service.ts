@@ -87,7 +87,7 @@ export class ListService {
         console.error("error reading OE-List-Data " + err);
       },
       () => {
-        console.debug("done reading OE-List");
+        //
       }
     );
   }

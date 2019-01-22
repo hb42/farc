@@ -38,7 +38,6 @@ export class ConfigComponent implements OnInit {
   }
   public set runReadTree(b: boolean) {
     this.configService.saveConfig(confREADTREE, b).then((rc) => {
-      console.debug("readTree-Conf saved");
       this.status.success("Änderung für 'Dateisystem einlesen' gespeichert.")
     }, (reason) => {
       console.error("readTree-Conf not saved");
@@ -52,7 +51,6 @@ export class ConfigComponent implements OnInit {
   }
   public set runVormerk(b: boolean) {
     this.configService.saveConfig(confEXECVORM, b).then((rc) => {
-      console.debug("execVormerk-Conf saved");
       this.status.success("Änderung für 'Vormerkungen ausführen' gespeichert.")
     }, (reason) => {
       console.error("execVormerk-Conf not saved");
@@ -135,14 +133,8 @@ export class ConfigComponent implements OnInit {
   public setCronTime() {
     const dt = checkCronTime(this.cron);
     if (dt) {
-      console.debug("CRON hours  : " + dt[1]);
-      console.debug("CRON minutes: " + dt[2]);
-      const h = parseInt(dt[1], 10);
-      const m = parseInt(dt[2], 10);
-      console.debug("numbers: " + h + ":" + m);
       this.cron = dt[1] + ":" + dt[2];
       this.configService.saveConfig(confCRON, this.cron).then((rc) => {
-        console.debug("Cron-String saved ");
         this.status.success("Neue Einlesezeit " + this.cron + "  gespeichert.")
       }, (reason) => {
       console.error("cron-string not saved");
@@ -166,7 +158,6 @@ export class ConfigComponent implements OnInit {
     } else {
       this.maxerl = "" + parsed;
       this.configService.saveConfig(confMAXERL, parsed).then((rc) => {
-        console.debug("MAXERL saved ");
         this.status.success("Neuer Wert " + parsed + " für Anzahl Tage gespeichert.")
       }, (reason) => {
         console.error("MAXERL not saved");
@@ -186,7 +177,6 @@ export class ConfigComponent implements OnInit {
     } else {
       this.pricegb = ("" + parsed).replace(".", ",");
       this.configService.saveConfig(confGBPRICE, parsed).then((rc) => {
-        console.debug("PRICE saved ");
         this.status.success("Neuer Wert " + this.pricegb + " für Preis je GB gespeichert.")
       }, (reason) => {
         console.error("PRICE not saved");
@@ -206,7 +196,6 @@ export class ConfigComponent implements OnInit {
     } else {
       this.mwst = ("" + parsed).replace(".", ",");
       this.configService.saveConfig(confMWST, parsed).then((rc) => {
-        console.debug("MWST saved ");
         this.status.success("Neuer Wert " + this.mwst + " für MWSt gespeichert.")
       }, (reason) => {
         console.error("MWST not saved");
@@ -219,7 +208,6 @@ export class ConfigComponent implements OnInit {
   public setSenderMail() {
     // TODO auf gueltige eMail checken
     this.configService.saveConfig(confMAILFROM, this.senderMail).then((rc) => {
-      console.debug("senderMail saved ");
       this.status.success("Absender-E-Mail " + this.senderMail + " gespeichert.")
     }, (reason) => {
       console.error("senderMail not saved");
@@ -231,7 +219,6 @@ export class ConfigComponent implements OnInit {
   public setAdminMail() {
     // TODO auf gueltige eMail checken
     this.configService.saveConfig(confADMINMAIL, this.adminMail).then((rc) => {
-      console.debug("adminMail saved ");
       this.status.success("Admin-E-Mail " + this.adminMail + " gespeichert.")
     }, (reason) => {
       console.error("adminMail not saved");
@@ -259,18 +246,5 @@ export class ConfigComponent implements OnInit {
         }
       });
   }
-
-  // public testElectron() {
-  //   if (this.electronService.isElectron) {
-  //     console.info("### sync reply " + this.electronService.ipcRenderer.sendSync("synchronous-message", "ping"));
-  //
-  //     this.electronService.ipcRenderer.on("asynchronous-reply", (event, arg) => {
-  //       console.info("### async reply " + arg);
-  //     });
-  //     this.electronService.ipcRenderer.send("asynchronous-message", "ping");
-  //   } else {
-  //     console.info("### no electron");
-  //   }
-  // }
 
 }

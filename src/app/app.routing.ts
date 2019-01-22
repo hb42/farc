@@ -1,5 +1,7 @@
 /**
- * Created by hb on 27.08.16.
+ * Routing-Tabelle
+ *
+ * Die Pfadnamen sind als Konstanten festgelegt.
  */
 
 import {
@@ -55,8 +57,6 @@ const appRoutes: Routes = [
       { path: MainNavService.NAV_HELP_VORM, component: HelpvormComponent},
     ]},
   { path: MainNavService.NAV_ERROR, component: ErrorComponent },
-  // { path: "error/:status/:msg", component: ErrorComponent },
-
   { path: "**", component: PageNotFoundComponent },
   // {
   //   path: 'heroes',

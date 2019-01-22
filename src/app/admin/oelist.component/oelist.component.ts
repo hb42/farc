@@ -1,7 +1,3 @@
-/**
- * Created by hb on 05.02.17.
- */
-
 import { Component, HostBinding, OnInit, } from "@angular/core";
 
 import { confROLES, FarcOe, FarcOeDocument, FarcRole, } from "@hb42/lib-farc";
@@ -12,16 +8,12 @@ import { AdminService, } from "../admin.service";
 
 @Component({
              selector   : "farc-oe-list",
-             // host: {
-             //   class: "flex-content-fix flex-col",
-             // },
              templateUrl: "./oelist.component.html",
            })
 export class OeListComponent implements OnInit {
   @HostBinding("attr.class") cssClass = "flex-content-fix flex-col";
 
   public oes: FarcOeDocument[] = [];
-  // private oes: FarcOeDocument[];
   private roles: FarcRole[];
 
   public displayDialog = false;
@@ -120,7 +112,6 @@ export class OeListComponent implements OnInit {
       this.saveOe(this.selected);
     } else {
       this.editData.roles = this.oeroles.map((r) => r);
-      // this.oes.push({name: this.editData.name, roles: this.editData.roles} as FarcOeDocument);
       this.saveOe(this.editData);
     }
   }

@@ -1,12 +1,7 @@
-/**
- * Created by hb on 17.07.16.
- */
-
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
 import {AppConfig} from "@hb42/lib-client";
-import {dateString} from "@hb42/lib-common";
 import {
   apiCHILDREN,
   apiEXECVORM,
@@ -14,7 +9,6 @@ import {
   apiROOT,
   apiTREE,
   apiVORMERKUNG,
-  confTREEDATE,
   FarcEntryTypes,
   FarcSelectType,
   FarcTreeNode,
@@ -25,6 +19,11 @@ import {Observable} from "rxjs";
 
 import {ConfigService, StatusService, UserSession} from "../shared";
 
+/**
+ * Trre-Service
+ *
+ * Details-Bildschirm mit Baumansicht unf Dateiliste
+ */
 @Injectable()
 export class FarcTreeService {
 
@@ -42,6 +41,7 @@ export class FarcTreeService {
   // hier sind grosse Listen (> ~2000) sehr traege. Daher wird der
   // event onLazyLoad verwendet um jeweils nur einen Ausschnitt der
   // Liste darzustellen.
+  //
   // (alpha-Sort mit String.localeCompare() ist eine zusaetzliche Bremse,
   //  da hilft Intl.compare)
   //
@@ -146,7 +146,7 @@ export class FarcTreeService {
         console.error("error reading Tree-Data " + err);
       },
       () => {
-        console.debug("done reading tree");
+        //
       },
     );
 
@@ -333,7 +333,6 @@ export class FarcTreeService {
   }
 
   private fetchFiles(node: FarcTreeNode): Promise<FarcTreeNode> {
-    console.debug("fetchFiles");
     if (!node.files) {
       if (node.entrytype !== FarcEntryTypes.strukt) {
         return this.filesFor(node.entryid).then((f) => {
@@ -347,22 +346,6 @@ export class FarcTreeService {
         node.files = node.children;
       }
     }
-  // DEBUG
-    // const files: FarcTreeNode[] = [];
-    // for (let i = 0; i < 2000; i++) {
-    //   files.push({
-    //     arc: false,
-    //     entrytype: FarcEntryTypes.file,
-    //     label: "" + i,
-    //     size: 0,
-    //     timestamp: 0,
-    //     path: node.path,
-    //     leaf: true,
-    //     type: "file",
-    //              });
-    // }
-    // node.files = files;
-  // DEBUG
     return new Promise<FarcTreeNode>((resolve) => {
       resolve(node);
     });
@@ -403,7 +386,6 @@ export class FarcTreeService {
       this.totalRows = 0;
       this.files_ = [];
     }
-    console.debug("set file");
     // anzuzeigenden Ausschnitt setzen
     this.totalRows = this.files_.length;
     this.virtualbegin = 0;
@@ -451,9 +433,7 @@ export class FarcTreeService {
     }
     if (this.sortOrder !== event.sortOrder || this.sortField !== event.sortField) {
       this.userSession.setFilesort(event.sortField, event.sortOrder);
-      console.debug("sort start");
       this.files_ = this.sortTable();
-      console.debug("sort end");
       refresh = true;
     }
     if (this.virtualbegin !== first || this.virtualcount !== count) {
@@ -467,11 +447,8 @@ export class FarcTreeService {
   }
 
   private setVirtualFiles() {
-    console.debug("setVirtualFiles first=" + this.virtualbegin + " / count=" + this.virtualcount);
+    // console.debug("setVirtualFiles first=" + this.virtualbegin + " / count=" + this.virtualcount);
     this.virtualfiles = this.files.slice(this.virtualbegin, this.virtualbegin + this.virtualcount);
-    // if (this.virtualbegin === 0 && this.virtualcount >= this.files_.length) {
-    //   this.resetVirtualScroll(0);
-    // }
   }
 
   private resetVirtualScroll(delay: number) {
@@ -482,7 +459,7 @@ export class FarcTreeService {
     //       zurueck, was hier nicht gebraucht wird und abgefangen werden muesste. Die beiden relevanten
     //       Werte fuer virt.scroll. hingegen bleiben und fuehren zu Problemen.
     setTimeout(() => {
-      console.debug("RESET virt scroll");
+      // console.debug("RESET virt scroll");
       if (this.fileTable) {
         // FIXME zwei interne Werte der PrimeNG-Table!!
         this.fileTable.first = 0;
@@ -500,7 +477,6 @@ export class FarcTreeService {
       }
       // hier sollten alle Daten geladen und alle Hintergrundprozesse erledigt sein
       // !! das ist unabhaengig von den PrimeNG-Problemen
-      this.loading = true;
       this.loading = false;
     }, delay);
   }
@@ -523,14 +499,6 @@ export class FarcTreeService {
           }
         }
       });
-      // node.path.forEach((p, idx) => {
-      //   this.breadcrumbs.push({
-      //                           label  : p,
-      //                           command: (event) => {
-      //                             this.expandTo(node.path.slice(0, idx + 1));
-      //                           }
-      //                         });
-      // });
     }
   }
 
@@ -544,8 +512,8 @@ export class FarcTreeService {
    * @param event - event.checked: State of the header checkbox
    */
   public selectAll(event: any) {
-    console.debug("(1) _select = " + Object.keys(this.fileTable._selection).length + " selectionKeys = " +
-      Object.keys(this.fileTable.selectionKeys).length);
+    // console.debug("(1) _select = " + Object.keys(this.fileTable._selection).length + " selectionKeys = " +
+    //   Object.keys(this.fileTable.selectionKeys).length);
     if (event.checked) {
       this.selectedFiles = [...this.files_];
       // FIXME direkter Zugriff auf primeNG table
@@ -557,8 +525,8 @@ export class FarcTreeService {
 
     }
     this.fileTable.updateSelectionKeys();
-    console.debug("(2) _select = " + Object.keys(this.fileTable._selection).length + " selectionKeys = " +
-      Object.keys(this.fileTable.selectionKeys).length);
+    // console.debug("(2) _select = " + Object.keys(this.fileTable._selection).length + " selectionKeys = " +
+    //   Object.keys(this.fileTable.selectionKeys).length);
   }
 
   // --- context menu ---
@@ -644,7 +612,6 @@ export class FarcTreeService {
    * @param event
    */
   public showCtx(event) {
-    console.debug("elipsis click");
     // neuer mouse event
     const evt = document.createEvent("MouseEvents");
     // als Rechtsklick mit den Werten des Linksklick
@@ -718,6 +685,12 @@ export class FarcTreeService {
     });
   }
 
+  /**
+   * Statuszeilenmeldung
+   *
+   * @param count
+   * @param del
+   */
   public vormerkChangeStatus(count: number, del: boolean) {
     let msg = "" + count;
     msg += " Vormerkung";
@@ -805,7 +778,6 @@ export class FarcTreeService {
 
   private saveVormerk(files: FarcTreeNode[]): Promise<boolean> {
     // nur die Zeile, ohne children, etc. zum Server schicken
-    // const files = file ? [file] : this.selectedFiles;
     const selectedfiles: FarcTreeNode[] = files.map((f) => {
       return {
         entryid   : f.entryid,
@@ -897,7 +869,7 @@ export class FarcTreeService {
     // event.multiSortMeta = SortMeta array in multiple sort
     // event.field = Field to sort -> label - timestamp - size
     // event.order = Sort order -> 1 asc, -1 desc
-    console.debug("sort event");
+
     // debounce
     if (this.sortOrder === event.order && this.sortField === event.field) {
       return;

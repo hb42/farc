@@ -1,6 +1,3 @@
-/**
- * Created by hb on 27.01.17.
- */
 
 import {
   Pipe,

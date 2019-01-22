@@ -1,7 +1,3 @@
-/**
- * Created by hb on 17.01.17.
- */
-
 import { HttpClient } from "@angular/common/http";
 import { Injectable, } from "@angular/core";
 import { MenuItem } from "primeng/api";
@@ -54,7 +50,6 @@ export class AdminService {
   }
 
   public getDrives(): Observable<FarcDriveDocument[]> {
-    // this.statusService.success("AdminService getDrives()");
     return this.httphandler.get<FarcDriveDocument[]>(this.restServer + apiDRIVES);
   }
 
@@ -64,7 +59,6 @@ export class AdminService {
 
   public deleteDrive(drv: FarcDriveDocument) {
     return this.httphandler.request("delete", this.restServer + apiDRIVES, {body: drv});
-    // .map( (response: Response) => response.json() );
   }
 
   public getOEs(): Observable<FarcOeDocument[]> {
@@ -73,7 +67,6 @@ export class AdminService {
 
   public setOE(oe: FarcOe) {
     return this.httphandler.post(this.restServer + apiOES, oe);
-    // .map((response: Response) => response.json() );
   }
 
   public deleteOE(oe: FarcOeDocument) {
@@ -86,7 +79,6 @@ export class AdminService {
 
   public setEp(ep: FarcEndpunktDocument, newoe): Observable<any> {
     return this.httphandler.post(this.restServer + apiEPS, {endpunkt: ep, oe: newoe});
-    // .map((response: Response) => response.json() );
   }
 
   public execReadAll() {
@@ -96,7 +88,7 @@ export class AdminService {
           this.statusService.info(res.toString());
         }, (err) => {
           this.statusService.error("Fehler: Einlesen konnte nicht gestartet werden.");
-          console.error("error calling /readall ");
+          console.error("error calling /" + apiREADALL);
           console.dir(err);
         }
       );
@@ -109,7 +101,7 @@ export class AdminService {
           this.statusService.info(res.toString());
         }, (err) => {
           this.statusService.error("Fehler: Vormerkungen konnten nicht gestartet werden.");
-          console.error("error calling /readvorm ");
+          console.error("error calling /" + apiREADVORM);
           console.dir(err);
         }
       );

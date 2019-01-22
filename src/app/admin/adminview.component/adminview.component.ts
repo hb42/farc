@@ -1,7 +1,3 @@
-/**
- * Created by hb on 03.10.16.
- */
-
 import { Component, HostBinding, OnInit, } from "@angular/core";
 
 import { AdminService } from "../admin.service";

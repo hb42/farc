@@ -1,8 +1,4 @@
 /**
- * Created by hb on 17.04.17.
- */
-
-/**
  * Session-Daten eines Benutzers
  * -> {@link UserSession}
  *

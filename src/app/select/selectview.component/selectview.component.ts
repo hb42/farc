@@ -1,6 +1,3 @@
-/**
- * Created by hb on 16.10.16.
- */
 import { AfterViewChecked, Component, ElementRef, HostBinding, HostListener, OnInit, } from "@angular/core";
 import { SelectItem } from "primeng/api";
 import { FarcTreeService } from "../../tree";
@@ -62,7 +59,6 @@ export class SelectViewComponent implements OnInit, AfterViewChecked {
   }
 
   @HostListener("window:resize", ["$event"]) onResize(event) {
-    console.debug("RESIZE");
     this.setTableHeight(true);
   }
 
@@ -76,13 +72,10 @@ export class SelectViewComponent implements OnInit, AfterViewChecked {
         // Vorsicht: bei der Verwendung von virtual scrolling bringt der haeufige Zugriff auf .offsetHeigth
         // die Berechnung des virtuellen Scrollbereichs durcheinander (s. FilelistComponent). Dann ist der
         // Check via .style.height erforderlich. Der funktioniert allerdings hier nicht sauber :-(
-      // if (resize || this.lastHeight !== parseInt(this.tabBody.style.height, 10)) {
+        // -> if (resize || this.lastHeight !== parseInt(this.tabBody.style.height, 10)) {
       this.lastHeight = this.tabTable.offsetHeight - this.tabHeader.offsetHeight;
-      // console.debug("set table height " + this.lastHeight);
       this.tabBody.style.maxHeight = this.lastHeight + "px";
       this.tabBody.style.height = this.lastHeight + "px";
-      // }
-
     }
   }
 

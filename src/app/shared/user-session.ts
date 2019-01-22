@@ -5,7 +5,7 @@ import { LogonService, } from "@hb42/lib-client";
 import { UserData, } from ".";
 
 /**
- * Benutzerdaten in einm {@link UserData}-Objekt verwalten.
+ * Benutzerdaten in einem {@link UserData}-Objekt verwalten.
  * Jede Aenderung der Daten loesst einen Event aus. {@link ConfigService}
  * reagiert darauf, indem die Benutzerdaten auf dem Server gespeichert
  * werden.
@@ -20,6 +20,7 @@ export class UserSession {
 
   constructor(event: EventEmitter<UserData>, data: UserData, private logonService: LogonService) {
     this.changeEvent = event;
+    // defaults
     this.userdata = data ? data : {
       isArcTree           : false,
       srcTreepath         : [],

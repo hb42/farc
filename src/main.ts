@@ -25,8 +25,9 @@ import {
 
 enableProdMode();
 
-// config holen und Angular-App starten
+// config
 AppConfig.load(environment.configFile).then(() => {
+  // angular
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch((err) => {
       console.info("Runtime-ERROR " + err);

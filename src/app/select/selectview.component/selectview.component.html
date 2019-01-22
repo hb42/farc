@@ -22,9 +22,6 @@
              loadingIcon="fa fa-cog fa-spin"
              [resizableColumns]="true"
     >
-
-      <!--<ng-template pTemplate="caption">-->
-      <!--</ng-template>-->
       <ng-template pTemplate="emptymessage">
         Keine Dateien gefunden.
       </ng-template>
@@ -86,8 +83,6 @@
           </td>
         </tr>
       </ng-template>
-      <!--<ng-template pTemplate="summary">-->
-      <!--</ng-template>-->
     </p-table>
 
     <p-table *ngIf="!selectService.tablestat"
@@ -103,10 +98,6 @@
              [sortOrder]="selectService.sortResultOrder"
              [resizableColumns]="true"
     >
-             <!--[loading]="selectService.loading"-->
-
-      <!--<ng-template pTemplate="caption">-->
-      <!--</ng-template>-->
       <ng-template pTemplate="emptymessage">
         Keine Dateien gefunden.
       </ng-template>
@@ -187,8 +178,6 @@
           </td>
         </tr>
       </ng-template>
-      <!--<ng-template pTemplate="summary">-->
-      <!--</ng-template>-->
     </p-table>
 
   </div>

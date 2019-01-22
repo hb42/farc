@@ -1,7 +1,3 @@
-/**
- * Created by hb on 03.04.17.
- */
-
 import { Component, OnInit, } from "@angular/core";
 
 import { StatusService, } from "./status.service";
@@ -24,44 +20,4 @@ export class StatusComponent implements OnInit {
 
   }
 
-  // /**
-  //  * css-class fuer die Message-Typen
-  //  *
-  //  * z.Zt. Bootstrap-classes, koennte aber auch in status.component.css definiert werden
-  //  *
-  //  * @param type
-  //  * @returns {any}
-  //  */
-  // public messageClass(type: string): string[] {
-  //   switch (type) {
-  //     case "success" :
-  //       return ["text-success"];
-  //     case "info" :
-  //       return ["text-info"];
-  //     case "warn" :
-  //       return ["text-warning"];
-  //     case "error" :
-  //       return ["text-danger"];
-  //     case "default":
-  //       return ["text-secondary"];
-  //     default:
-  //       return ["text-info"];
-  //   }
-  // }
-  //
-  // public latestText() {
-  //   if (this.lines[0]) {
-  //     return this.lines[0].text || "";
-  //   } else {
-  //     return "";
-  //   }
-  // }
-  //
-  // public latestClass() {
-  //   if (this.lines[0]) {
-  //     return this.messageClass(this.lines[0].type);
-  //   } else {
-  //     return this.messageClass("");
-  //   }
-  // }
 }

@@ -19,11 +19,8 @@
     <p-selectButton [options]="farcService.sortButtons" [(ngModel)]="farcService.sortalpha"
                     title="Sortieren nach Name oder Größe" ></p-selectButton>
   </div>
-  <!--<button class=" btn btn-link" (click)="farcService.sortalpha = !farcService.sortalpha"-->
-          <!--title="{{farcService.sortalpha ? 'Nach Größe sortieren' : 'Nach Name sortieren'}}">-->
-    <!--<i [ngClass]="farcService.sortalpha ? ['fa', 'fa-sort-numeric-desc'] : ['fa', 'fa-sort-alpha-asc'] "></i>-->
-  <!--</button>-->
 </div>
+
 <p-tree [value]="farcService.tree"
         (onNodeExpand)="farcService.nodeClick($event, false)"
         (onNodeSelect)="farcService.nodeClick($event, true)"

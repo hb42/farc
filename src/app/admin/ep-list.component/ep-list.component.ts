@@ -14,9 +14,6 @@ interface EpList {
 
 @Component({
              selector   : "farc-ep-list",
-             // host: {
-             //         class: "flex-content-fix flex-col",
-             //       },
              templateUrl: "./ep-list.component.html",
              styleUrls  : ["./ep-list.component.css"],
            })
@@ -124,7 +121,6 @@ export class EpListComponent implements OnInit {
 
   protected oeForEp(ep: FarcEndpunktDocument): string {
     const o = this.oes.find((oe) => oe._id === ep.oe);
-    // const o = this.oes.find( (oe) => oe._id.localeCompare(ep.oe ? ep.oe.toString() : "####") );
     if (o) {
       return o.name;
     } else {

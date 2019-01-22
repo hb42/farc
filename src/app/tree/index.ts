@@ -1,7 +1,3 @@
-/**
- * Created by hb on 09.04.17.
- */
-
 export * from "./farc.drivetype.pipe";
 export * from "./farctree.service";
 export * from "./farctree.component/farctree.component";
