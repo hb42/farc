@@ -1,7 +1,7 @@
 
 3.0.0-beta.11 22.02.2019
            Status-Anzeige ist benutzerfreundlicher. Probleme beim Loeschen aus der
-           Vormerkliste behoben.
+           Vormerkliste behoben. Console-Meldungen reduziert.
 
 3.0.0-beta.9  17.01.2019
            Verbesserungen an der Vormerkliste sowie Darstellungsprobleme bereinigt.
