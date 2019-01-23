@@ -12,9 +12,10 @@ import { SelectService, } from "../select.service";
 export class SelectViewComponent implements OnInit, AfterViewChecked {
   @HostBinding("attr.class") cssClass = "flex-col flex-content-fix";
 
-  public centerPaneWidth: string;
-  public centerPaneMinWidth: string;
-  public tbHeight: string;
+  public centerPaneWidth = "100%";
+  public centerPaneMinWidth = "500px";
+  public footerHeight = "35px";
+
   public selectButtons: SelectItem[];
   private tabBody: HTMLElement;
   private tabTable: HTMLElement;
@@ -27,9 +28,6 @@ export class SelectViewComponent implements OnInit, AfterViewChecked {
   }
 
   public ngOnInit(): void {
-    this.centerPaneWidth = "100%";
-    this.centerPaneMinWidth = "500px";
-    this.tbHeight = "initial";
     this.selectService.resetList();
     this.selectButtons = [];
     this.selectButtons.push({ label: "Vorgemerkt",

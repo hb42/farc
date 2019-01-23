@@ -41,6 +41,9 @@ export class ConfigService {
   public whatsnew: WhatsNew;
   public lastReadDate = "";
 
+  // einheitliche Groesse fuer die NavBar auf allen Seiten
+  public navBarHeight = "50px";
+
   private restServer: string;
   private userSession: UserSession;
   private userDataChange: EventEmitter<UserData> = new EventEmitter();

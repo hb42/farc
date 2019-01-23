@@ -29,6 +29,8 @@ export class FarcTreeService {
 
   public readonly INHERIT = "inherit";
 
+  public navBarHeight = this.configService.navBarHeight;
+
   public tree: TreeNode[];
   public selectedNode: FarcTreeNode;  // mit p-tree.selection verknuepft
   public breadcrumbs: MenuItem[] = [];

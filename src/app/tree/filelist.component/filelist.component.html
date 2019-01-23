@@ -1,4 +1,5 @@
-<div class="filelist-navbar">
+<div class="filelist-navbar"
+     [style.height]="farcService.navBarHeight" [style.min-height]="farcService.navBarHeight">
   <span class="filelist-navbar-text">Ausgewählte Zeilen: </span>
     <button class="btn btn-sm btn-warning file-button" [class.disabled]="!farcService.selectedFiles.length"
             (click)="farcService.moveSelected()"
@@ -18,7 +19,7 @@
     </button>
 </div>
 
-<div class="filelist-header"
+<div [style.height]="listHeaderHeight" [style.min-height]="listHeaderHeight"
      [class.header-orig]="!farcService.isArcTree"
      [class.header-arc]="farcService.isArcTree">
   <div class="filelist-header-body bg-light200" >
@@ -140,6 +141,7 @@
 </div>
 
 <div class="filelist-status small bg-light200"
+     [style.height]="footerHeight" [style.min-height]="footerHeight"
      [class.footer-orig]="!farcService.isArcTree"
      [class.footer-arc]="farcService.isArcTree">
   <div class="sum-line full-sum" *ngIf="farcService.files.length"> {{farcService.files | filesSum:"all"}} </div>

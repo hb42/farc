@@ -10,8 +10,6 @@
   background-color: var(--listheader-background);
   color: var(--light);
   width: 100%;
-  height: 50px;
-  min-height: 50px;
 }
 .sort-title {
   font-size: x-large;

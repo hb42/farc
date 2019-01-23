@@ -21,6 +21,8 @@ import { FarcTreeService } from "../tree";
 @Injectable()
 export class SelectService {
 
+  public navBarHeight = this.configService.navBarHeight;
+
   public selectlist: FarcTreeNode[];
   public selectedFiles: FarcTreeNode[] = [];
   public loading = false;

@@ -13,6 +13,10 @@ export class FileListComponent implements OnInit, AfterViewChecked {
 
   @ViewChild("filetable") protected filetable: Table;
 
+  // Dimensionen (NavBar -> FarcTreeService)
+  public listHeaderHeight = "40px";
+  public footerHeight = "35px";
+
   private tabBody: HTMLElement;
   private tabTable: HTMLElement;
   private tabHeader: HTMLElement;

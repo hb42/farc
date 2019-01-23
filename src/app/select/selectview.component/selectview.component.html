@@ -1,7 +1,7 @@
 <div class="flex-col" >
 
-  <p-toolbar class="flex-panel flex-content-fix vorm-header"
-             [style.min-height]="tbHeight" [style.height]="tbHeight">
+  <p-toolbar class="flex-panel flex-content-fix "
+             [style.min-height]="selectService.navBarHeight" [style.height]="selectService.navBarHeight">
     <p-selectButton [options]="selectButtons" [(ngModel)]="selectService.selectTable"></p-selectButton>
   </p-toolbar>
 
@@ -183,7 +183,8 @@
   </div>
 </div>
 
-<div *ngIf="selectService.isCurrentList()" class="filelist-status small bg-light200">
+<div *ngIf="selectService.isCurrentList()" class="filelist-status small bg-light200"
+     [style.min-height]="footerHeight" [style.height]="footerHeight">
   <div class="sum-line full-sum"> {{selectService.currentList() | filesSum:"all"}} </div>
   <mark *ngIf="selectService.isDelList()" class="sum-line todo-sum">Löschen: {{selectService.delList() | filesSum:"sum"}}</mark>
   <mark *ngIf="selectService.isMoveList()" class="sum-line todo-sum">Archivieren: {{selectService.moveList() | filesSum:"sum"}}</mark>

@@ -1,4 +1,5 @@
-<div class="flex-row treebuttons">
+<div class="flex-row treebuttons"
+     [style.height]="farcService.navBarHeight" [style.min-height]="farcService.navBarHeight">
   <div>
     <button pButton type="button" label="Original" (click)="farcService.onSwitchTree(false)"
             [class.ui-button-secondary]="farcService.isArcTree"

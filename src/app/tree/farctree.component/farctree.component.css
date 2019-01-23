@@ -8,8 +8,6 @@
 
 .treebuttons {
   justify-content: space-between;
-  height: 50px;
-  min-height: 50px;
   background-color: var(--treeheader-background);
   padding-left: 6px;
   padding-top: 12px;

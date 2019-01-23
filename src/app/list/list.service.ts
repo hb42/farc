@@ -11,6 +11,8 @@ import { Observable } from "rxjs";
 @Injectable()
 export class ListService {
 
+  public navBarHeight = this.configService.navBarHeight;
+
   public oelist: FarcTreeNode[];
   public index: number;
 
