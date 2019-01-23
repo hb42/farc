@@ -51,8 +51,11 @@ export class SelectViewComponent implements OnInit, AfterViewChecked {
     if (this.checkTableHeight) {
       this.checkTableHeight = false;
       setTimeout(() => {
+        this.tabBody = this.el.nativeElement.querySelector(".ui-table-scrollable-body");
+        this.tabTable = this.el.nativeElement.querySelector("#selectlisttable");  // umgebender DIV
+        this.tabHeader = this.el.nativeElement.querySelector(".ui-table-scrollable-header");
         this.setTableHeight(true);
-      }, 10);
+      }, 20);
     } else {
       this.setTableHeight();
     }
@@ -63,11 +66,6 @@ export class SelectViewComponent implements OnInit, AfterViewChecked {
   }
 
   private setTableHeight(resize?: boolean) {
-    if (!this.tabBody || !this.tabTable || !this.tabHeader) {
-      this.tabBody = this.el.nativeElement.querySelector(".ui-table-scrollable-body");
-      this.tabTable = this.el.nativeElement.querySelector("#selectlisttable");  // umgebender DIV
-      this.tabHeader = this.el.nativeElement.querySelector(".ui-table-scrollable-header");
-    }
     if (this.tabBody && this.tabTable && this.tabHeader) {
         // Vorsicht: bei der Verwendung von virtual scrolling bringt der haeufige Zugriff auf .offsetHeigth
         // die Berechnung des virtuellen Scrollbereichs durcheinander (s. FilelistComponent). Dann ist der

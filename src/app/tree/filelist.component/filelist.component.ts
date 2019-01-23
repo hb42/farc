@@ -34,26 +34,28 @@ export class FileListComponent implements OnInit, AfterViewChecked {
    * zwischen den Tabs die Hoehe auf 320px zurueckgesetzt (warum auch immer).
    * Das hier ist ein Hack, bei dem die Hoehe jeweils neu berechnet wird.
    *
-   * ngAfterViewChecked wird jeweils mehrfach aufgerufen, deshalb der Check,
-   * denn die Neuberechnung braucht nur einmal zu laufen. Resize wird extra erledigt.
-   * In AfterViewChecked sind die aktuellen Werte nicht unmittelbar verfuegbar,
-   * deshalb die Verzoegerung mit setTimeout() (ohne den Check wuerde der
-   * Timeout zudem in Endlosschleife weiterlaufen!?).
+   * ngAfterViewChecked wird jeweils mehrfach aufgerufen, deshalb sollte die
+   * Neuberechnung nur wenn noetig laufen. Resize wird extra erledigt.
+   * In AfterViewChecked sind die aktuellen Werte beim ersten Aufruf nicht
+   * unmittelbar verfuegbar, deshalb die Verzoegerung mit setTimeout().
+   * Fuer alle weiteren Aufrufe kein setTimeout(), das wuerde nur jede Menge
+   * zusaetzliche Aufrufe ausloesen.
    * TODO -> u. a. dieses Issue beobachten:
    *      https://github.com/primefaces/primeng/issues/5235
    *
    */
   public ngAfterViewChecked(): void {
-    // beim Start mit Verzoegerung
+    // beim ersten Aufruf mit Verzoegerung
     if (this.checkTableHeight) {
       this.checkTableHeight = false;
       setTimeout(() => {
+        this.tabBody = this.el.nativeElement.querySelector(".ui-table-scrollable-body");
+        this.tabTable = this.el.nativeElement.querySelector("#filelisttable");  // umgebender DIV
+        this.tabHeader = this.el.nativeElement.querySelector(".ui-table-scrollable-header");
         this.setTableHeight();
-      }, 10);
+      }, 20);
     } else {
-      setTimeout(() => {
-        this.setTableHeight();
-      }, 0);
+      this.setTableHeight();
     }
   }
 
@@ -63,11 +65,6 @@ export class FileListComponent implements OnInit, AfterViewChecked {
   }
 
   private setTableHeight(resize?: boolean) {
-    if (!this.tabBody || !this.tabTable || !this.tabHeader) {
-      this.tabBody = this.el.nativeElement.querySelector(".ui-table-scrollable-body");
-      this.tabTable = this.el.nativeElement.querySelector("#filelisttable");  // umgebender DIV
-      this.tabHeader = this.el.nativeElement.querySelector(".ui-table-scrollable-header");
-    }
     if (this.tabBody && this.tabTable && this.tabHeader) {
       // wg. virtuall scrolling beim Check kein Zugriff auf .offsetHeight oder .getBoundingClientRect()
       // das loesst anscheinend einen zusaetzlichen scroll-event aus, der das virt scrolling stoert
