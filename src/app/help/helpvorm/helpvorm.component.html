@@ -1,19 +1,32 @@
-<h2>Der Bildschirm Vormerkungen</h2>
+<h2>Der Bildschirm <button class="btn btn-outline-secondary"><span class="fa fa-fw fa-check"></span> Vormerkungen</button></h2>
 <p>
-  In der Vormerkungen-Ansicht werden alle Lösch-, Archivieren- und Zurücksichern-Aktionen angezeigt, die in der
-  folgenden Nacht ausgeführt werden. Sie können hier einzelne Aktionen zurücknehmen oder sofort ausführen.
-</p>
-
-<img src="./resource/doku/farcCopy.png" height="140px" class="screenshot"/>
-
-<p>
-  Mit dem Knopf <button class="btn btn-link text-success iconbtn"><i class="fa fa-check-circle"></i></button>
-  kann die jeweilige Vormerkung wieder entfernt werden.
-</p>
-<p>
-  Der Knopf <button class="btn btn-link text-danger iconbtn"><i class="fa fa-times-circle"></i></button>
+  In der Vormerkungen-Ansicht werden unter dem Reiter <button class="btn btn-sm btn-outline-primary"><i class="fa fa-check"></i> Vorgemerkt</button>
+  alle Lösch-, Archivieren- und Zurücksichern-Aktionen angezeigt, die in der
+  folgenden Nacht ausgeführt werden. Sie können hier einzelne Aktionen zurücknehmen oder gegebenenfalls sofort ausführen.
+  <br><img src="./resource/doku/vorm.jpg" height="200px" class="screenshot"/><br>
+  Mit dem Knopf <button class="btn btn-link text-danger iconbtn"><i class="fa fa-times"></i></button>
+  kann die jeweilige Vormerkung wieder entfernt werden. Mit dem gelben Kopf
+  <button type="button" pButton icon="fa fa-trash" class="minibtn ui-button-warning"></button> können Sie alle vorgemerkten
+  Aktionen entfernen.<br>
+  Der Knopf <button class="btn btn-link text-success iconbtn"><i class="fa fa-play"></i></button>
   ermöglicht es, eine Vormerkung ausnahmsweise sofort auszuführen (sollte die Ausnahme bleiben, weil das die Datenleitung zum
-  Rechenzentrum belastet). Die Aktion Löschen, Archivieren oder Zurücksichern wird damit
+  Rechenzentrum belastet). Die jeweilige Aktion wird damit
   sofort im Hintergrund gestartet und in der Statuszeile am unteren Fensterrand erscheint ein entsprechender Hinweis
   (die Laufzeit ist abhängig von der zu verschiebenden/löschenden Datenmenge).
+</p>
+<p>
+  Unter dem Reiter <button class="btn btn-sm btn-outline-primary"><i class="fa fa-fw fa-check-circle"></i> Erfolgreich</button>
+  werden die erfolgreich ausgeführten Aktionen angezeigt.
+  <br><img src="./resource/doku/vormsucc.jpg" height="106px" class="screenshot"/><br>
+</p>
+<p>
+  Unter dem Reiter <button class="btn btn-sm btn-outline-primary"><i class="fa fa-fw fa-minus-circle"></i> Fehlerhaft</button>
+  werden die nicht erfolgreich ausgeführten Aktionen angezeigt.
+  <br><img src="./resource/doku/vormerr.jpg" height="93px" class="screenshot"/><br>
+</p>
+<p>
+  Mit dem gelben Kopf <button type="button" pButton icon="fa fa-trash" class="minibtn ui-button-warning"></button> können Sie
+  erledigte Aktionen aus der Liste entfernen (ansonsten werden sie nach einem Monat automatisch gelöscht).<br>
+  Der blaue Knopf  <button type="button" pButton icon="fa fa-file-text-o" class="minibtn "></button> zeigt ein Protokoll der Aktion an.
+  <br><img src="./resource/doku/vormlog.jpg" height="200px" class="screenshot"/><br>
 </p>
