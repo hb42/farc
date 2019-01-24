@@ -194,3 +194,8 @@ body .ui-table .ui-table-tbody > tr > td > div {
   margin-top: 12px;
   margin-bottom: 24px;
 }
+
+/* f. Hilfetexte: Button, die nichts bewirken */
+.pseudo-button {
+  pointer-events: none;
+}

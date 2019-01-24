@@ -1,16 +1,16 @@
-<h2>Der Bildschirm <button class="btn btn-outline-secondary"><span class="fa fa-folder-open"></span> Details</button></h2>
+<h2>Der Bildschirm <button class="btn btn-outline-secondary pseudo-button"><span class="fa fa-folder-open"></span> Details</button></h2>
 <p>
   Die Detail-Ansicht zeigt, ähnlich wie der Windows Explorer, die Verzeichnisse und die dazugehörigen
   Dateien an. Hier können Sie Dateien und Verzeichnisse fürs Archivieren oder Löschen vormerken, sowie
   Dateien oder Verzeichnisse fürs Zurückholen aus dem Archiv vormerken.
 </p>
-<img src="./resource/doku/treefull.jpg" height="600px" class="screenshot"/>
+<img src="./resource/doku/treefull.jpg" height="650px" class="screenshot"/>
 <p>
   Bereits archivierte Daten finden Sie nach Klick auf den Knopf
-  <button pButton type="button" label="Archiv" [class.ui-button-secondary]="true" [class.text-danger]="true"></button>.
+  <button pButton type="button" label="Archiv" class="ui-button-secondary text-danger pseudo-button"></button>.
   Von dort können Sie Archiviertes zurücksichern. Beim Zurücksichern wird die entsprechende Datei an ihren
   ursprünglichen Ort zurückkopiert.
-  <br><img src="./resource/doku/tree_arc.jpg" height="120px" class="screenshot"/>
+  <br><img src="./resource/doku/tree_arc.jpg" height="140px" class="screenshot"/>
 </p>
 
 <ol>
@@ -18,7 +18,7 @@
     In der Baumansicht können Sie, wie im Windows Explorer, Verzeichnisse auswählen.
     Für jedes Verzeichnis wird der verbrauchte Speicherplatz angezeigt. Dadurch können Sie gezielt
     die großen Dateien und Verzeichnisse angehen.<br>Rechts oben in der Baumansicht kann die Sortierung
-    umgeschaltet werden: <p-selectButton [options]="farcService.sortButtons" [ngModel]="true"></p-selectButton>
+    umgeschaltet werden: <p-selectButton [options]="farcService.sortButtons" class="pseudo-button" [ngModel]="true"></p-selectButton>
   </li>
   <li><strong>Detailansicht</strong><br>
     Hier werden die Dateien und Unterverzeichnisse des im Baum ausgewählten Verzeichnisses mit Größe und Datum der letzten Änderung angezeigt.
