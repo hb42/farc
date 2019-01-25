@@ -9,7 +9,7 @@
   Bereits archivierte Daten finden Sie nach Klick auf den Knopf
   <button pButton type="button" label="Archiv" class="ui-button-secondary text-danger pseudo-button"></button>.
   Von dort können Sie Archiviertes zurücksichern. Beim Zurücksichern wird die entsprechende Datei an ihren
-  ursprünglichen Ort zurückkopiert.
+  ursprünglichen Ort zurückkopiert (und bleibt im Archiv erhalten).
   <br><img src="./resource/doku/tree_arc.jpg" height="140px" class="screenshot"/>
 </p>
 
@@ -17,7 +17,8 @@
   <li><strong>Baumansicht</strong><br>
     In der Baumansicht können Sie, wie im Windows Explorer, Verzeichnisse auswählen.
     Für jedes Verzeichnis wird der verbrauchte Speicherplatz angezeigt. Dadurch können Sie gezielt
-    die großen Dateien und Verzeichnisse angehen.<br>Rechts oben in der Baumansicht kann die Sortierung
+    die großen Dateien und Verzeichnisse angehen.<br>
+    Im Kopf der Baumansicht kann die Sortierung
     umgeschaltet werden: <p-selectButton [options]="farcService.sortButtons" class="pseudo-button" [ngModel]="true"></p-selectButton>
   </li>
   <li><strong>Detailansicht</strong><br>
@@ -36,11 +37,12 @@
     Vorgemerkte Dateien und Verzeichnisse werden in der letzten Spalte der Detailansicht gekennzeichnet. Die
     Vormerkungen werden in der nächsten Nacht ausgeführt.
     <br><img src="./resource/doku/tree_select.jpg" height="120px" class="screenshot"/><br>
-    Bereits vorgemerkte Aktionen können mit dem Menü &nbsp;&nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;
-    wieder entfernt oder sofort ausgeführt werden.
+    Bereits vorgemerkte Aktionen können über das Menü &nbsp;&nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;
+    wieder entfernt oder sofort ausgeführt werden, außderdem kann der Typ der Vormerkung geändert werden (Archiviern/Zurücksichern, Löschen).
     <br><img src="./resource/doku/tree_context.jpg" height="200px" class=""screenshot/><br><br>
-    Im Bildschirm <button (click)="helpService.goto('vorm')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-check"></span> Vormerkungen</button>
-    können Sie alle Ihre vorgemerkten Aktionen bearbeiten.
   </li>
 </ol>
-<p>&nbsp;</p>
+<p>
+  Im Bildschirm <button (click)="helpService.goto('vorm')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-check"></span> Vormerkungen</button>
+  können Sie alle Ihre vorgemerkten Aktionen bearbeiten.
+</p>

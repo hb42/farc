@@ -1,11 +1,12 @@
-
-  <p-panel [styleClass]="'flex-col'" >
+<div class="flex-panel flex-content-fix help-panel">
+  <p-panel [styleClass]="'flex-col'">
     <p-header>
       <div class="flex-panel flex-row" >
         <div class="panel-left">Datei-Archiv Hilfe</div>
-        <div class=""panel-center></div>
+        <div class="panel-center"></div>
         <div class="panel-right"><p-tabMenu [model]="helpService.helpMenu" ></p-tabMenu></div>
       </div>
     </p-header>
-    <router-outlet ></router-outlet>
+    <router-outlet></router-outlet>
   </p-panel>
+</div>

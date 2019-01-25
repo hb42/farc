@@ -7,7 +7,7 @@ import { HelpService } from "../help.service";
   styleUrls: ["./help.component.css"]
 })
 export class HelpComponent implements OnInit {
-  @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
+  // @HostBinding("attr.class") cssClass = "flex-panel flex-content-fix";
 
   constructor(public helpService: HelpService) { }
 

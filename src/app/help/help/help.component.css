@@ -1,3 +1,14 @@
+.help-panel {
+  background-color: var(--info);
+}
+:host ::ng-deep .ui-panel {
+  max-width: 1200px;
+  padding-left: 50px;
+}
+/* header */
+:host ::ng-deep .ui-panel .ui-panel-titlebar {
+  border: 0;
+}
 .panel-left {
   white-space: nowrap;
   font-weight: bold;
