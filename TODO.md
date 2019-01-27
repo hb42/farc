@@ -1,12 +1,11 @@
 ## TODO farc@3.0.0
 
 * Test als User !!!
-* Hilfe-Seiten (Screenshots!)
-* Archiv auf NAS umziehen/ lowerCase f. EPs
+* Archiv auf NAS umziehen -> letzter sync
 
 ## TODO farc@next
 
-* typeorm/ DB-Zugriffe in DAOs zusammenfassen/ evtl. auf loopback4 umstellen?
+* typeorm/ DB-Zugriffe in DAOs zusammenfassen
 
 * app f. Serverconfig, generiert config.json (ggf. verschluesselt)
 
@@ -14,7 +13,7 @@
 
 * Sprung vom source tree zum gleichen Verzeichnis im archive tree
 
-* aus source-file list "in Explorer oeffnen"
+* aus source-file list "in Explorer oeffnen" (klappt wahrscheinlich nur mit electron)
 
 * Beim Einlesen Infos fuer Nacharbeiten festhalten + Mail an Admin (z.B. fehlende EP, Zugriffsprobleme)
 

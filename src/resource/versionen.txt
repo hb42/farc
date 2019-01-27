@@ -1,5 +1,9 @@
 
-3.0.0-beta.11 22.02.2019
+3.0.0-rc.0    27.01.2019
+           Hilfeseiten sind vollstaendig. Design der Hilfe auf feste max. Breite
+           geaendert, foerdert die Lesbarkeit.
+
+3.0.0-beta.11 22.01.2019
            Status-Anzeige ist benutzerfreundlicher. Probleme beim Loeschen aus der
            Vormerkliste behoben. Console-Meldungen reduziert.
 
