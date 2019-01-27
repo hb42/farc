@@ -1,10 +1,13 @@
 .help-panel {
   background-color: var(--info);
+  text-align: -webkit-center;
 }
 :host ::ng-deep .ui-panel {
   max-width: 1200px;
-  padding-left: 50px;
+  /*padding-left: 50px;*/
+  text-align: justify;
 }
+
 /* header */
 :host ::ng-deep .ui-panel .ui-panel-titlebar {
   border: 0;
@@ -58,5 +61,7 @@
 }
 
 :host ::ng-deep .ui-panel .ui-panel-titlebar {
+  padding-left: 0;
+  padding-right: 0;
   background-color: var(--info);
 }
