@@ -3,8 +3,7 @@
   text-align: -webkit-center;
 }
 :host ::ng-deep .ui-panel {
-  max-width: 1200px;
-  /*padding-left: 50px;*/
+  max-width: 1100px;
   text-align: justify;
 }
 

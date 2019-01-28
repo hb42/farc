@@ -1,21 +1,20 @@
 <h2>Der Bildschirm <button class="btn btn-outline-secondary pseudo-button"><span class="fa fa-folder-open"></span> Details</button></h2>
 <p>
   Die Detail-Ansicht zeigt, ähnlich wie der Windows Explorer, die Verzeichnisse und die dazugehörigen
-  Dateien an. Hier können Sie Dateien und Verzeichnisse fürs Archivieren oder Löschen vormerken, sowie
-  Dateien oder Verzeichnisse fürs Zurückholen aus dem Archiv vormerken.
+  Dateien an. Hier können Sie Dateien und Verzeichnisse fürs Archivieren oder Löschen vormerken.
 </p>
 <img src="./resource/doku/treefull.jpg" height="650px" class="screenshot"/>
 <p>
-  Bereits archivierte Daten finden Sie nach Klick auf den Knopf
+  Bereits <strong>archivierte Daten</strong> finden Sie nach Klick auf den Knopf
   <button pButton type="button" label="Archiv" class="ui-button-secondary text-danger pseudo-button"></button>.
-  Von dort können Sie Archiviertes zurücksichern. Beim Zurücksichern wird die entsprechende Datei an ihren
-  ursprünglichen Ort zurückkopiert (und bleibt im Archiv erhalten).
-  <br><img src="./resource/doku/tree_arc.jpg" height="140px" class="screenshot"/>
+  Von dort können Sie archivierte Dateien und Verzeichnisse zurücksichern oder aus dem Archiv löschen. Beim Zurücksichern
+  wird die entsprechende Datei über Nacht an ihren ursprünglichen Ort zurückkopiert und bleibt im Archiv erhalten.
+  <br><img src="./resource/doku/tree_arc.jpg" height="137px" class="screenshot"/>
 </p>
 
 <ol>
   <li><strong>Baumansicht</strong><br>
-    In der Baumansicht können Sie, wie im Windows Explorer, Verzeichnisse auswählen.
+    In der Baumansicht können Sie Verzeichnisse der Original- oder der Archiv-Laufwerke auswählen.
     Für jedes Verzeichnis wird der verbrauchte Speicherplatz angezeigt. Dadurch können Sie gezielt
     die großen Dateien und Verzeichnisse angehen.<br>
     Im Kopf der Baumansicht kann die Sortierung
@@ -33,16 +32,18 @@
   <li><strong>Aktionen für Ausgewählte vormerken</strong><br>
     Sobald Zeilen markiert wurden, werden die Knöpfe über der Detailansicht aktiviert. Damit können die
     ausgewählten Dateien und Verzeichnisse fürs Löschen oder Archivieren (bzw. Zurücksichern bei Archivlaufwerken) vorgemerkt werden.
+    Außerdem können bereits vorgemerkte Aktionen wieder entfernt werden.
     <br><img src="./resource/doku/tree_selbtn.jpg" height="35px" class="screenshot"/><br>
     Vorgemerkte Dateien und Verzeichnisse werden in der letzten Spalte der Detailansicht gekennzeichnet. Die
     Vormerkungen werden in der nächsten Nacht ausgeführt.
     <br><img src="./resource/doku/tree_select.jpg" height="120px" class="screenshot"/><br>
     Bereits vorgemerkte Aktionen können über das Menü &nbsp;&nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp;&nbsp;
-    wieder entfernt oder sofort ausgeführt werden, außderdem kann der Typ der Vormerkung geändert werden (Archiviern/Zurücksichern, Löschen).
-    <br><img src="./resource/doku/tree_context.jpg" height="200px" class=""screenshot/><br><br>
+    wieder entfernt oder bei Bedarf sofort ausgeführt werden. Zudem kann die Art der Vormerkung (Archivieren/Zurücksichern, Löschen)
+    hier geändert werden.
+    <br><img src="./resource/doku/tree_context.jpg" height="200px" class="screenshot"/><br><br>
   </li>
 </ol>
 <p>
   Im Bildschirm <button (click)="helpService.goto('vorm')" class="btn btn-outline-secondary btn-sm"><span class="fa fa-check"></span> Vormerkungen</button>
-  können Sie alle Ihre vorgemerkten Aktionen bearbeiten.
+  können Sie alle Aktionen, die Sie vorgemerkt haben, anschauen und bearbeiten.
 </p>
