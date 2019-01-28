@@ -91,3 +91,7 @@
   /*text-align: left;*/
   /*width: 700px;*/
 }
+
+:host ::ng-deep .ui-state-active .label {
+  color: var(--light);
+}
