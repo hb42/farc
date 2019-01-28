@@ -6,6 +6,6 @@
         <div class="panel-right"><p-tabMenu [model]="helpService.helpMenu" ></p-tabMenu></div>
       </div>
     </p-header>
-    <router-outlet></router-outlet>
+    <router-outlet #outlet (activate)="onActivate($event, outlet)"></router-outlet>
   </p-panel>
 </div>

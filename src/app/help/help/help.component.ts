@@ -14,4 +14,9 @@ export class HelpComponent implements OnInit {
   ngOnInit() {
   }
 
+  public onActivate(event: Event, outlet: HTMLElement) {
+    // Hilfeseiten bei der Navigation nach oben scrollen
+    outlet.parentElement.scrollTop = 0;
+  }
+
 }
