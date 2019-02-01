@@ -8,7 +8,7 @@
   "license": "MIT",
   "main": "start-electron.js",
   "scripts": {
-    "gittag": "git describe --tags > ./dist/resource/git.ver",
+    "gittag": "git describe --tags --long > ./dist/resource/git.ver",
     "devel:osx": "ng build --configuration=devx && npm run gittag",
     "devel:win": "ng build --configuration=dev && npm run gittag",
     "dev": "npm run devel:$npm_package_config_platform",
