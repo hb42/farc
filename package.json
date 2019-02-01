@@ -2,7 +2,7 @@
   "name": "@hb42/farc",
   "displayname": "Datei-Archiv",
   "description": "Auslagern und Zurücksichern für den FI-Filer",
-  "version": "3.0.0-rc.0",
+  "version": "3.0.0-rc.1",
   "copyright": "Copyright (c) 2011-2019 Hartmut Bauer",
   "author": "hb",
   "license": "MIT",
