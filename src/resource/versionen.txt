@@ -1,8 +1,11 @@
-3.0.0-rc.1  03.02.2019
+3.0.0      04.02.2019
+           Keine Aenderungen zu RC.1
+
+3.0.0-rc.1 03.02.2019
            - Korrekturen bei den Hilfetexten, Scrolling gefixt.
            - package.json aufgeraeumt
 
-3.0.0-rc.0  27.01.2019
+3.0.0-rc.0 27.01.2019
            Hilfeseiten sind vollstaendig. Design der Hilfe auf feste max. Breite
            geaendert, foerdert die Lesbarkeit.
 
