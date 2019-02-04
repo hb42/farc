@@ -60,7 +60,8 @@
 }
 
 .filelist-header-body {
-  padding: 0.3rem 0.3rem;
+  padding-top: 0.3rem;
+  padding-right: 0.3rem;
   width: 100%;
 }
 
