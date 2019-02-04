@@ -1,8 +1,3 @@
-## TODO farc@3.0.0
-
-* Test als User !!!
-* Archiv auf NAS umziehen -> letzter sync
-
 ## TODO farc@next
 
 * typeorm/ DB-Zugriffe in DAOs zusammenfassen
