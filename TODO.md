@@ -1,8 +1,9 @@
 ## TODO farc@next
 
-* typeorm/ DB-Zugriffe in DAOs zusammenfassen
-
-* app f. Serverconfig, generiert config.json (ggf. verschluesselt)
+* Server-Teil auf .NET Core umstellen (Testlauf für SBSDB)
+  * config...json in Client entfernen und die Parameter im Server verwalten
+  * libs ausmisten 
+  * Einlesen/Kopieren evtl. weiterhin als Javascript-Modul (ggf. später umstellen)
 
 * Filter in Dateiliste (evtl. slider fuer size/timestamp)
 
